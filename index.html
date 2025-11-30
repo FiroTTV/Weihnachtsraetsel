@@ -368,7 +368,7 @@ function loadProgress(){
     <div class="message"></div><div class="letter-display hidden"></div>
   </div>
 
-  <!-- RÄTSEL 6 – Spotify -->
+  <!-- RÄTSEL 6 – Spotify (Einzelfelder) -->
   <div class="card puzzle-card hidden"
        data-index="5"
        data-type="single"
@@ -383,19 +383,20 @@ function loadProgress(){
     <p>
       Scannt den Spotify-Code und öffnet den Song
       <strong>„São Paulo“ – The Weeknd feat. Anitta</strong>.<br><br>
-
-      🔹 1. Zeichen: Erster Buchstabe der Stadt → <strong>S</strong><br>
-      🔹 2. Zeichen: Erster Buchstabe des Hauptkünstlers → <strong>T</strong><br>
-      🔹 3. Zeichen: Erster Buchstabe der „feat.“-Künstlerin → <strong>A</strong><br><br>
-
-      Gebt die <strong>drei Buchstaben</strong> unten ein.
+      Findet die drei gesuchten Buchstaben heraus und tragt sie unten jeweils einzeln ein.
     </p>
 
-    <label>3-Buchstaben-Lösung</label>
-    <input type="text" maxlength="3" placeholder="sta">
-    <button>Prüfen</button>
-    <div class="message"></div>
-    <div class="letter-display hidden"></div>
+    <label>3 Zeichen (einzeln)</label>
+
+    <div style="display:flex; gap:10px; margin-bottom:12px;">
+      <input id="sp1" type="text" maxlength="1" style="text-align:center; font-size:1.3rem;">
+      <input id="sp2" type="text" maxlength="1" style="text-align:center; font-size:1.3rem;">
+      <input id="sp3" type="text" maxlength="1" style="text-align:center; font-size:1.3rem;">
+    </div>
+
+    <button id="spotify-check">Prüfen</button>
+    <div class="message" id="spotify-msg"></div>
+    <div class="letter-display hidden" id="spotify-letters"></div>
   </div>
 
   <!-- FINALE -->
@@ -410,12 +411,10 @@ function loadProgress(){
     </div>
   </div>
 
-  <!-- RESET BUTTON BOTTOM (Option C) -->
+  <!-- RESET BUTTON BOTTOM -->
   <button id="reset-progress">🔄 Fortschritt zurücksetzen</button>
 
 </div>
-
-
 <script>
 const SECRET_FINAL_WORD = "3eryk?2025Weihnachtsedition";
 
@@ -525,8 +524,8 @@ quizRows.forEach(row => {
 });
 
 
-/* RÄTSEL 2–6 */
-for (let i = 1; i < puzzleCards.length; i++) {
+/* RÄTSEL 2–5 (Standard-Logik) */
+for (let i = 1; i < puzzleCards.length - 1; i++) { // bis vor Spotify
   const card = puzzleCards[i];
   const idx = card.dataset.index;
   const input = card.querySelector("input");
@@ -571,6 +570,61 @@ for (let i = 1; i < puzzleCards.length; i++) {
   input.addEventListener("keydown", e => { if (e.key==="Enter") btn.click(); });
 }
 
+/* SPOTIFY RÄTSEL – EINZELBUCHSTABEN (Index 5) */
+const sp1 = document.getElementById("sp1");
+const sp2 = document.getElementById("sp2");
+const sp3 = document.getElementById("sp3");
+const spBtn = document.getElementById("spotify-check");
+const spMsg = document.getElementById("spotify-msg");
+const spLetters = document.getElementById("spotify-letters");
+
+spBtn.addEventListener("click", () => {
+  playClick();
+
+  const a = (sp1.value || "").toLowerCase();
+  const b = (sp2.value || "").toLowerCase();
+  const c = (sp3.value || "").toLowerCase();
+
+  if (!a || !b || !c) {
+    spMsg.textContent = "Bitte alle drei Felder ausfüllen!";
+    spMsg.className = "message error";
+    playError();
+    return;
+  }
+
+  if (a === "s" && b === "t" && c === "a") {
+    spMsg.textContent = "Korrekt! 🎉";
+    spMsg.className = "message success";
+    playSuccess();
+
+    sp1.disabled = true;
+    sp2.disabled = true;
+    sp3.disabled = true;
+    spBtn.disabled = true;
+
+    spLetters.innerHTML = `Zeichen:
+      <span class="letter-badge">s</span>
+      <span class="letter-badge">t</span>
+      <span class="letter-badge">a</span>`;
+    spLetters.classList.remove("hidden");
+
+    addLetterToProgress("s");
+    addLetterToProgress("t");
+    addLetterToProgress("a");
+
+    progress.solvedPuzzles["5"] = true;
+    progress.letters.push("s","t","a");
+    saveProgress();
+
+    showNextPuzzle(5);
+
+  } else {
+    spMsg.textContent = "Falsch!";
+    spMsg.className = "message error";
+    playError();
+  }
+});
+
 /* FINALE */
 finalButton.addEventListener("click", () => {
   playClick();  
@@ -592,7 +646,6 @@ finalButton.addEventListener("click", () => {
 
 finalInput.addEventListener("keydown", e=>{ if(e.key==="Enter") finalButton.click(); });
 
-
 /* RESET BUTTON */
 const resetBtn = document.getElementById("reset-progress");
 resetBtn.addEventListener("click", () => {
@@ -603,7 +656,6 @@ resetBtn.addEventListener("click", () => {
   progress = { solvedQuiz: [], solvedPuzzles: {}, letters: [], final: false };
   location.reload();
 });
-
 
 /* RESTORE */
 function restoreProgress() {
@@ -651,9 +703,11 @@ function restoreProgress() {
   progress.solvedPuzzles ||= {};
   let highest=0;
 
-  for (let i=1;i<puzzleCards.length;i++){
+  // Rätsel 2–5 normal restaurieren
+  for (let i=1;i<puzzleCards.length-1;i++){
     const card=puzzleCards[i];
-    const solved=progress.solvedPuzzles[i];
+    const idx=card.dataset.index;
+    const solved=progress.solvedPuzzles[idx];
     const input=card.querySelector("input");
     const btn=card.querySelector("button");
     const msg=card.querySelector(".message");
@@ -681,6 +735,26 @@ function restoreProgress() {
       disp.classList.add("hidden");
       input.value="";
     }
+  }
+
+  // Spotify-Rätsel / Index 5 – nach Option B:
+  const spotifySolved = progress.solvedPuzzles["5"];
+  const spotifyCard = puzzleCards[5];
+  if (spotifySolved) {
+    spotifyCard.classList.remove("hidden");
+    // Felder wieder leer & aktiv lassen
+    sp1.value = "";
+    sp2.value = "";
+    sp3.value = "";
+    sp1.disabled = false;
+    sp2.disabled = false;
+    sp3.disabled = false;
+    spBtn.disabled = false;
+    spMsg.textContent = "";
+    spMsg.className = "message";
+    spLetters.classList.add("hidden");
+
+    highest = Math.max(highest, 5);
   }
 
   if (quizSolvedCount===quizRows.length) puzzleCards[1].classList.remove("hidden");
