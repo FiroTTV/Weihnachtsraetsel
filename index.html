@@ -7,14 +7,14 @@
   <style>
     :root {
       --bg: #020617;
-      --card: rgba(15, 23, 42, 0.92);
-      --border: rgba(148, 163, 184, 0.4);
-      --text: #e5e7eb;
-      --muted: #9ca3af;
+      --card-bg: rgba(15, 23, 42, 0.9);
+      --border: rgba(148, 163, 184, 0.3);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
       --accent: #38bdf8;
       --accent2: #a855f7;
-      --error: #f97373;
       --success: #4ade80;
+      --error: #f97373;
     }
 
     * {
@@ -23,23 +23,23 @@
 
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at top, #1e293b, #020617 55%);
-      color: var(--text);
-      overflow-x: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+      color: var(--text-main);
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
     /* ❄ Schneefall */
     .snowflake {
       position: fixed;
       top: -10px;
-      z-index: 9999;
-      color: #ffffff;
-      font-size: 1em;
+      color: #fff;
       opacity: 0.8;
       user-select: none;
       pointer-events: none;
+      z-index: 9999;
       animation: fall linear infinite;
     }
 
@@ -49,7 +49,8 @@
       }
     }
 
-    .page {
+    /* Layout */
+    .container {
       max-width: 900px;
       margin: 0 auto;
       padding: 32px 16px 64px;
@@ -62,201 +63,673 @@
 
     .title h1 {
       margin: 0;
-      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
     }
 
     .title p {
-      margin-top: 8px;
-      color: var(--muted);
+      margin-top: 6px;
+      color: var(--text-muted);
       font-size: 0.95rem;
     }
 
     .card {
-      background: var(--card);
-      border-radius: 18px;
+      background: var(--card-bg);
+      border-radius: 16px;
       border: 1px solid var(--border);
       padding: 20px 18px;
-      margin-bottom: 20px;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+      margin-bottom: 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
     }
 
-    .card h2 {
-      margin: 0 0 6px;
-      font-size: 1.2rem;
-    }
-
-    .card-sub {
-      margin: 0 0 12px;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .riddle {
-      position: relative;
-      margin-top: 6px;
-    }
-
-    .riddle.locked {
-      opacity: 0.35;
-      filter: grayscale(0.4);
-    }
-
-    .lock-overlay {
-      position: absolute;
-      inset: 0;
+    .card-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 0.9rem;
-      color: var(--muted);
-      backdrop-filter: blur(2px);
-      pointer-events: none;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+
+    iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      border: none;
+      background: #020617;
+    }
+
+    .input-row {
+      margin-top: 10px;
     }
 
     label {
+      font-size: 0.85rem;
       display: block;
-      font-size: 0.9rem;
       margin-bottom: 4px;
+      color: var(--text-muted);
     }
 
     input[type="text"] {
       width: 100%;
-      padding: 0.6rem 0.75rem;
+      padding: 0.55rem 0.75rem;
       border-radius: 10px;
       border: 1px solid #4b5563;
       background: #020617;
-      color: var(--text);
+      color: var(--text-main);
       font-size: 0.95rem;
     }
 
     input[type="text"]:focus {
       outline: none;
       border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
     }
 
     button {
       margin-top: 8px;
       width: 100%;
-      padding: 0.65rem 0.75rem;
+      padding: 0.6rem 0.75rem;
       border-radius: 999px;
       border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
       font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: white;
-      transition: transform 0.08s ease, filter 0.08s ease;
+      transition: transform 0.08s ease, filter 0.12s ease;
     }
 
     button:hover {
-      transform: translateY(-1px);
       filter: brightness(1.05);
+      transform: translateY(-1px);
     }
 
-    button:active {
-      transform: translateY(0);
-      filter: brightness(0.97);
+    button:disabled {
+      opacity: 0.3;
+      cursor: default;
+      transform: none;
+      filter: none;
     }
 
-    .msg {
+    .message {
       margin-top: 6px;
-      min-height: 1.2em;
+      min-height: 1.1em;
       font-size: 0.9rem;
     }
 
-    .msg.error {
-      color: var(--error);
-    }
-
-    .msg.success {
+    .message.success {
       color: var(--success);
     }
 
-    .letters {
-      margin-top: 6px;
+    .message.error {
+      color: var(--error);
+    }
+
+    .letter-display {
+      margin-top: 8px;
+      padding: 6px 10px;
+      border-radius: 10px;
+      border: 1px dashed var(--border);
       font-size: 0.9rem;
-      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .letter-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .hidden {
       display: none;
     }
 
-    .letters span {
-      font-weight: 600;
+    .locked-hint {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 3px;
     }
 
-    .riddle.solved {
-      border-left: 3px solid var(--success);
-      padding-left: 14px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.8rem;
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      color: var(--muted);
-      margin-top: 4px;
-    }
-
-    .final-hint {
-      font-size: 0.9rem;
-      color: var(--muted);
+    .progress-card {
       margin-top: 10px;
     }
 
-    .final-card h2 {
+    .letters-progress {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+    }
+
+    .letters-progress span {
+      width: 20px;
       text-align: center;
+      padding: 3px 0;
+      border-radius: 6px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      font-size: 0.9rem;
+    }
+
+    .letters-progress span.filled {
+      border-color: var(--accent);
+    }
+
+    .final-note {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 4px;
     }
 
     .final-word {
       font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas,
         "Liberation Mono", "Courier New", monospace;
-      font-size: 0.86rem;
-      background: rgba(15, 23, 42, 0.9);
-      border-radius: 10px;
-      padding: 8px 10px;
-      margin-top: 10px;
-      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 4px 8px;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      display: inline-block;
+      margin-top: 4px;
       word-break: break-all;
     }
 
-    .final-success {
-      margin-top: 14px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: rgba(22, 163, 74, 0.08);
-      border: 1px solid rgba(34, 197, 94, 0.5);
-      color: var(--success);
-      display: none;
-      font-size: 0.9rem;
-    }
-
-    .footer-note {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    @media (min-width: 720px) {
+    @media (max-width: 600px) {
       .card {
-        padding: 22px 24px;
+        padding: 16px 14px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- 🔊 Soundeffekte (später einfach Dateien mit diesen Namen ins Repo legen) -->
-  <audio id="sound-click" src="click.mp3" preload="auto"></audio>
-  <audio id="sound-success" src="success.mp3" preload="auto"></audio>
-  <audio id="sound-error" src="error.mp3" preload="auto"></audio>
-  <audio id="sound-unlock" src="unlock.mp3" preload="auto"></audio>
-
-  <!-- ❄ Schneeflocken-Script -->
   <script>
+    // ❄ Schneeflocken dezent erzeugen
     function createSnowflake() {
       const snow = document.createElement("div");
-      snow.className = "snowflake
+      snow.className = "snowflake";
+      snow.textContent = "❄";
+      snow.style.left = Math.random() * 100 + "vw";
+      snow.style.fontSize = 10 + Math.random() * 18 + "px";
+      snow.style.animationDuration = 4 + Math.random() * 6 + "s";
+      snow.style.opacity = 0.4 + Math.random() * 0.4;
+      document.body.appendChild(snow);
+      setTimeout(() => snow.remove(), 11000);
+    }
+    setInterval(createSnowflake, 200);
+
+    // 🔊 Dezente Sounds mit Web Audio API
+    let audioCtx = null;
+    function getAudioCtx() {
+      if (!audioCtx) {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (Ctx) audioCtx = new Ctx();
+      }
+      return audioCtx;
+    }
+
+    function playTone(freq, duration, type = "sine", volume = 0.12) {
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      gain.gain.value = volume;
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      const now = ctx.currentTime;
+      osc.start(now);
+      osc.stop(now + duration);
+      gain.gain.setValueAtTime(volume, now);
+      gain.gain.linearRampToValueAtTime(0, now + duration);
+    }
+
+    function playClick() {
+      playTone(650, 0.07, "triangle", 0.11);
+    }
+
+    function playSuccess() {
+      const ctx = getAudioCtx();
+      if (!ctx) return;
+      // kleiner Zweiton "pling"
+      playTone(880, 0.09, "sine", 0.12);
+      setTimeout(() => playTone(1040, 0.09, "sine", 0.12), 90);
+    }
+
+    function playError() {
+      playTone(220, 0.14, "square", 0.09);
+    }
+  </script>
+
+  <div class="container">
+    <div class="title">
+      <h1>🎄 3er-YK Weihnachtsrätsel – 2025 Weihnachtsedition 🎄</h1>
+      <p>
+        Rätsel für Manuel &amp; Rabea – löst Schritt für Schritt alle Aufgaben,
+        sammelt Buchstaben und knackt am Ende das geheime Lösungswort.
+      </p>
+    </div>
+
+    <!-- Intro / Video Platzhalter -->
+    <div class="card">
+      <div class="card-header">
+        <span class="badge">Intro</span>
+        <h2>Willkommen zum 3er-YK Abenteuer</h2>
+      </div>
+      <p>
+        Hier kannst du später dein eigenes Intro-Video einbinden, in dem du den
+        beiden erklärst, was sie erwartet. Im Moment ist das nur ein Platzhalter.
+      </p>
+      <iframe
+        id="intro-video"
+        src=""
+        title="Intro-Video Platzhalter"
+        allowfullscreen
+      ></iframe>
+    </div>
+
+    <!-- Fortschritt -->
+    <div class="card progress-card">
+      <div class="card-header">
+        <span class="badge">Fortschritt</span>
+        <h2>Freigeschaltete Buchstaben</h2>
+      </div>
+      <p>
+        Jeder Rätsel-Erfolg schenkt euch einen neuen Buchstaben.
+        Insgesamt gibt es 6:
+      </p>
+      <div class="letters-progress" id="letters-progress">
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+      </div>
+      <p class="final-note">
+        Am Ende braucht ihr das komplette Lösungswort:
+      </p>
+      <div class="final-word">
+        3eryk?2025Weihnachtsedition
+      </div>
+    </div>
+
+    <!-- Rätsel 1–6 -->
+    <div id="puzzles-wrapper">
+      <!-- Rätsel 1 -->
+      <div
+        class="card puzzle-card"
+        data-index="0"
+        data-solution="A"
+        data-letter="3"
+      >
+        <div class="card-header">
+          <span class="badge">Rätsel 1</span>
+          <h2>Platzhalter-Rätsel 1</h2>
+        </div>
+        <p>
+          Hier kommt später dein erstes richtiges Rätsel hin
+          (z.B. Insider, kleiner Gag oder etwas zu euch dreien).
+          <br />
+          <strong>Zum Testen:</strong> Gib einfach den Buchstaben
+          <strong>A</strong> als Lösung ein.
+        </p>
+        <div class="input-row">
+          <label for="riddle-1-input">Antwort</label>
+          <input id="riddle-1-input" type="text" autocomplete="off" />
+          <button class="puzzle-button">Prüfen</button>
+          <div class="message"></div>
+          <div class="letter-display hidden">
+            Freigeschalteter Buchstabe:
+            <span class="letter-badge">3</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rätsel 2 -->
+      <div
+        class="card puzzle-card hidden"
+        data-index="1"
+        data-solution="B"
+        data-letter="e"
+      >
+        <div class="card-header">
+          <span class="badge">Rätsel 2</span>
+          <h2>Platzhalter-Rätsel 2</h2>
+        </div>
+        <p>
+          Hier kannst du später z.B. ein kleines Auto- oder Audi/Porsche-Rätsel
+          einbauen.
+          <br />
+          <strong>Zum Testen:</strong> Gib den Buchstaben
+          <strong>B</strong> ein.
+        </p>
+        <div class="input-row">
+          <label for="riddle-2-input">Antwort</label>
+          <input id="riddle-2-input" type="text" autocomplete="off" />
+          <button class="puzzle-button">Prüfen</button>
+          <div class="message"></div>
+          <div class="letter-display hidden">
+            Freigeschalteter Buchstabe:
+            <span class="letter-badge">e</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rätsel 3 -->
+      <div
+        class="card puzzle-card hidden"
+        data-index="2"
+        data-solution="C"
+        data-letter="r"
+      >
+        <div class="card-header">
+          <span class="badge">Rätsel 3</span>
+          <h2>Platzhalter-Rätsel 3</h2>
+        </div>
+        <p>
+          Hier könnte später ein 3er-YK-Insider-Rätsel stehen
+          (z.B. ein Spruch oder etwas aus eurer Gruppe).
+          <br />
+          <strong>Zum Testen:</strong> Gib den Buchstaben
+          <strong>C</strong> ein.
+        </p>
+        <div class="input-row">
+          <label for="riddle-3-input">Antwort</label>
+          <input id="riddle-3-input" type="text" autocomplete="off" />
+          <button class="puzzle-button">Prüfen</button>
+          <div class="message"></div>
+          <div class="letter-display hidden">
+            Freigeschalteter Buchstabe:
+            <span class="letter-badge">r</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rätsel 4 -->
+      <div
+        class="card puzzle-card hidden"
+        data-index="3"
+        data-solution="D"
+        data-letter="y"
+      >
+        <div class="card-header">
+          <span class="badge">Rätsel 4</span>
+          <h2>Platzhalter-Rätsel 4</h2>
+        </div>
+        <p>
+          Vielleicht später ein kleines Logik-, Emoji- oder Bilderrätsel.
+          <br />
+          <strong>Zum Testen:</strong> Gib den Buchstaben
+          <strong>D</strong> ein.
+        </p>
+        <div class="input-row">
+          <label for="riddle-4-input">Antwort</label>
+          <input id="riddle-4-input" type="text" autocomplete="off" />
+          <button class="puzzle-button">Prüfen</button>
+          <div class="message"></div>
+          <div class="letter-display hidden">
+            Freigeschalteter Buchstabe:
+            <span class="letter-badge">y</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rätsel 5 -->
+      <div
+        class="card puzzle-card hidden"
+        data-index="4"
+        data-solution="E"
+        data-letter="k"
+      >
+        <div class="card-header">
+          <span class="badge">Rätsel 5</span>
+          <h2>Platzhalter-Rätsel 5</h2>
+        </div>
+        <p>
+          Hier könntest du später ein persönliches Rätsel zu einem gemeinsamen
+          Moment oder einer Erinnerung einbauen.
+          <br />
+          <strong>Zum Testen:</strong> Gib den Buchstaben
+          <strong>E</strong> ein.
+        </p>
+        <div class="input-row">
+          <label for="riddle-5-input">Antwort</label>
+          <input id="riddle-5-input" type="text" autocomplete="off" />
+          <button class="puzzle-button">Prüfen</button>
+          <div class="message"></div>
+          <div class="letter-display hidden">
+            Freigeschalteter Buchstabe:
+            <span class="letter-badge">k</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rätsel 6 – Spotify Platzhalter -->
+      <div
+        class="card puzzle-card hidden"
+        data-index="5"
+        data-solution="S"
+        data-letter="?"
+      >
+        <div class="card-header">
+          <span class="badge">Rätsel 6</span>
+          <h2>Spotify-Rätsel (Platzhalter)</h2>
+        </div>
+        <p>
+          Hier planst du später dein echtes Spotify-Rätsel mit Songcode,
+          aus dem sie einen Buchstaben herausfinden müssen.
+          <br />
+          <strong>Zum Testen:</strong> Gib den Buchstaben
+          <strong>S</strong> ein.
+        </p>
+        <div class="input-row">
+          <label for="riddle-6-input">Antwort</label>
+          <input id="riddle-6-input" type="text" autocomplete="off" />
+          <button class="puzzle-button">Prüfen</button>
+          <div class="message"></div>
+          <div class="letter-display hidden">
+            Freigeschalteter Buchstabe:
+            <span class="letter-badge">?</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Finale Eingabe -->
+    <div class="card hidden" id="final-card">
+      <div class="card-header">
+        <span class="badge">Finale</span>
+        <h2>Gebt das komplette Lösungswort ein</h2>
+      </div>
+      <p>
+        Ihr habt jetzt alle 6 Buchstaben gesammelt. Daraus (und aus dem,
+        was euch vorbereitet wurde) ergibt sich das geheime Lösungswort:
+        Gebt es hier ein, um die letzte Überraschung freizuschalten.
+      </p>
+      <div class="input-row">
+        <label for="final-input">Lösungswort</label>
+        <input
+          id="final-input"
+          type="text"
+          autocomplete="off"
+          placeholder="hier das komplette Wort eingeben"
+        />
+        <button id="final-button">Prüfen</button>
+        <div class="message" id="final-message"></div>
+      </div>
+      <div class="letter-display final-note">
+        Gesuchtes Wort (für dich zur Kontrolle):<br />
+        <span class="final-word">3eryk?2025Weihnachtsedition</span>
+      </div>
+
+      <div id="final-video-wrapper" class="hidden" style="margin-top: 16px;">
+        <p>
+          Glückwunsch! 🌟 Ihr habt das Rätsel geschafft. Hier ist eure
+          finale Botschaft:
+        </p>
+        <iframe
+          id="final-video"
+          src=""
+          title="Finales Geschenk-Video Platzhalter"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Rätsel-Logik
+    const SECRET_FINAL_WORD = "3eryk?2025Weihnachtsedition";
+
+    const puzzleCards = Array.from(
+      document.querySelectorAll(".puzzle-card")
+    );
+    const lettersProgress = document.getElementById("letters-progress")
+      .children;
+    const finalCard = document.getElementById("final-card");
+    const finalInput = document.getElementById("final-input");
+    const finalButton = document.getElementById("final-button");
+    const finalMessage = document.getElementById("final-message");
+    const finalVideoWrapper = document.getElementById("final-video-wrapper");
+    const finalVideo = document.getElementById("final-video");
+
+    let solvedCount = 0;
+
+    // Hilfsfunktion: nächstes Rätsel anzeigen
+    function showNextPuzzle(index) {
+      const next = puzzleCards[index + 1];
+      if (next) {
+        next.classList.remove("hidden");
+      } else {
+        // Alle 6 gelöst -> Finale freischalten
+        finalCard.classList.remove("hidden");
+      }
+    }
+
+    // alle Rätsel initial einrichten
+    puzzleCards.forEach((card, idx) => {
+      const input = card.querySelector("input[type='text']");
+      const button = card.querySelector(".puzzle-button");
+      const msg = card.querySelector(".message");
+      const letterBox = card.querySelector(".letter-display");
+      const letterBadge = card.querySelector(".letter-badge");
+      const solution = (card.dataset.solution || "").toLowerCase();
+      const letter = card.dataset.letter || "?";
+
+      // erster Rätsel-Block sichtbar, Rest standardmäßig hidden (per HTML)
+      if (idx > 0 && card.classList.contains("hidden")) {
+        // nichts extra nötig
+      }
+
+      button.addEventListener("click", () => {
+        playClick();
+        const val = (input.value || "").trim().toLowerCase();
+        if (!val) {
+          msg.textContent = "Gib zuerst eine Antwort ein.";
+          msg.className = "message error";
+          playError();
+          return;
+        }
+
+        if (val === solution) {
+          // bereits gelöst?
+          if (!card.dataset.solved) {
+            card.dataset.solved = "true";
+            solvedCount += 1;
+
+            // Buchstabe anzeigen
+            letterBox.classList.remove("hidden");
+
+            // Fortschritt updaten
+            if (idx < lettersProgress.length) {
+              lettersProgress[idx].textContent = letter;
+              lettersProgress[idx].classList.add("filled");
+            }
+
+            // nächstes Rätsel anzeigen oder Finale
+            showNextPuzzle(idx);
+          }
+
+          msg.textContent = "Korrekt! Dieses Rätsel ist gelöst. ✅";
+          msg.className = "message success";
+          playSuccess();
+          input.disabled = true;
+          button.disabled = true;
+        } else {
+          msg.textContent = "Nicht ganz. Versuch es noch einmal. ❌";
+          msg.className = "message error";
+          playError();
+        }
+      });
+
+      input.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter") {
+          button.click();
+        }
+      });
+    });
+
+    // Finale Eingabe
+    finalButton.addEventListener("click", () => {
+      playClick();
+      const given = (finalInput.value || "").trim();
+
+      if (!given) {
+        finalMessage.textContent = "Gib ein Lösungswort ein.";
+        finalMessage.className = "message error";
+        playError();
+        return;
+      }
+
+      if (given.toLowerCase() === SECRET_FINAL_WORD.toLowerCase()) {
+        finalMessage.textContent =
+          "Richtig! Ihr habt das komplette Lösungswort geknackt. 🎉";
+        finalMessage.className = "message success";
+        playSuccess();
+
+        // Hier später dein echtes YouTube-Embed eintragen:
+        // z.B. finalVideo.src = "https://www.youtube.com/embed/DEIN_VIDEO_ID";
+        finalVideoWrapper.classList.remove("hidden");
+      } else {
+        finalMessage.textContent =
+          "Das ist noch nicht ganz richtig. Denkt noch einmal über alle Hinweise nach. 🧩";
+        finalMessage.className = "message error";
+        playError();
+      }
+    });
+
+    finalInput.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter") {
+        finalButton.click();
+      }
+    });
+  </script>
+</body>
+</html>
