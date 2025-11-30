@@ -196,7 +196,6 @@
       background: rgba(255,255,255,0.12);
     }
   </style>
-
 </head>
 <body>
 
@@ -211,7 +210,6 @@
 
 <!-- PROFIL-WECHSEL BUTTON -->
 <div id="switch-profile-btn" class="hidden">Profil wechseln</div>
-
 
 <script>
   /* ❄ Schneeflocken */
@@ -254,14 +252,18 @@
   }
   const playError=()=>playTone(220,0.14,"square",0.12);
 
-  /* Aktives Profil */
   let activeProfile = null;
+  let progress = {
+    solvedQuiz: [],
+    solvedPuzzles: {},
+    letters: [],
+    final: false
+  };
 
   const profileModal = document.getElementById("profile-modal");
   const switchBtn = document.getElementById("switch-profile-btn");
 
-  const profileButtons = document.querySelectorAll(".profile-btn");
-  profileButtons.forEach(btn=>{
+  document.querySelectorAll(".profile-btn").forEach(btn=>{
     btn.addEventListener("click",()=>{
       playClick();
       activeProfile = btn.dataset.profile;
@@ -276,29 +278,23 @@
     profileModal.classList.remove("hidden");
   });
 
-  /* Fortschritt speichern */
   function saveProgress(data){
     if(!activeProfile) return;
     localStorage.setItem("XMASRIDDLE_"+activeProfile, JSON.stringify(data));
   }
+
   function loadProgress(){
     if(!activeProfile) return;
-    const raw=localStorage.getItem("XMASRIDDLE_"+activeProfile);
+    const raw = localStorage.getItem("XMASRIDDLE_"+activeProfile);
     if(raw){
-      try{
+      try {
         progress = JSON.parse(raw);
-      }catch{ progress = {}; }
+      } catch(e){
+        progress = { solvedQuiz:[], solvedPuzzles:{}, letters:[], final:false };
+      }
     }
     restoreProgress();
   }
-
-  /* Fortschrittdaten */
-  let progress = {
-    solvedQuiz: [],
-    solvedPuzzles: {},
-    letters: [],
-    final: false
-  };
 </script>
 
 <div class="container">
@@ -308,13 +304,13 @@
     <p>Sammelt Zeichen & knackt das Lösungswort!</p>
   </div>
 
-  <!-- INTRO CARD -->
+  <!-- INTRO -->
   <div class="card">
     <div class="card-header">
       <span class="badge">Intro</span>
       <h2>Willkommen!</h2>
     </div>
-    <p>Hier kommt später dein Intro-Video rein.</p>
+    <p>Hier kommt später dein Intro-Video hin.</p>
     <iframe id="intro-video" src=""></iframe>
   </div>
 
@@ -334,9 +330,8 @@
     </div>
   </div>
 
-  <!-- RÄTSEL 1 START -->
+  <!-- RÄTSEL 1 – QUIZ -->
   <div class="card puzzle-card" data-index="0" data-type="quiz">
-
     <div class="card-header">
       <span class="badge">Rätsel 1</span>
       <h2>Quiz – 8 Fragen</h2>
@@ -625,7 +620,7 @@
   let nextLetterIndex = 0;
   let quizSolvedCount = 0;
 
-  // Countdown initialisieren
+  // Countdown
   document.addEventListener("DOMContentLoaded", () => {
     const target = new Date("December 28, 2025 20:00:00").getTime();
     const cdEl = document.getElementById("countdown");
@@ -675,7 +670,7 @@
     const badge = row.querySelector(".letter-badge");
     const solution = (row.dataset.solution || "").toLowerCase();
     const letter = row.dataset.letter;
-    const qid = row.dataset.solution; // Kennung für progress
+    const qid = row.dataset.solution; // ID für progress
 
     button.addEventListener("click", () => {
       playClick();
@@ -731,7 +726,7 @@
     });
   });
 
-  // RÄTSEL 2–6 (single)
+  // RÄTSEL 2–6 (Single-Input)
   for (let i = 1; i < puzzleCards.length; i++) {
     const card = puzzleCards[i];
     const input = card.querySelector("input[type=text]");
@@ -779,7 +774,6 @@
 
         progress.solvedPuzzles[idx] = true;
         saveProgress(progress);
-
         showNextPuzzle(parseInt(idx, 10));
       } else {
         msg.textContent = "Falsch.";
@@ -809,7 +803,7 @@
       finalMessage.className = "message success";
       playSuccess();
       finalVideoWrapper.classList.remove("hidden");
-      // Hier später dein YouTube-Embed eintragen:
+      // Später hier dein YouTube-Embed:
       // finalVideo.src = "https://www.youtube.com/embed/DEIN_VIDEO_ID";
       progress.final = true;
       saveProgress(progress);
@@ -834,21 +828,22 @@
     }
 
     // Buchstaben aus progress.letters
-    if (Array.isArray(progress.letters)) {
-      progress.letters.forEach(ch => {
-        if (nextLetterIndex < lettersSpans.length) {
-          lettersSpans[nextLetterIndex].textContent = ch;
-          lettersSpans[nextLetterIndex].classList.add("filled");
-          nextLetterIndex++;
-        }
-      });
+    if (!Array.isArray(progress.letters)) {
+      progress.letters = [];
     }
+    progress.letters.forEach(ch => {
+      if (nextLetterIndex < lettersSpans.length) {
+        lettersSpans[nextLetterIndex].textContent = ch;
+        lettersSpans[nextLetterIndex].classList.add("filled");
+        nextLetterIndex++;
+      }
+    });
 
-    // Quiz-Fragen wiederherstellen
+    // Quiz-Fragen
     quizSolvedCount = 0;
-    const solvedQuiz = Array.isArray(progress.solvedQuiz)
-      ? progress.solvedQuiz
-      : [];
+    if (!Array.isArray(progress.solvedQuiz)) {
+      progress.solvedQuiz = [];
+    }
 
     quizRows.forEach(row => {
       const qid = row.dataset.solution;
@@ -859,7 +854,7 @@
       const badge = row.querySelector(".letter-badge");
       const letter = row.dataset.letter;
 
-      if (solvedQuiz.includes(qid)) {
+      if (progress.solvedQuiz.includes(qid)) {
         row.dataset.solved = "true";
         quizSolvedCount++;
         input.disabled = true;
@@ -893,6 +888,10 @@
     }
 
     // Rätsel 2–6
+    if (!progress.solvedPuzzles || typeof progress.solvedPuzzles !== "object") {
+      progress.solvedPuzzles = {};
+    }
+
     let highestSolvedIndex = 0;
 
     for (let i = 1; i < puzzleCards.length; i++) {
@@ -904,7 +903,7 @@
       const disp = card.querySelector(".letter-display");
       const letters = (card.dataset.letters || "").split("");
 
-      const solved = progress.solvedPuzzles && progress.solvedPuzzles[idx];
+      const solved = !!progress.solvedPuzzles[idx];
 
       if (solved) {
         card.classList.remove("hidden");
@@ -922,6 +921,7 @@
           disp.innerHTML = html;
           disp.classList.remove("hidden");
         }
+
         highestSolvedIndex = Math.max(highestSolvedIndex, parseInt(idx, 10));
       } else {
         card.dataset.solved = "";
@@ -935,9 +935,8 @@
       }
     }
 
-    // Sichtbare Rätsel-Kette
+    // Sichtbare Kette
     if (quizSolvedCount === quizRows.length) {
-      // Rätsel 2 sichtbar
       puzzleCards[1].classList.remove("hidden");
     }
 
