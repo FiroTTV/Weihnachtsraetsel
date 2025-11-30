@@ -95,7 +95,6 @@
       background: #020617;
     }
 
-    /* Fortschritt */
     .letters-progress {
       display: flex;
       flex-wrap: wrap;
@@ -138,7 +137,7 @@
     }
     button:hover {
       transform: scale(1.04);
-      box-shadow: 0 4px 18px rgba(56, 189, 248, 0.5);
+      box-shadow: 0 4px 18px rgba(56,189,248,0.5);
     }
     button:disabled {
       opacity: 0.6;
@@ -164,6 +163,16 @@
       border-radius: 6px;
       border: 1px solid rgba(56,189,248,0.4);
       font-weight: 700;
+    }
+
+    /* Reset Button */
+    #reset-progress {
+      margin-top: 32px;
+      width: 220px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      background: linear-gradient(90deg, #ef4444, #f97316);
     }
   </style>
 </head>
@@ -383,7 +392,7 @@ function loadProgress(){
     </p>
 
     <label>3-Buchstaben-Lösung</label>
-    <input type="text" maxlength="3" placeholder="z. B. sta">
+    <input type="text" maxlength="3" placeholder="sta">
     <button>Prüfen</button>
     <div class="message"></div>
     <div class="letter-display hidden"></div>
@@ -400,6 +409,9 @@ function loadProgress(){
       <p>Glückwunsch! 🎉</p><iframe id="final-video"></iframe>
     </div>
   </div>
+
+  <!-- RESET BUTTON BOTTOM (Option C) -->
+  <button id="reset-progress">🔄 Fortschritt zurücksetzen</button>
 
 </div>
 
@@ -579,6 +591,18 @@ finalButton.addEventListener("click", () => {
 });
 
 finalInput.addEventListener("keydown", e=>{ if(e.key==="Enter") finalButton.click(); });
+
+
+/* RESET BUTTON */
+const resetBtn = document.getElementById("reset-progress");
+resetBtn.addEventListener("click", () => {
+  playClick();
+  if (!confirm("Willst du wirklich den gesamten Fortschritt löschen?")) return;
+
+  localStorage.removeItem("XMASRIDDLE_GLOBAL");
+  progress = { solvedQuiz: [], solvedPuzzles: {}, letters: [], final: false };
+  location.reload();
+});
 
 
 /* RESTORE */
