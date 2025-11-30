@@ -17,14 +17,11 @@
       --error: #f97373;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
+      font-family: system-ui, -apple-system, sans-serif;
       background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
       color: var(--text-main);
       min-height: 100vh;
@@ -44,30 +41,32 @@
     }
 
     @keyframes fall {
-      to {
-        transform: translateY(110vh);
-      }
+      to { transform: translateY(110vh); }
     }
 
-    /* Layout */
     .container {
       max-width: 900px;
       margin: 0 auto;
       padding: 32px 16px 64px;
     }
 
-    .title {
-      text-align: center;
-      margin-bottom: 24px;
-    }
+    .title { text-align: center; margin-bottom: 24px; }
 
     .title h1 {
       margin: 0;
       font-size: clamp(1.8rem, 3vw, 2.4rem);
     }
 
+    #countdown {
+      margin-top: 12px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 6px rgba(56, 189, 248, 0.35);
+    }
+
     .title p {
-      margin-top: 6px;
+      margin-top: 10px;
       color: var(--text-muted);
       font-size: 0.95rem;
     }
@@ -78,7 +77,7 @@
       border: 1px solid var(--border);
       padding: 20px 18px;
       margin-bottom: 18px;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.5);
     }
 
     .card-header {
@@ -96,14 +95,7 @@
       color: var(--text-muted);
     }
 
-    h2 {
-      margin: 0;
-      font-size: 1.1rem;
-    }
-
-    p {
-      font-size: 0.95rem;
-    }
+    h2 { margin: 0; font-size: 1.1rem; }
 
     iframe {
       width: 100%;
@@ -113,114 +105,10 @@
       background: #020617;
     }
 
-    .input-row {
-      margin-top: 10px;
-    }
-
-    label {
-      font-size: 0.85rem;
-      display: block;
-      margin-bottom: 4px;
-      color: var(--text-muted);
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 0.55rem 0.75rem;
-      border-radius: 10px;
-      border: 1px solid #4b5563;
-      background: #020617;
-      color: var(--text-main);
-      font-size: 0.95rem;
-    }
-
-    input[type="text"]:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
-    }
-
-    button {
-      margin-top: 8px;
-      width: 100%;
-      padding: 0.6rem 0.75rem;
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #fff;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.08s ease, filter 0.12s ease;
-    }
-
-    button:hover {
-      filter: brightness(1.05);
-      transform: translateY(-1px);
-    }
-
-    button:disabled {
-      opacity: 0.3;
-      cursor: default;
-      transform: none;
-      filter: none;
-    }
-
-    .message {
-      margin-top: 6px;
-      min-height: 1.1em;
-      font-size: 0.9rem;
-    }
-
-    .message.success {
-      color: var(--success);
-    }
-
-    .message.error {
-      color: var(--error);
-    }
-
-    .letter-display {
-      margin-top: 8px;
-      padding: 6px 10px;
-      border-radius: 10px;
-      border: 1px dashed var(--border);
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .letter-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 26px;
-      height: 26px;
-      padding: 0 6px;
-      border-radius: 999px;
-      border: 1px solid var(--accent);
-      font-weight: 700;
-      font-size: 0.95rem;
-      background: rgba(15, 23, 42, 0.9);
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .progress-card {
-      margin-top: 10px;
-    }
-
     .letters-progress {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 6px;
-      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas,
-        "Liberation Mono", "Courier New", monospace;
     }
 
     .letters-progress span {
@@ -228,8 +116,8 @@
       text-align: center;
       padding: 3px 0;
       border-radius: 6px;
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15,23,42,0.7);
+      border: 1px solid rgba(148,163,184,0.35);
       font-size: 0.9rem;
     }
 
@@ -237,654 +125,570 @@
       border-color: var(--accent);
     }
 
-    .final-note {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
+    .hidden { display: none; }
 
-    .question-row {
-      margin-top: 10px;
-      padding-top: 8px;
-      border-top: 1px dashed rgba(148, 163, 184, 0.3);
-    }
-
-    .question-row:first-of-type {
-      border-top: none;
-    }
-
-    @media (max-width: 600px) {
-      .card {
-        padding: 16px 14px;
-      }
-    }
   </style>
 </head>
 <body>
-  <script>
-    // ❄ Schneeflocken dezent erzeugen
-    function createSnowflake() {
-      const snow = document.createElement("div");
-      snow.className = "snowflake";
-      snow.textContent = "❄";
-      snow.style.left = Math.random() * 100 + "vw";
-      snow.style.fontSize = 10 + Math.random() * 18 + "px";
-      snow.style.animationDuration = 4 + Math.random() * 6 + "s";
-      snow.style.opacity = 0.4 + Math.random() * 0.4;
-      document.body.appendChild(snow);
-      setTimeout(() => snow.remove(), 11000);
-    }
-    setInterval(createSnowflake, 200);
 
-    // 🔊 Dezente Sounds mit Web Audio API
-    let audioCtx = null;
-    function getAudioCtx() {
-      if (!audioCtx) {
-        const Ctx = window.AudioContext || window.webkitAudioContext;
-        if (Ctx) audioCtx = new Ctx();
+<script>
+  /* ❄ Schneeflocken */
+  function createSnowflake() {
+    const snow = document.createElement("div");
+    snow.className = "snowflake";
+    snow.textContent = "❄";
+    snow.style.left = Math.random() * 100 + "vw";
+    snow.style.fontSize = 10 + Math.random() * 18 + "px";
+    snow.style.animationDuration = 4 + Math.random() * 6 + "s";
+    snow.style.opacity = 0.4 + Math.random() * 0.4;
+    document.body.appendChild(snow);
+    setTimeout(() => snow.remove(), 11000);
+  }
+  setInterval(createSnowflake, 200);
+
+  /* 🔊 Sounds */
+  let audioCtx=null;
+  function getAudioCtx(){
+    if(!audioCtx){
+      const C=window.AudioContext||window.webkitAudioContext;
+      if(C) audioCtx=new C();
+    }
+    return audioCtx;
+  }
+
+  function playTone(f,d,t="sine",v=0.12){
+    const c=getAudioCtx(); if(!c) return;
+    const o=c.createOscillator(), g=c.createGain();
+    o.type=t; o.frequency.value=f; g.gain.value=v;
+    o.connect(g); g.connect(c.destination);
+    const n=c.currentTime;
+    o.start(n); o.stop(n+d);
+    g.gain.setValueAtTime(v,n);
+    g.gain.linearRampToValueAtTime(0,n+d);
+  }
+  const playClick = ()=>playTone(650,0.07,"triangle",0.1);
+  const playSuccess=()=>{
+    playTone(880,0.09);
+    setTimeout(()=>playTone(1040,0.1),90);
+  }
+  const playError=()=>playTone(220,0.14,"square",0.12);
+
+  /* ⏳ Countdown bis 28 Dez 2025 */
+  document.addEventListener("DOMContentLoaded",()=>{
+    const target=new Date("December 28, 2025 20:00:00").getTime();
+    const el=document.getElementById("countdown");
+    function update(){
+      const now=Date.now(), diff=target-now;
+      if(diff<=0){
+        el.textContent="⏰ Zeit abgelaufen!";
+        el.style.color="#f97373";
+        clearInterval(intv);
+        return;
       }
-      return audioCtx;
+      const d=Math.floor(diff/86400000),
+            h=Math.floor(diff/3600000)%24,
+            m=Math.floor(diff/60000)%60,
+            s=Math.floor(diff/1000)%60;
+      el.textContent=`⏳ Countdown: ${d}d ${h}h ${m}m ${s}s`;
     }
+    const intv=setInterval(update,1000);
+    update();
+  });
+</script>
 
-    function playTone(freq, duration, type = "sine", volume = 0.12) {
-      const ctx = getAudioCtx();
-      if (!ctx) return;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = type;
-      osc.frequency.value = freq;
-      gain.gain.value = volume;
+<div class="container">
+  <div class="title">
+    <h1>🎄 3er-YK Weihnachtsrätsel – 2025 Weihnachtsedition 🎄</h1>
+    <div id="countdown">Lade Countdown...</div>
+    <p>Rätsel für Manuel & Rabea – sammelt alle Zeichen und knackt das Lösungswort.</p>
+  </div>
 
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      const now = ctx.currentTime;
-      osc.start(now);
-      osc.stop(now + duration);
-      gain.gain.setValueAtTime(volume, now);
-      gain.gain.linearRampToValueAtTime(0, now + duration);
-    }
-
-    function playClick() {
-      playTone(650, 0.07, "triangle", 0.11);
-    }
-
-    function playSuccess() {
-      playTone(880, 0.09, "sine", 0.12);
-      setTimeout(() => playTone(1040, 0.09, "sine", 0.12), 90);
-    }
-
-    function playError() {
-      playTone(220, 0.14, "square", 0.09);
-    }
-  </script>
-
-  <div class="container">
-    <div class="title">
-      <h1>🎄 3er-YK Weihnachtsrätsel – 2025 Weihnachtsedition 🎄</h1>
-      <p>
-        Rätsel für Manuel &amp; Rabea – löst Schritt für Schritt alle Aufgaben,
-        sammelt Zeichen und knackt am Ende das geheime Lösungswort.
-      </p>
+  <!-- Intro -->
+  <div class="card">
+    <div class="card-header">
+      <span class="badge">Intro</span>
+      <h2>Willkommen</h2>
     </div>
+    <p>Hier kommt später dein Intro-Video rein.</p>
+    <iframe id="intro-video" src="" allowfullscreen></iframe>
+  </div>
 
-    <!-- Intro / Video Platzhalter -->
-    <div class="card">
-      <div class="card-header">
-        <span class="badge">Intro</span>
-        <h2>Willkommen zum 3er-YK Abenteuer</h2>
-      </div>
-      <p>
-        Hier kannst du später dein eigenes Intro-Video einbinden, in dem du
-        erklärst, was die beiden erwartet. Im Moment ist das nur ein Platzhalter.
-      </p>
-      <iframe
-        id="intro-video"
-        src=""
-        title="Intro-Video Platzhalter"
-        allowfullscreen
-      ></iframe>
+  <!-- Fortschritt -->
+  <div class="card">
+    <div class="card-header">
+      <span class="badge">Fortschritt</span>
+      <h2>Gesammelte Zeichen</h2>
     </div>
-
-    <!-- Fortschritt -->
-    <div class="card progress-card">
-      <div class="card-header">
-        <span class="badge">Fortschritt</span>
-        <h2>Gesammelte Zeichen</h2>
-      </div>
-      <p>
-        Jedes gelöste Rätsel schenkt euch ein oder mehrere Zeichen.
-        Insgesamt gibt es 27 Stück – genug, um ein ziemlich langes Wort zu bilden. 😈
-      </p>
-      <div class="letters-progress" id="letters-progress">
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-        <span>_</span>
-      </div>
-      <p class="final-note">
-        Tipp: Alle Zeichen gehören zu einem einzigen, sehr speziellen Wort,
-        das perfekt zu euch passt.
-      </p>
-    </div>
-
-    <!-- Rätsel 1–6 -->
-    <div id="puzzles-wrapper">
-      <!-- Rätsel 1 – Quiz mit 8 Fragen -->
-      <div class="card puzzle-card" data-index="0" data-type="quiz">
-        <div class="card-header">
-          <span class="badge">Rätsel 1</span>
-          <h2>Quiz – 8 Fragen, 8 Zeichen</h2>
-        </div>
-        <p>
-          Hier kommt später dein eigenes Quiz hin (z.B. Fragen zu 3er-YK, Audi/Porsche,
-          gemeinsamen Momenten, Insider-Witzen usw.).
-          <br />
-          <strong>Zum Testen:</strong> Die Platzhalter-Antworten sind einfach die Zahlen
-          <strong>1</strong> bis <strong>8</strong>.
-        </p>
-
-        <!-- 8 Platzhalter-Fragen -->
-        <div class="question-row" data-solution="1" data-letter="3">
-          <p><strong>Frage 1 (Platzhalter):</strong> Hier kommt später deine erste Quizfrage hin.</p>
-          <label>Antwort</label>
-          <input type="text" autocomplete="off" />
-          <button class="quiz-button">Prüfen</button>
-          <div class="message"></div>
-          <div class="letter-display hidden">
-            Freigeschaltetes Zeichen:
-            <span class="letter-badge">3</span>
-          </div>
-        </div>
-
-        <div class="question-row" data-solution="2" data-letter="y">
-          <p><strong>Frage 2 (Platzhalter):</strong> Hier kommt später deine zweite Quizfrage hin.</p>
-          <label>Antwort</label>
-          <input type="text" autocomplete="off" />
-          <button class="quiz-button">Prüfen</button>
-          <div class="message"></div>
-          <div class="letter-display hidden">
-            Freigeschaltetes Zeichen:
-            <span class="letter-badge">y</span>
-          </div>
-        </div>
-
-        <div class="question-row" data-solution="3" data-letter="?">
-          <p><strong>Frage 3 (Platzhalter):</strong> Hier kommt später deine dritte Quizfrage hin.</p>
-          <label>Antwort</label>
-          <input type="text" autocomplete="off" />
-          <button class="quiz-button">Prüfen</button>
-          <div class="message"></div>
-          <div class="letter-display hidden">
-            Freigeschaltetes Zeichen:
-            <span class="letter-badge">?</span>
-          </div>
-        </div>
-
-        <div class="question-row" data-solution="4" data-letter="2">
-          <p><strong>Frage 4 (Platzhalter):</strong> Hier kommt später deine vierte Quizfrage hin.</p>
-          <label>Antwort</label>
-          <input type="text" autocomplete="off" />
-          <button class="quiz-button">Prüfen</button>
-          <div class="message"></div>
-          <div class="letter-display hidden">
-            Freigeschaltetes Zeichen:
-            <span class="letter-badge">2</span>
-          </div>
-        </div>
-
-        <div class="question-row" data-solution="5" data-letter="i">
-          <p><strong>Frage 5 (Platzhalter):</strong> Hier kommt später deine fünfte Quizfrage hin.</p>
-          <label>Antwort</label>
-          <input type="text" autocomplete="off" />
-          <button class="quiz-button">Prüfen</button>
-          <div class="message"></div>
-          <div class="letter-display hidden">
-            Freigeschaltetes Zeichen:
-            <span class="letter-badge">i</span>
-          </div>
-        </div>
-
-        <div class="question-row" data-solution="6" data-letter="t">
-          <p><strong>Frage 6 (Platzhalter):</strong> Hier kommt später deine sechste Quizfrage hin.</p>
-          <label>Antwort</label>
-          <input type="text" autocomplete="off" />
-          <button class="quiz-button">Prüfen</button>
-          <div class="message"></div>
-          <div class="letter-display hidden">
-            Freigeschaltetes Zeichen:
-            <span class="letter-badge">t</span>
-          </div>
-        </div>
-
-        <div class="question-row" data-solution="7" data-letter="e">
-          <p><strong>Frage 7 (Platzhalter):</strong> Hier kommt später deine siebte Quizfrage hin.</p>
-          <label>Antwort</label>
-          <input type="text" autocomplete="off" />
-          <button class="quiz-button">Prüfen</button>
-          <div class="message"></div>
-          <div class="letter-display hidden">
-            Freigeschaltetes Zeichen:
-            <span class="letter-badge">e</span>
-          </div>
-        </div>
-
-        <div class="question-row" data-solution="8" data-letter="d">
-          <p><strong>Frage 8 (Platzhalter):</strong> Hier kommt später deine achte Quizfrage hin.</p>
-          <label>Antwort</label>
-          <input type="text" autocomplete="off" />
-          <button class="quiz-button">Prüfen</button>
-          <div class="message"></div>
-          <div class="letter-display hidden">
-            Freigeschaltetes Zeichen:
-            <span class="letter-badge">d</span>
-          </div>
-        </div>
-
-        <div class="message" id="quiz-summary"></div>
-      </div>
-
-      <!-- Rätsel 2 -->
-      <div
-        class="card puzzle-card hidden"
-        data-index="1"
-        data-type="single"
-        data-solution="R2"
-        data-letters="rnch"
-      >
-        <div class="card-header">
-          <span class="badge">Rätsel 2</span>
-          <h2>Platzhalter-Rätsel 2</h2>
-        </div>
-        <p>
-          Hier kannst du später z.B. ein Auto-/Audi-/Porsche-Rätsel einbauen.
-          <br />
-          <strong>Zum Testen:</strong> Gib als Antwort <strong>R2</strong> ein.
-        </p>
-        <div class="input-row">
-          <label>Antwort</label>
-          <input type="text" autocomplete="off" />
-          <button class="puzzle-button">Prüfen</button>
-          <div class="message"></div>
-          <div class="letter-display hidden"></div>
-        </div>
-      </div>
-
-      <!-- Rätsel 3 -->
-      <div
-        class="card puzzle-card hidden"
-        data-index="2"
-        data-type="single"
-        data-solution="R3"
-        data-letters="k05W"
-      >
-        <div class="card-header">
-          <span class="badge">Rätsel 3</span>
-          <h2>Platzhalter-Rätsel 3</h2>
-        </div>
-        <p>
-          Hier könnte später ein 3er-YK-Insider-Rätsel oder ein Meme-Rätsel hinkommen.
-          <br />
-          <strong>Zum Testen:</strong> Gib als Antwort <strong>R3</strong> ein.
-        </p>
-        <div class="input-row">
-          <label>Antwort</label>
-          <input type="text" autocomplete="off" />
-          <button class="puzzle-button">Prüfen</button>
-          <div class="message"></div>
-          <div class="letter-display hidden"></div>
-        </div>
-      </div>
-
-      <!-- Rätsel 4 -->
-      <div
-        class="card puzzle-card hidden"
-        data-index="3"
-        data-type="single"
-        data-solution="R4"
-        data-letters="ehas"
-      >
-        <div class="card-header">
-          <span class="badge">Rätsel 4</span>
-          <h2>Platzhalter-Rätsel 4</h2>
-        </div>
-        <p>
-          Hier kannst du z.B. ein kleines Logik-/Emoji- oder Bilderrätsel einbauen.
-          <br />
-          <strong>Zum Testen:</strong> Gib als Antwort <strong>R4</strong> ein.
-        </p>
-        <div class="input-row">
-          <label>Antwort</label>
-          <input type="text" autocomplete="off" />
-          <button class="puzzle-button">Prüfen</button>
-          <div class="message"></div>
-          <div class="letter-display hidden"></div>
-        </div>
-      </div>
-
-      <!-- Rätsel 5 -->
-      <div
-        class="card puzzle-card hidden"
-        data-index="4"
-        data-type="single"
-        data-solution="R5"
-        data-letters="eiti"
-      >
-        <div class="card-header">
-          <span class="badge">Rätsel 5</span>
-          <h2>Platzhalter-Rätsel 5</h2>
-        </div>
-        <p>
-          Hier könnte ein Rätsel zu einer gemeinsamen Erinnerung oder einem
-          bestimmten Datum hin.
-          <br />
-          <strong>Zum Testen:</strong> Gib als Antwort <strong>R5</strong> ein.
-        </p>
-        <div class="input-row">
-          <label>Antwort</label>
-          <input type="text" autocomplete="off" />
-          <button class="puzzle-button">Prüfen</button>
-          <div class="message"></div>
-          <div class="letter-display hidden"></div>
-        </div>
-      </div>
-
-      <!-- Rätsel 6 – Spotify -->
-      <div
-        class="card puzzle-card hidden"
-        data-index="5"
-        data-type="single"
-        data-solution="SPOTIFY"
-        data-letters="2on"
-      >
-        <div class="card-header">
-          <span class="badge">Rätsel 6</span>
-          <h2>Spotify-Rätsel (Platzhalter)</h2>
-        </div>
-        <p>
-          Hier planst du später dein echtes Spotify-Rätsel mit Songcode,
-          aus dem sie bestimmte Zeichen herausfinden müssen.
-          <br />
-          <strong>Zum Testen:</strong> Gib als Antwort <strong>SPOTIFY</strong> ein.
-        </p>
-        <div class="input-row">
-          <label>Antwort</label>
-          <input type="text" autocomplete="off" />
-          <button class="puzzle-button">Prüfen</button>
-          <div class="message"></div>
-          <div class="letter-display hidden"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Finale Eingabe -->
-    <div class="card hidden" id="final-card">
-      <div class="card-header">
-        <span class="badge">Finale</span>
-        <h2>Gebt das komplette Lösungswort ein</h2>
-      </div>
-      <p>
-        Ihr habt jetzt alle Zeichen gesammelt. Daraus ergibt sich ein langes,
-        ziemlich spezifisches Wort. Gebt es hier ein, um die letzte Überraschung
-        freizuschalten.
-      </p>
-      <div class="input-row">
-        <label for="final-input">Lösungswort</label>
-        <input
-          id="final-input"
-          type="text"
-          autocomplete="off"
-          placeholder="hier das komplette Wort eingeben"
-        />
-        <button id="final-button">Prüfen</button>
-        <div class="message" id="final-message"></div>
-      </div>
-
-      <div id="final-video-wrapper" class="hidden" style="margin-top: 16px;">
-        <p>
-          Glückwunsch! 🌟 Ihr habt das Rätsel geschafft. Hier ist eure
-          finale Botschaft:
-        </p>
-        <iframe
-          id="final-video"
-          src=""
-          title="Finales Geschenk-Video Platzhalter"
-          allowfullscreen
-        ></iframe>
-      </div>
+    <div class="letters-progress" id="letters-progress">
+      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
+      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
+      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
+      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
+      <span>_</span><span>_</span><span>_</span>
     </div>
   </div>
 
-  <script>
-    const SECRET_FINAL_WORD = "3eryk?2025Weihnachtsedition";
+  <!-- Rätsel 1 – Quiz -->
+  <div class="card puzzle-card" data-index="0" data-type="quiz">
+    <div class="card-header">
+      <span class="badge">Rätsel 1</span>
+      <h2>Quiz – 8 Fragen</h2>
+    </div>
+    <p>Platzhalter-Quiz. Antworten zum Testen: 1–8.</p>
+    <!-- Quiz-Fragen -->
+    <div class="question-row" data-solution="1" data-letter="3">
+      <p><strong>Frage 1 (Platzhalter):</strong> Deine erste Quizfrage.</p>
+      <label>Antwort</label>
+      <input type="text" autocomplete="off" />
+      <button class="quiz-button">Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">3</span>
+      </div>
+    </div>
 
-    const puzzleCards = Array.from(
-      document.querySelectorAll(".puzzle-card")
-    );
-    const lettersProgressSpans =
-      document.getElementById("letters-progress").children;
-    const finalCard = document.getElementById("final-card");
-    const finalInput = document.getElementById("final-input");
-    const finalButton = document.getElementById("final-button");
-    const finalMessage = document.getElementById("final-message");
-    const finalVideoWrapper = document.getElementById("final-video-wrapper");
-    const finalVideo = document.getElementById("final-video");
+    <div class="question-row" data-solution="2" data-letter="y">
+      <p><strong>Frage 2 (Platzhalter):</strong> Deine zweite Quizfrage.</p>
+      <label>Antwort</label>
+      <input type="text" autocomplete="off" />
+      <button class="quiz-button">Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">y</span>
+      </div>
+    </div>
 
-    let nextLetterIndex = 0;
+    <div class="question-row" data-solution="3" data-letter="?">
+      <p><strong>Frage 3 (Platzhalter):</strong> Deine dritte Quizfrage.</p>
+      <label>Antwort</label>
+      <input type="text" autocomplete="off" />
+      <button class="quiz-button">Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">?</span>
+      </div>
+    </div>
 
-    function addLetterToProgress(ch) {
-      if (nextLetterIndex >= lettersProgressSpans.length) return;
-      const span = lettersProgressSpans[nextLetterIndex];
-      span.textContent = ch;
-      span.classList.add("filled");
-      nextLetterIndex++;
+    <div class="question-row" data-solution="4" data-letter="2">
+      <p><strong>Frage 4 (Platzhalter):</strong> Deine vierte Quizfrage.</p>
+      <label>Antwort</label>
+      <input type="text" autocomplete="off" />
+      <button class="quiz-button">Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">2</span>
+      </div>
+    </div>
+
+    <div class="question-row" data-solution="5" data-letter="i">
+      <p><strong>Frage 5 (Platzhalter):</strong> Deine fünfte Quizfrage.</p>
+      <label>Antwort</label>
+      <input type="text" autocomplete="off" />
+      <button class="quiz-button">Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">i</span>
+      </div>
+    </div>
+
+    <div class="question-row" data-solution="6" data-letter="t">
+      <p><strong>Frage 6 (Platzhalter):</strong> Deine sechste Quizfrage.</p>
+      <label>Antwort</label>
+      <input type="text" autocomplete="off" />
+      <button class="quiz-button">Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">t</span>
+      </div>
+    </div>
+
+    <div class="question-row" data-solution="7" data-letter="e">
+      <p><strong>Frage 7 (Platzhalter):</strong> Deine siebte Quizfrage.</p>
+      <label>Antwort</label>
+      <input type="text" autocomplete="off" />
+      <button class="quiz-button">Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">e</span>
+      </div>
+    </div>
+
+    <div class="question-row" data-solution="8" data-letter="d">
+      <p><strong>Frage 8 (Platzhalter):</strong> Deine achte Quizfrage.</p>
+      <label>Antwort</label>
+      <input type="text" autocomplete="off" />
+      <button class="quiz-button">Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">d</span>
+      </div>
+    </div>
+
+    <div id="quiz-summary" class="message"></div>
+  </div>
+
+
+  <!-- Rätsel 2 -->
+  <div class="card puzzle-card hidden"
+       data-index="1"
+       data-type="single"
+       data-solution="R2"
+       data-letters="rnch">
+
+    <div class="card-header">
+      <span class="badge">Rätsel 2</span>
+      <h2>Platzhalter-Rätsel 2</h2>
+    </div>
+
+    <p>
+      Hier kannst du später ein Auto-/Audi-/Porsche-Rätsel einfügen.<br>
+      <strong>Testlösung:</strong> <code>R2</code>
+    </p>
+
+    <div class="input-row">
+      <label>Antwort</label>
+      <input type="text" autocomplete="off">
+      <button class="puzzle-button">Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden"></div>
+    </div>
+
+  </div>
+  <!-- Rätsel 3 -->
+  <div class="card puzzle-card hidden"
+       data-index="2"
+       data-type="single"
+       data-solution="R3"
+       data-letters="k05W">
+
+    <div class="card-header">
+      <span class="badge">Rätsel 3</span>
+      <h2>Platzhalter-Rätsel 3</h2>
+    </div>
+
+    <p>
+      Hier könnte später ein 3er-YK-Insider-Rätsel hinkommen.<br>
+      <strong>Testlösung:</strong> <code>R3</code>
+    </p>
+
+    <div class="input-row">
+      <label>Antwort</label>
+      <input type="text" autocomplete="off">
+      <button class="puzzle-button">Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden"></div>
+    </div>
+
+  </div>
+
+
+  <!-- Rätsel 4 -->
+  <div class="card puzzle-card hidden"
+       data-index="3"
+       data-type="single"
+       data-solution="R4"
+       data-letters="ehas">
+
+    <div class="card-header">
+      <span class="badge">Rätsel 4</span>
+      <h2>Platzhalter-Rätsel 4</h2>
+    </div>
+
+    <p>
+      Hier kannst du z.B. ein Logik-, Emoji- oder Bilderrätsel einbauen.<br>
+      <strong>Testlösung:</strong> <code>R4</code>
+    </p>
+
+    <div class="input-row">
+      <label>Antwort</label>
+      <input type="text" autocomplete="off">
+      <button class="puzzle-button">Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden"></div>
+    </div>
+
+  </div>
+
+
+  <!-- Rätsel 5 -->
+  <div class="card puzzle-card hidden"
+       data-index="4"
+       data-type="single"
+       data-solution="R5"
+       data-letters="eiti">
+
+    <div class="card-header">
+      <span class="badge">Rätsel 5</span>
+      <h2>Platzhalter-Rätsel 5</h2>
+    </div>
+
+    <p>
+      Hier könnte ein Rätsel zu einem gemeinsamen Moment oder Insider stehen.<br>
+      <strong>Testlösung:</strong> <code>R5</code>
+    </p>
+
+    <div class="input-row">
+      <label>Antwort</label>
+      <input type="text" autocomplete="off">
+      <button class="puzzle-button">Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden"></div>
+    </div>
+
+  </div>
+  <!-- Rätsel 6 – Spotify -->
+  <div class="card puzzle-card hidden"
+       data-index="5"
+       data-type="single"
+       data-solution="SPOTIFY"
+       data-letters="2on">
+
+    <div class="card-header">
+      <span class="badge">Rätsel 6</span>
+      <h2>Spotify-Rätsel (Platzhalter)</h2>
+    </div>
+
+    <p>
+      Hier kommt später dein echtes Spotify-Rätsel hin (Songcode etc.).<br>
+      <strong>Testlösung:</strong> <code>SPOTIFY</code>
+    </p>
+
+    <div class="input-row">
+      <label>Antwort</label>
+      <input type="text" autocomplete="off">
+      <button class="puzzle-button">Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden"></div>
+    </div>
+  </div>
+
+
+  <!-- FINALE EINGABE -->
+  <div class="card hidden" id="final-card">
+    <div class="card-header">
+      <span class="badge">Finale</span>
+      <h2>Gebt das komplette Lösungswort ein</h2>
+    </div>
+
+    <p>
+      Ihr habt alle Zeichen gefunden. Gebt das gesamte Lösungswort ein.
+    </p>
+
+    <div class="input-row">
+      <label for="final-input">Lösungswort</label>
+      <input id="final-input"
+             type="text"
+             autocomplete="off"
+             placeholder="hier das komplette Lösungswort eingeben">
+
+      <button id="final-button">Prüfen</button>
+      <div class="message" id="final-message"></div>
+    </div>
+
+    <div id="final-video-wrapper" class="hidden" style="margin-top: 16px;">
+      <p>Glückwunsch! 🎉 Hier ist eure finale Botschaft:</p>
+
+      <iframe id="final-video"
+              src=""
+              title="Finales Geschenk-Video"
+              allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+</div> <!-- container END -->
+
+
+<!-- JAVASCRIPT: Rätsel-Logik -->
+<script>
+  const SECRET_FINAL_WORD = "3eryk?2025Weihnachtsedition";
+
+  const puzzleCards = Array.from(document.querySelectorAll(".puzzle-card"));
+  const lettersProgress = document.getElementById("letters-progress").children;
+
+  const finalCard = document.getElementById("final-card");
+  const finalInput = document.getElementById("final-input");
+  const finalButton = document.getElementById("final-button");
+  const finalMessage = document.getElementById("final-message");
+  const finalVideoWrapper = document.getElementById("final-video-wrapper");
+  const finalVideo = document.getElementById("final-video");
+
+  let nextLetterIndex = 0;
+
+  function addLetterToProgress(ch) {
+    if (nextLetterIndex >= lettersProgress.length) return;
+    const span = lettersProgress[nextLetterIndex];
+    span.textContent = ch;
+    span.classList.add("filled");
+    nextLetterIndex++;
+  }
+
+  function showNextPuzzle(idx) {
+    const next = puzzleCards[idx + 1];
+    if (next) {
+      next.classList.remove("hidden");
+    } else {
+      finalCard.classList.remove("hidden");
     }
+  }
 
-    function showNextPuzzleByIndex(idx) {
-      const next = puzzleCards[idx + 1];
-      if (next) {
-        next.classList.remove("hidden");
-      } else {
-        finalCard.classList.remove("hidden");
-      }
-    }
+  /* --- RÄTSEL 1: QUIZ --- */
+  const quizCard = puzzleCards[0];
+  const quizRows = quizCard.querySelectorAll(".question-row");
+  const quizSummary = document.getElementById("quiz-summary");
+  let quizSolved = 0;
 
-    // Rätsel 1 – Quiz
-    const quizCard = puzzleCards[0];
-    const quizRows = quizCard.querySelectorAll(".question-row");
-    const quizSummary = document.getElementById("quiz-summary");
-    let quizSolvedCount = 0;
+  quizRows.forEach(row => {
+    const input = row.querySelector("input");
+    const button = row.querySelector("button");
+    const msg = row.querySelector(".message");
+    const disp = row.querySelector(".letter-display");
+    const badge = row.querySelector(".letter-badge");
+    const solution = (row.dataset.solution || "").toLowerCase();
+    const letter = row.dataset.letter;
 
-    quizRows.forEach((row) => {
-      const input = row.querySelector("input");
-      const button = row.querySelector("button");
-      const msg = row.querySelector(".message");
-      const letterBox = row.querySelector(".letter-display");
-      const letterBadge = row.querySelector(".letter-badge");
-      const solution = (row.dataset.solution || "").toLowerCase();
-      const letter = row.dataset.letter || "?";
-
-      button.addEventListener("click", () => {
-        playClick();
-        const val = (input.value || "").trim().toLowerCase();
-        if (!val) {
-          msg.textContent = "Gib zuerst eine Antwort ein.";
-          msg.className = "message error";
-          playError();
-          return;
-        }
-
-        if (val === solution) {
-          if (row.dataset.solved === "true") {
-            msg.textContent = "Diese Frage wurde schon gelöst. ✅";
-            msg.className = "message success";
-            return;
-          }
-          row.dataset.solved = "true";
-          quizSolvedCount++;
-
-          msg.textContent = "Korrekt!";
-          msg.className = "message success";
-          letterBox.classList.remove("hidden");
-          letterBadge.textContent = letter;
-          addLetterToProgress(letter);
-          input.disabled = true;
-          button.disabled = true;
-          playSuccess();
-
-          if (quizSolvedCount === quizRows.length) {
-            quizSummary.textContent =
-              "Alle 8 Fragen gelöst! Das nächste Rätsel wurde freigeschaltet. 🎉";
-            quizSummary.className = "message success";
-            showNextPuzzleByIndex(0);
-          } else {
-            quizSummary.textContent =
-              quizSolvedCount +
-              " von " +
-              quizRows.length +
-              " Fragen gelöst.";
-            quizSummary.className = "message success";
-          }
-        } else {
-          msg.textContent = "Nicht ganz. Versuch es noch einmal. ❌";
-          msg.className = "message error";
-          playError();
-        }
-      });
-
-      input.addEventListener("keydown", (ev) => {
-        if (ev.key === "Enter") {
-          button.click();
-        }
-      });
-    });
-
-    // Rätsel 2–6 – Single-Input-Rätsel
-    for (let i = 1; i < puzzleCards.length; i++) {
-      const card = puzzleCards[i];
-      const type = card.dataset.type || "single";
-      if (type !== "single") continue;
-
-      const index = parseInt(card.dataset.index, 10);
-      const input = card.querySelector("input[type='text']");
-      const button = card.querySelector(".puzzle-button");
-      const msg = card.querySelector(".message");
-      const letterBox = card.querySelector(".letter-display");
-      const solution = (card.dataset.solution || "").toLowerCase();
-      const lettersStr = card.dataset.letters || "";
-      const lettersArr = lettersStr.split("");
-
-      button.addEventListener("click", () => {
-        playClick();
-        const val = (input.value || "").trim().toLowerCase();
-        if (!val) {
-          msg.textContent = "Gib zuerst eine Antwort ein.";
-          msg.className = "message error";
-          playError();
-          return;
-        }
-
-        if (val === solution) {
-          if (card.dataset.solved === "true") {
-            msg.textContent = "Dieses Rätsel wurde schon gelöst. ✅";
-            msg.className = "message success";
-            return;
-          }
-          card.dataset.solved = "true";
-
-          msg.textContent = "Korrekt! Dieses Rätsel ist gelöst. ✅";
-          msg.className = "message success";
-          input.disabled = true;
-          button.disabled = true;
-          playSuccess();
-
-          // Zeichen anzeigen
-          if (lettersArr.length > 0) {
-            let html = "Freigeschaltete Zeichen:";
-            lettersArr.forEach((l) => {
-              html +=
-                ' <span class="letter-badge">' +
-                l +
-                "</span>";
-              addLetterToProgress(l);
-            });
-            letterBox.innerHTML = html;
-            letterBox.classList.remove("hidden");
-          }
-
-          showNextPuzzleByIndex(index);
-        } else {
-          msg.textContent =
-            "Das ist noch nicht richtig. Denk noch einmal nach. ❌";
-          msg.className = "message error";
-          playError();
-        }
-      });
-
-      input.addEventListener("keydown", (ev) => {
-        if (ev.key === "Enter") {
-          button.click();
-        }
-      });
-    }
-
-    // Finale Eingabe
-    finalButton.addEventListener("click", () => {
+    button.addEventListener("click", () => {
       playClick();
-      const given = (finalInput.value || "").trim();
-
-      if (!given) {
-        finalMessage.textContent = "Gib ein Lösungswort ein.";
-        finalMessage.className = "message error";
+      const v = (input.value || "").trim().toLowerCase();
+      if (!v) {
+        msg.textContent = "Gib zuerst etwas ein.";
+        msg.className = "message error";
         playError();
         return;
       }
 
-      if (given.toLowerCase() === SECRET_FINAL_WORD.toLowerCase()) {
-        finalMessage.textContent =
-          "Richtig! Ihr habt das komplette Lösungswort geknackt. 🎉";
-        finalMessage.className = "message success";
+      if (v === solution) {
+        if (row.dataset.solved === "true") {
+          msg.textContent = "Schon gelöst.";
+          msg.className = "message success";
+          return;
+        }
+        row.dataset.solved = "true";
+        quizSolved++;
+
+        msg.textContent = "Korrekt!";
+        msg.className = "message success";
+        disp.classList.remove("hidden");
+        badge.textContent = letter;
+
+        addLetterToProgress(letter);
+        input.disabled = true;
+        button.disabled = true;
         playSuccess();
 
-        // Hier später dein echtes YouTube-Embed eintragen:
-        // finalVideo.src = "https://www.youtube.com/embed/DEIN_VIDEO_ID";
-        finalVideoWrapper.classList.remove("hidden");
+        if (quizSolved === quizRows.length) {
+          quizSummary.textContent =
+            "Alle 8 Fragen gelöst! Weiter geht's!";
+          quizSummary.className = "message success";
+          showNextPuzzle(0);
+        } else {
+          quizSummary.textContent =
+            quizSolved + " von 8 Fragen gelöst.";
+          quizSummary.className = "message success";
+        }
       } else {
-        finalMessage.textContent =
-          "Das ist noch nicht ganz richtig. Schaut euch alle Zeichen und Hinweise nochmal in Ruhe an. 🧩";
-        finalMessage.className = "message error";
+        msg.textContent = "Falsch.";
+        msg.className = "message error";
         playError();
       }
     });
 
-    finalInput.addEventListener("keydown", (ev) => {
-      if (ev.key === "Enter") {
-        finalButton.click();
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") button.click();
+    });
+  });
+
+
+  /* --- RÄTSEL 2–6 --- */
+  for (let i = 1; i < puzzleCards.length; i++) {
+    const card = puzzleCards[i];
+    const input = card.querySelector("input[type=text]");
+    const button = card.querySelector(".puzzle-button");
+    const msg = card.querySelector(".message");
+    const disp = card.querySelector(".letter-display");
+    const solution = (card.dataset.solution || "").toLowerCase();
+
+    const letters = (card.dataset.letters || "").split("");
+
+    button.addEventListener("click", () => {
+      playClick();
+      const v = (input.value || "").trim().toLowerCase();
+      if (!v) {
+        msg.textContent = "Gib zuerst etwas ein.";
+        msg.className = "message error";
+        playError();
+        return;
+      }
+
+      if (v === solution) {
+        if (card.dataset.solved === "true") {
+          msg.textContent = "Schon gelöst.";
+          msg.className = "message success";
+          return;
+        }
+        card.dataset.solved = "true";
+
+        msg.textContent = "Korrekt!";
+        msg.className = "message success";
+        input.disabled = true;
+        button.disabled = true;
+        playSuccess();
+
+        if (letters.length > 0) {
+          let html = "Zeichen: ";
+          letters.forEach(ch => {
+            html += `<span class="letter-badge">${ch}</span> `;
+            addLetterToProgress(ch);
+          });
+          disp.innerHTML = html;
+          disp.classList.remove("hidden");
+        }
+
+        showNextPuzzle(i);
+      } else {
+        msg.textContent = "Falsch.";
+        msg.className = "message error";
+        playError();
       }
     });
-  </script>
+
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") button.click();
+    });
+  }
+
+
+  /* --- FINALEINGABE --- */
+  finalButton.addEventListener("click", () => {
+    playClick();
+    const v = (finalInput.value || "").trim();
+    if (!v) {
+      finalMessage.textContent = "Gib ein Wort ein.";
+      finalMessage.className = "message error";
+      playError();
+      return;
+    }
+
+    if (v.toLowerCase() === SECRET_FINAL_WORD.toLowerCase()) {
+      finalMessage.textContent = "Richtig! 🎉";
+      finalMessage.className = "message success";
+      playSuccess();
+
+      // später hier YouTube-Link:
+      // finalVideo.src = "https://www.youtube.com/embed/DEIN_VIDEO";
+      finalVideoWrapper.classList.remove("hidden");
+
+    } else {
+      finalMessage.textContent = "Das ist falsch.";
+      finalMessage.className = "message error";
+      playError();
+    }
+  });
+
+  finalInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") finalButton.click();
+  });
+</script>
+
 </body>
 </html>
