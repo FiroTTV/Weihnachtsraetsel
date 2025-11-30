@@ -5,22 +5,37 @@
   <title>3er-YK Weihnachtsrätsel 🎄</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
+    :root {
+      --bg: #020617;
+      --card: rgba(15, 23, 42, 0.92);
+      --border: rgba(148, 163, 184, 0.4);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent: #38bdf8;
+      --accent2: #a855f7;
+      --error: #f97373;
+      --success: #4ade80;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #0f172a;
-      color: #f8fafc;
+      background: radial-gradient(circle at top, #1e293b, #020617 55%);
+      color: var(--text);
       overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    /* -------------------------------------------------------
-       ❄ SCHNEEFALL-EFFEKT ❄
-    -------------------------------------------------------- */
+    /* ❄ Schneefall */
     .snowflake {
       position: fixed;
       top: -10px;
       z-index: 9999;
-      color: white;
+      color: #ffffff;
       font-size: 1em;
       opacity: 0.8;
       user-select: none;
@@ -34,157 +49,214 @@
       }
     }
 
-    /* -------------------------------------------------------
-       LAYOUT
-    -------------------------------------------------------- */
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+    }
+
+    .title p {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.95rem;
     }
 
     .card {
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      border-radius: 16px;
-      padding: 24px;
-      max-width: 650px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
-      margin-bottom: 40px;
+      background: var(--card);
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      padding: 20px 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
     }
 
-    iframe {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      border-radius: 12px;
-      border: none;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 1.2rem;
     }
 
-    .input-block {
-      margin-top: 20px;
-      text-align: left;
+    .card-sub {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
     }
 
-    input {
+    .riddle {
+      position: relative;
+      margin-top: 6px;
+    }
+
+    .riddle.locked {
+      opacity: 0.35;
+      filter: grayscale(0.4);
+    }
+
+    .lock-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+      backdrop-filter: blur(2px);
+      pointer-events: none;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    input[type="text"] {
       width: 100%;
       padding: 0.6rem 0.75rem;
       border-radius: 10px;
       border: 1px solid #4b5563;
       background: #020617;
-      color: #e5e7eb;
-      font-size: 1rem;
-    }
-
-    button {
-      margin-top: 12px;
-      width: 100%;
-      padding: 0.75rem;
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(135deg, #38bdf8, #a855f7);
-      color: white;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    #message {
-      margin-top: 10px;
-      min-height: 1.2em;
+      color: var(--text);
       font-size: 0.95rem;
     }
 
-    .success-box {
-      margin-top: 20px;
+    input[type="text"]:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
     }
 
+    button {
+      margin-top: 8px;
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      transition: transform 0.08s ease, filter 0.08s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+
+    button:active {
+      transform: translateY(0);
+      filter: brightness(0.97);
+    }
+
+    .msg {
+      margin-top: 6px;
+      min-height: 1.2em;
+      font-size: 0.9rem;
+    }
+
+    .msg.error {
+      color: var(--error);
+    }
+
+    .msg.success {
+      color: var(--success);
+    }
+
+    .letters {
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: var(--accent);
+      display: none;
+    }
+
+    .letters span {
+      font-weight: 600;
+    }
+
+    .riddle.solved {
+      border-left: 3px solid var(--success);
+      padding-left: 14px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .final-hint {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .final-card h2 {
+      text-align: center;
+    }
+
+    .final-word {
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+      font-size: 0.86rem;
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 10px;
+      padding: 8px 10px;
+      margin-top: 10px;
+      color: var(--muted);
+      word-break: break-all;
+    }
+
+    .final-success {
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(22, 163, 74, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.5);
+      color: var(--success);
+      display: none;
+      font-size: 0.9rem;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    @media (min-width: 720px) {
+      .card {
+        padding: 22px 24px;
+      }
+    }
   </style>
 </head>
-
 <body>
+  <!-- 🔊 Soundeffekte (später einfach Dateien mit diesen Namen ins Repo legen) -->
+  <audio id="sound-click" src="click.mp3" preload="auto"></audio>
+  <audio id="sound-success" src="success.mp3" preload="auto"></audio>
+  <audio id="sound-error" src="error.mp3" preload="auto"></audio>
+  <audio id="sound-unlock" src="unlock.mp3" preload="auto"></audio>
 
-  <!-- ❄ Schneeflocken erzeugen -->
+  <!-- ❄ Schneeflocken-Script -->
   <script>
     function createSnowflake() {
       const snow = document.createElement("div");
-      snow.className = "snowflake";
-      snow.textContent = "❄";
-
-      snow.style.left = Math.random() * 100 + "vw";
-      snow.style.fontSize = 10 + Math.random() * 20 + "px";
-      snow.style.animationDuration = 4 + Math.random() * 6 + "s";
-
-      document.body.appendChild(snow);
-
-      setTimeout(() => snow.remove(), 11000);
-    }
-    setInterval(createSnowflake, 150);
-  </script>
-
-  <div class="container">
-
-    <!-- 🎥 INTRO-VIDEO -->
-    <div class="card">
-      <h1>🎄 Willkommen beim 3eryk? Weihnachtsrätsel 🎄</h1>
-      <p>Schaut zuerst dieses Video...</p>
-
-      <iframe id="intro-video" src="INTRO_VIDEO_LINK_HIER_EINSETZEN" allowfullscreen></iframe>
-    </div>
-
-    <!-- 🔤 EINGABE-FELD -->
-    <div class="card">
-      <h2>Lösungswort eingeben</h2>
-
-      <div class="input-block">
-        <label>Lösungswort:</label>
-        <input type="text" id="solution-input" placeholder="Hier eingeben..." />
-        <button id="check-button">Prüfen</button>
-        <div id="message"></div>
-      </div>
-
-      <div id="success-section" class="success-box" style="display: none;">
-        <h3>✔ Richtige Lösung!</h3>
-        <p>Hier ist eure finale Nachricht:</p>
-
-        <iframe id="final-video" src="" allowfullscreen></iframe>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    /* ============================
-       EINSTELLUNGEN
-    ============================= */
-    const SECRET_WORD = "DEINWORT"; // <- ändern!
-    const FINAL_VIDEO_URL = "FINAL_VIDEO_EMBED_URL"; // <- ändern!
-
-
-    const input = document.getElementById("solution-input");
-    const button = document.getElementById("check-button");
-    const message = document.getElementById("message");
-    const successSection = document.getElementById("success-section");
-    const finalVideo = document.getElementById("final-video");
-
-    button.onclick = () => {
-      const userWord = input.value.trim().toLowerCase();
-      const correct = SECRET_WORD.toLowerCase();
-
-      if (userWord === correct) {
-        message.style.color = "#4ade80";
-        message.textContent = "Richtig! 🎉";
-        finalVideo.src = FINAL_VIDEO_URL;
-        successSection.style.display = "block";
-      } else {
-        message.style.color = "#f87171";
-        message.textContent = "Leider falsch ❌";
-      }
-    };
-  </script>
-
-</body>
-</html>
-
+      snow.className = "snowflake
