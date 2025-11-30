@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>3er-YK Rätsel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      background: #0f172a;
+      color: #e5e7eb;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      border-radius: 10px;
+      border: 1px solid #4b5563;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 0.95rem;
+      box-sizing: border-box;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+    }
+
+    button {
+      margin-top: 0.9rem;
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, #38bdf8, #a855f7);
+      color: white;
+    }
+
+    button:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .message {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      min-height: 1.2em;
+    }
+
+    .message.error {
+      color: #f97373;
+    }
+
+    .message.success {
+      color: #4ade80;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .video-container {
+      margin-top: 1.5rem;
+    }
+
+    iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      border: none;
+    }
+
+    .final-text {
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+      color: #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🎄 3er-YK Weihnachtsrätsel 🎄</h1>
+    <p class="subtitle">
+      Gebt das Lösungswort ein, das ihr euch erarbeitet habt.
+    </p>
+
+    <div id="form-section">
+      <label for="solution-input">Lösungswort</label>
+      <input
+        type="text"
+        id="solution-input"
+        placeholder="Hier eingeben..."
+        autocomplete="off"
+      />
+      <button id="check-button">Prüfen</button>
+      <div id="message" class="message"></div>
+    </div>
+
+    <div id="success-section" class="hidden">
+      <div class="message success">
+        ✔ Korrekt! Ihr habt das Rätsel gelöst.
+      </div>
+      <div class="video-container">
+        <!-- Hier kommt dein Video rein (z.B. ein nicht gelistetes YouTube-Video) -->
+        <iframe
+          id="secret-video"
+          src=""
+          allowfullscreen
+        ></iframe>
+      </div>
+      <p class="final-text">
+        Schaut euch das Video an – dort erfahrt ihr,
+        wie ihr an euer echtes Geschenk kommt. ❤️
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // ==== HIER kannst du dein geheimes Wort und dein Video einstellen ====
+
+    // Das richtige Lösungswort (Groß-/Kleinschreibung egal)
+    const SECRET_WORD = "TURBOAUDI"; // <- ÄNDERN!
+
+    // Link zu deinem Video, z.B. ein nicht gelisteter YouTube-Link
+    const VIDEO_URL = "https://www.youtube.com/embed/DEIN_VIDEO_ID"; // <- ÄNDERN!
+
+    // ===================================================
+
+    const input = document.getElementById("solution-input");
+    const button = document.getElementById("check-button");
+    const message = document.getElementById("message");
+    const formSection = document.getElementById("form-section");
+    const successSection = document.getElementById("success-section");
+    const videoFrame = document.getElementById("secret-video");
+
+    button.addEventListener("click", () => {
+      const value = input.value.trim().toLowerCase();
+      const correct = SECRET_WORD.toLowerCase();
+
+      if (!value) {
+        message.textContent = "Gib erst mal ein Wort ein 😉";
+        message.className = "message error";
+        return;
+      }
+
+      if (value === correct) {
+        // Richtige Lösung
+        message.textContent = "";
+        formSection.classList.add("hidden");
+        successSection.classList.remove("hidden");
+        videoFrame.src = VIDEO_URL;
+      } else {
+        // Falsche Lösung
+        message.textContent = "Nope, das ist noch nicht ganz richtig 🧩";
+        message.className = "message error";
+      }
+    });
+
+    // Enter-Taste unterstützt
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        button.click();
+      }
+    });
+  </script>
+</body>
+</html>
