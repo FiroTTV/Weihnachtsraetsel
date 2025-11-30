@@ -188,6 +188,7 @@
       font-size: 0.9rem;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 6px;
     }
 
@@ -195,22 +196,18 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 26px;
+      min-width: 26px;
       height: 26px;
+      padding: 0 6px;
       border-radius: 999px;
       border: 1px solid var(--accent);
       font-weight: 700;
       font-size: 0.95rem;
+      background: rgba(15, 23, 42, 0.9);
     }
 
     .hidden {
       display: none;
-    }
-
-    .locked-hint {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 3px;
     }
 
     .progress-card {
@@ -219,6 +216,7 @@
 
     .letters-progress {
       display: flex;
+      flex-wrap: wrap;
       gap: 6px;
       margin-top: 6px;
       font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas,
@@ -245,17 +243,14 @@
       margin-top: 4px;
     }
 
-    .final-word {
-      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas,
-        "Liberation Mono", "Courier New", monospace;
-      font-size: 0.9rem;
-      padding: 4px 8px;
-      border-radius: 8px;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid var(--border);
-      display: inline-block;
-      margin-top: 4px;
-      word-break: break-all;
+    .question-row {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(148, 163, 184, 0.3);
+    }
+
+    .question-row:first-of-type {
+      border-top: none;
     }
 
     @media (max-width: 600px) {
@@ -315,9 +310,6 @@
     }
 
     function playSuccess() {
-      const ctx = getAudioCtx();
-      if (!ctx) return;
-      // kleiner Zweiton "pling"
       playTone(880, 0.09, "sine", 0.12);
       setTimeout(() => playTone(1040, 0.09, "sine", 0.12), 90);
     }
@@ -332,7 +324,7 @@
       <h1>🎄 3er-YK Weihnachtsrätsel – 2025 Weihnachtsedition 🎄</h1>
       <p>
         Rätsel für Manuel &amp; Rabea – löst Schritt für Schritt alle Aufgaben,
-        sammelt Buchstaben und knackt am Ende das geheime Lösungswort.
+        sammelt Zeichen und knackt am Ende das geheime Lösungswort.
       </p>
     </div>
 
@@ -343,8 +335,8 @@
         <h2>Willkommen zum 3er-YK Abenteuer</h2>
       </div>
       <p>
-        Hier kannst du später dein eigenes Intro-Video einbinden, in dem du den
-        beiden erklärst, was sie erwartet. Im Moment ist das nur ein Platzhalter.
+        Hier kannst du später dein eigenes Intro-Video einbinden, in dem du
+        erklärst, was die beiden erwartet. Im Moment ist das nur ein Platzhalter.
       </p>
       <iframe
         id="intro-video"
@@ -358,11 +350,11 @@
     <div class="card progress-card">
       <div class="card-header">
         <span class="badge">Fortschritt</span>
-        <h2>Freigeschaltete Buchstaben</h2>
+        <h2>Gesammelte Zeichen</h2>
       </div>
       <p>
-        Jeder Rätsel-Erfolg schenkt euch einen neuen Buchstaben.
-        Insgesamt gibt es 6:
+        Jedes gelöste Rätsel schenkt euch ein oder mehrere Zeichen.
+        Insgesamt gibt es 27 Stück – genug, um ein ziemlich langes Wort zu bilden. 😈
       </p>
       <div class="letters-progress" id="letters-progress">
         <span>_</span>
@@ -371,74 +363,173 @@
         <span>_</span>
         <span>_</span>
         <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
+        <span>_</span>
       </div>
       <p class="final-note">
-        Am Ende braucht ihr das komplette Lösungswort:
+        Tipp: Alle Zeichen gehören zu einem einzigen, sehr speziellen Wort,
+        das perfekt zu euch passt.
       </p>
-      <div class="final-word">
-        3eryk?2025Weihnachtsedition
-      </div>
     </div>
 
     <!-- Rätsel 1–6 -->
     <div id="puzzles-wrapper">
-      <!-- Rätsel 1 -->
-      <div
-        class="card puzzle-card"
-        data-index="0"
-        data-solution="A"
-        data-letter="3"
-      >
+      <!-- Rätsel 1 – Quiz mit 8 Fragen -->
+      <div class="card puzzle-card" data-index="0" data-type="quiz">
         <div class="card-header">
           <span class="badge">Rätsel 1</span>
-          <h2>Platzhalter-Rätsel 1</h2>
+          <h2>Quiz – 8 Fragen, 8 Zeichen</h2>
         </div>
         <p>
-          Hier kommt später dein erstes richtiges Rätsel hin
-          (z.B. Insider, kleiner Gag oder etwas zu euch dreien).
+          Hier kommt später dein eigenes Quiz hin (z.B. Fragen zu 3er-YK, Audi/Porsche,
+          gemeinsamen Momenten, Insider-Witzen usw.).
           <br />
-          <strong>Zum Testen:</strong> Gib einfach den Buchstaben
-          <strong>A</strong> als Lösung ein.
+          <strong>Zum Testen:</strong> Die Platzhalter-Antworten sind einfach die Zahlen
+          <strong>1</strong> bis <strong>8</strong>.
         </p>
-        <div class="input-row">
-          <label for="riddle-1-input">Antwort</label>
-          <input id="riddle-1-input" type="text" autocomplete="off" />
-          <button class="puzzle-button">Prüfen</button>
+
+        <!-- 8 Platzhalter-Fragen -->
+        <div class="question-row" data-solution="1" data-letter="3">
+          <p><strong>Frage 1 (Platzhalter):</strong> Hier kommt später deine erste Quizfrage hin.</p>
+          <label>Antwort</label>
+          <input type="text" autocomplete="off" />
+          <button class="quiz-button">Prüfen</button>
           <div class="message"></div>
           <div class="letter-display hidden">
-            Freigeschalteter Buchstabe:
+            Freigeschaltetes Zeichen:
             <span class="letter-badge">3</span>
           </div>
         </div>
+
+        <div class="question-row" data-solution="2" data-letter="y">
+          <p><strong>Frage 2 (Platzhalter):</strong> Hier kommt später deine zweite Quizfrage hin.</p>
+          <label>Antwort</label>
+          <input type="text" autocomplete="off" />
+          <button class="quiz-button">Prüfen</button>
+          <div class="message"></div>
+          <div class="letter-display hidden">
+            Freigeschaltetes Zeichen:
+            <span class="letter-badge">y</span>
+          </div>
+        </div>
+
+        <div class="question-row" data-solution="3" data-letter="?">
+          <p><strong>Frage 3 (Platzhalter):</strong> Hier kommt später deine dritte Quizfrage hin.</p>
+          <label>Antwort</label>
+          <input type="text" autocomplete="off" />
+          <button class="quiz-button">Prüfen</button>
+          <div class="message"></div>
+          <div class="letter-display hidden">
+            Freigeschaltetes Zeichen:
+            <span class="letter-badge">?</span>
+          </div>
+        </div>
+
+        <div class="question-row" data-solution="4" data-letter="2">
+          <p><strong>Frage 4 (Platzhalter):</strong> Hier kommt später deine vierte Quizfrage hin.</p>
+          <label>Antwort</label>
+          <input type="text" autocomplete="off" />
+          <button class="quiz-button">Prüfen</button>
+          <div class="message"></div>
+          <div class="letter-display hidden">
+            Freigeschaltetes Zeichen:
+            <span class="letter-badge">2</span>
+          </div>
+        </div>
+
+        <div class="question-row" data-solution="5" data-letter="i">
+          <p><strong>Frage 5 (Platzhalter):</strong> Hier kommt später deine fünfte Quizfrage hin.</p>
+          <label>Antwort</label>
+          <input type="text" autocomplete="off" />
+          <button class="quiz-button">Prüfen</button>
+          <div class="message"></div>
+          <div class="letter-display hidden">
+            Freigeschaltetes Zeichen:
+            <span class="letter-badge">i</span>
+          </div>
+        </div>
+
+        <div class="question-row" data-solution="6" data-letter="t">
+          <p><strong>Frage 6 (Platzhalter):</strong> Hier kommt später deine sechste Quizfrage hin.</p>
+          <label>Antwort</label>
+          <input type="text" autocomplete="off" />
+          <button class="quiz-button">Prüfen</button>
+          <div class="message"></div>
+          <div class="letter-display hidden">
+            Freigeschaltetes Zeichen:
+            <span class="letter-badge">t</span>
+          </div>
+        </div>
+
+        <div class="question-row" data-solution="7" data-letter="e">
+          <p><strong>Frage 7 (Platzhalter):</strong> Hier kommt später deine siebte Quizfrage hin.</p>
+          <label>Antwort</label>
+          <input type="text" autocomplete="off" />
+          <button class="quiz-button">Prüfen</button>
+          <div class="message"></div>
+          <div class="letter-display hidden">
+            Freigeschaltetes Zeichen:
+            <span class="letter-badge">e</span>
+          </div>
+        </div>
+
+        <div class="question-row" data-solution="8" data-letter="d">
+          <p><strong>Frage 8 (Platzhalter):</strong> Hier kommt später deine achte Quizfrage hin.</p>
+          <label>Antwort</label>
+          <input type="text" autocomplete="off" />
+          <button class="quiz-button">Prüfen</button>
+          <div class="message"></div>
+          <div class="letter-display hidden">
+            Freigeschaltetes Zeichen:
+            <span class="letter-badge">d</span>
+          </div>
+        </div>
+
+        <div class="message" id="quiz-summary"></div>
       </div>
 
       <!-- Rätsel 2 -->
       <div
         class="card puzzle-card hidden"
         data-index="1"
-        data-solution="B"
-        data-letter="e"
+        data-type="single"
+        data-solution="R2"
+        data-letters="rnch"
       >
         <div class="card-header">
           <span class="badge">Rätsel 2</span>
           <h2>Platzhalter-Rätsel 2</h2>
         </div>
         <p>
-          Hier kannst du später z.B. ein kleines Auto- oder Audi/Porsche-Rätsel
-          einbauen.
+          Hier kannst du später z.B. ein Auto-/Audi-/Porsche-Rätsel einbauen.
           <br />
-          <strong>Zum Testen:</strong> Gib den Buchstaben
-          <strong>B</strong> ein.
+          <strong>Zum Testen:</strong> Gib als Antwort <strong>R2</strong> ein.
         </p>
         <div class="input-row">
-          <label for="riddle-2-input">Antwort</label>
-          <input id="riddle-2-input" type="text" autocomplete="off" />
+          <label>Antwort</label>
+          <input type="text" autocomplete="off" />
           <button class="puzzle-button">Prüfen</button>
           <div class="message"></div>
-          <div class="letter-display hidden">
-            Freigeschalteter Buchstabe:
-            <span class="letter-badge">e</span>
-          </div>
+          <div class="letter-display hidden"></div>
         </div>
       </div>
 
@@ -446,29 +537,25 @@
       <div
         class="card puzzle-card hidden"
         data-index="2"
-        data-solution="C"
-        data-letter="r"
+        data-type="single"
+        data-solution="R3"
+        data-letters="k05W"
       >
         <div class="card-header">
           <span class="badge">Rätsel 3</span>
           <h2>Platzhalter-Rätsel 3</h2>
         </div>
         <p>
-          Hier könnte später ein 3er-YK-Insider-Rätsel stehen
-          (z.B. ein Spruch oder etwas aus eurer Gruppe).
+          Hier könnte später ein 3er-YK-Insider-Rätsel oder ein Meme-Rätsel hinkommen.
           <br />
-          <strong>Zum Testen:</strong> Gib den Buchstaben
-          <strong>C</strong> ein.
+          <strong>Zum Testen:</strong> Gib als Antwort <strong>R3</strong> ein.
         </p>
         <div class="input-row">
-          <label for="riddle-3-input">Antwort</label>
-          <input id="riddle-3-input" type="text" autocomplete="off" />
+          <label>Antwort</label>
+          <input type="text" autocomplete="off" />
           <button class="puzzle-button">Prüfen</button>
           <div class="message"></div>
-          <div class="letter-display hidden">
-            Freigeschalteter Buchstabe:
-            <span class="letter-badge">r</span>
-          </div>
+          <div class="letter-display hidden"></div>
         </div>
       </div>
 
@@ -476,28 +563,25 @@
       <div
         class="card puzzle-card hidden"
         data-index="3"
-        data-solution="D"
-        data-letter="y"
+        data-type="single"
+        data-solution="R4"
+        data-letters="ehas"
       >
         <div class="card-header">
           <span class="badge">Rätsel 4</span>
           <h2>Platzhalter-Rätsel 4</h2>
         </div>
         <p>
-          Vielleicht später ein kleines Logik-, Emoji- oder Bilderrätsel.
+          Hier kannst du z.B. ein kleines Logik-/Emoji- oder Bilderrätsel einbauen.
           <br />
-          <strong>Zum Testen:</strong> Gib den Buchstaben
-          <strong>D</strong> ein.
+          <strong>Zum Testen:</strong> Gib als Antwort <strong>R4</strong> ein.
         </p>
         <div class="input-row">
-          <label for="riddle-4-input">Antwort</label>
-          <input id="riddle-4-input" type="text" autocomplete="off" />
+          <label>Antwort</label>
+          <input type="text" autocomplete="off" />
           <button class="puzzle-button">Prüfen</button>
           <div class="message"></div>
-          <div class="letter-display hidden">
-            Freigeschalteter Buchstabe:
-            <span class="letter-badge">y</span>
-          </div>
+          <div class="letter-display hidden"></div>
         </div>
       </div>
 
@@ -505,38 +589,36 @@
       <div
         class="card puzzle-card hidden"
         data-index="4"
-        data-solution="E"
-        data-letter="k"
+        data-type="single"
+        data-solution="R5"
+        data-letters="eiti"
       >
         <div class="card-header">
           <span class="badge">Rätsel 5</span>
           <h2>Platzhalter-Rätsel 5</h2>
         </div>
         <p>
-          Hier könntest du später ein persönliches Rätsel zu einem gemeinsamen
-          Moment oder einer Erinnerung einbauen.
+          Hier könnte ein Rätsel zu einer gemeinsamen Erinnerung oder einem
+          bestimmten Datum hin.
           <br />
-          <strong>Zum Testen:</strong> Gib den Buchstaben
-          <strong>E</strong> ein.
+          <strong>Zum Testen:</strong> Gib als Antwort <strong>R5</strong> ein.
         </p>
         <div class="input-row">
-          <label for="riddle-5-input">Antwort</label>
-          <input id="riddle-5-input" type="text" autocomplete="off" />
+          <label>Antwort</label>
+          <input type="text" autocomplete="off" />
           <button class="puzzle-button">Prüfen</button>
           <div class="message"></div>
-          <div class="letter-display hidden">
-            Freigeschalteter Buchstabe:
-            <span class="letter-badge">k</span>
-          </div>
+          <div class="letter-display hidden"></div>
         </div>
       </div>
 
-      <!-- Rätsel 6 – Spotify Platzhalter -->
+      <!-- Rätsel 6 – Spotify -->
       <div
         class="card puzzle-card hidden"
         data-index="5"
-        data-solution="S"
-        data-letter="?"
+        data-type="single"
+        data-solution="SPOTIFY"
+        data-letters="2on"
       >
         <div class="card-header">
           <span class="badge">Rätsel 6</span>
@@ -544,20 +626,16 @@
         </div>
         <p>
           Hier planst du später dein echtes Spotify-Rätsel mit Songcode,
-          aus dem sie einen Buchstaben herausfinden müssen.
+          aus dem sie bestimmte Zeichen herausfinden müssen.
           <br />
-          <strong>Zum Testen:</strong> Gib den Buchstaben
-          <strong>S</strong> ein.
+          <strong>Zum Testen:</strong> Gib als Antwort <strong>SPOTIFY</strong> ein.
         </p>
         <div class="input-row">
-          <label for="riddle-6-input">Antwort</label>
-          <input id="riddle-6-input" type="text" autocomplete="off" />
+          <label>Antwort</label>
+          <input type="text" autocomplete="off" />
           <button class="puzzle-button">Prüfen</button>
           <div class="message"></div>
-          <div class="letter-display hidden">
-            Freigeschalteter Buchstabe:
-            <span class="letter-badge">?</span>
-          </div>
+          <div class="letter-display hidden"></div>
         </div>
       </div>
     </div>
@@ -569,9 +647,9 @@
         <h2>Gebt das komplette Lösungswort ein</h2>
       </div>
       <p>
-        Ihr habt jetzt alle 6 Buchstaben gesammelt. Daraus (und aus dem,
-        was euch vorbereitet wurde) ergibt sich das geheime Lösungswort:
-        Gebt es hier ein, um die letzte Überraschung freizuschalten.
+        Ihr habt jetzt alle Zeichen gesammelt. Daraus ergibt sich ein langes,
+        ziemlich spezifisches Wort. Gebt es hier ein, um die letzte Überraschung
+        freizuschalten.
       </p>
       <div class="input-row">
         <label for="final-input">Lösungswort</label>
@@ -583,10 +661,6 @@
         />
         <button id="final-button">Prüfen</button>
         <div class="message" id="final-message"></div>
-      </div>
-      <div class="letter-display final-note">
-        Gesuchtes Wort (für dich zur Kontrolle):<br />
-        <span class="final-word">3eryk?2025Weihnachtsedition</span>
       </div>
 
       <div id="final-video-wrapper" class="hidden" style="margin-top: 16px;">
@@ -605,14 +679,13 @@
   </div>
 
   <script>
-    // Rätsel-Logik
     const SECRET_FINAL_WORD = "3eryk?2025Weihnachtsedition";
 
     const puzzleCards = Array.from(
       document.querySelectorAll(".puzzle-card")
     );
-    const lettersProgress = document.getElementById("letters-progress")
-      .children;
+    const lettersProgressSpans =
+      document.getElementById("letters-progress").children;
     const finalCard = document.getElementById("final-card");
     const finalInput = document.getElementById("final-input");
     const finalButton = document.getElementById("final-button");
@@ -620,33 +693,39 @@
     const finalVideoWrapper = document.getElementById("final-video-wrapper");
     const finalVideo = document.getElementById("final-video");
 
-    let solvedCount = 0;
+    let nextLetterIndex = 0;
 
-    // Hilfsfunktion: nächstes Rätsel anzeigen
-    function showNextPuzzle(index) {
-      const next = puzzleCards[index + 1];
+    function addLetterToProgress(ch) {
+      if (nextLetterIndex >= lettersProgressSpans.length) return;
+      const span = lettersProgressSpans[nextLetterIndex];
+      span.textContent = ch;
+      span.classList.add("filled");
+      nextLetterIndex++;
+    }
+
+    function showNextPuzzleByIndex(idx) {
+      const next = puzzleCards[idx + 1];
       if (next) {
         next.classList.remove("hidden");
       } else {
-        // Alle 6 gelöst -> Finale freischalten
         finalCard.classList.remove("hidden");
       }
     }
 
-    // alle Rätsel initial einrichten
-    puzzleCards.forEach((card, idx) => {
-      const input = card.querySelector("input[type='text']");
-      const button = card.querySelector(".puzzle-button");
-      const msg = card.querySelector(".message");
-      const letterBox = card.querySelector(".letter-display");
-      const letterBadge = card.querySelector(".letter-badge");
-      const solution = (card.dataset.solution || "").toLowerCase();
-      const letter = card.dataset.letter || "?";
+    // Rätsel 1 – Quiz
+    const quizCard = puzzleCards[0];
+    const quizRows = quizCard.querySelectorAll(".question-row");
+    const quizSummary = document.getElementById("quiz-summary");
+    let quizSolvedCount = 0;
 
-      // erster Rätsel-Block sichtbar, Rest standardmäßig hidden (per HTML)
-      if (idx > 0 && card.classList.contains("hidden")) {
-        // nichts extra nötig
-      }
+    quizRows.forEach((row) => {
+      const input = row.querySelector("input");
+      const button = row.querySelector("button");
+      const msg = row.querySelector(".message");
+      const letterBox = row.querySelector(".letter-display");
+      const letterBadge = row.querySelector(".letter-badge");
+      const solution = (row.dataset.solution || "").toLowerCase();
+      const letter = row.dataset.letter || "?";
 
       button.addEventListener("click", () => {
         playClick();
@@ -659,29 +738,36 @@
         }
 
         if (val === solution) {
-          // bereits gelöst?
-          if (!card.dataset.solved) {
-            card.dataset.solved = "true";
-            solvedCount += 1;
-
-            // Buchstabe anzeigen
-            letterBox.classList.remove("hidden");
-
-            // Fortschritt updaten
-            if (idx < lettersProgress.length) {
-              lettersProgress[idx].textContent = letter;
-              lettersProgress[idx].classList.add("filled");
-            }
-
-            // nächstes Rätsel anzeigen oder Finale
-            showNextPuzzle(idx);
+          if (row.dataset.solved === "true") {
+            msg.textContent = "Diese Frage wurde schon gelöst. ✅";
+            msg.className = "message success";
+            return;
           }
+          row.dataset.solved = "true";
+          quizSolvedCount++;
 
-          msg.textContent = "Korrekt! Dieses Rätsel ist gelöst. ✅";
+          msg.textContent = "Korrekt!";
           msg.className = "message success";
-          playSuccess();
+          letterBox.classList.remove("hidden");
+          letterBadge.textContent = letter;
+          addLetterToProgress(letter);
           input.disabled = true;
           button.disabled = true;
+          playSuccess();
+
+          if (quizSolvedCount === quizRows.length) {
+            quizSummary.textContent =
+              "Alle 8 Fragen gelöst! Das nächste Rätsel wurde freigeschaltet. 🎉";
+            quizSummary.className = "message success";
+            showNextPuzzleByIndex(0);
+          } else {
+            quizSummary.textContent =
+              quizSolvedCount +
+              " von " +
+              quizRows.length +
+              " Fragen gelöst.";
+            quizSummary.className = "message success";
+          }
         } else {
           msg.textContent = "Nicht ganz. Versuch es noch einmal. ❌";
           msg.className = "message error";
@@ -695,6 +781,75 @@
         }
       });
     });
+
+    // Rätsel 2–6 – Single-Input-Rätsel
+    for (let i = 1; i < puzzleCards.length; i++) {
+      const card = puzzleCards[i];
+      const type = card.dataset.type || "single";
+      if (type !== "single") continue;
+
+      const index = parseInt(card.dataset.index, 10);
+      const input = card.querySelector("input[type='text']");
+      const button = card.querySelector(".puzzle-button");
+      const msg = card.querySelector(".message");
+      const letterBox = card.querySelector(".letter-display");
+      const solution = (card.dataset.solution || "").toLowerCase();
+      const lettersStr = card.dataset.letters || "";
+      const lettersArr = lettersStr.split("");
+
+      button.addEventListener("click", () => {
+        playClick();
+        const val = (input.value || "").trim().toLowerCase();
+        if (!val) {
+          msg.textContent = "Gib zuerst eine Antwort ein.";
+          msg.className = "message error";
+          playError();
+          return;
+        }
+
+        if (val === solution) {
+          if (card.dataset.solved === "true") {
+            msg.textContent = "Dieses Rätsel wurde schon gelöst. ✅";
+            msg.className = "message success";
+            return;
+          }
+          card.dataset.solved = "true";
+
+          msg.textContent = "Korrekt! Dieses Rätsel ist gelöst. ✅";
+          msg.className = "message success";
+          input.disabled = true;
+          button.disabled = true;
+          playSuccess();
+
+          // Zeichen anzeigen
+          if (lettersArr.length > 0) {
+            let html = "Freigeschaltete Zeichen:";
+            lettersArr.forEach((l) => {
+              html +=
+                ' <span class="letter-badge">' +
+                l +
+                "</span>";
+              addLetterToProgress(l);
+            });
+            letterBox.innerHTML = html;
+            letterBox.classList.remove("hidden");
+          }
+
+          showNextPuzzleByIndex(index);
+        } else {
+          msg.textContent =
+            "Das ist noch nicht richtig. Denk noch einmal nach. ❌";
+          msg.className = "message error";
+          playError();
+        }
+      });
+
+      input.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter") {
+          button.click();
+        }
+      });
+    }
 
     // Finale Eingabe
     finalButton.addEventListener("click", () => {
@@ -715,11 +870,11 @@
         playSuccess();
 
         // Hier später dein echtes YouTube-Embed eintragen:
-        // z.B. finalVideo.src = "https://www.youtube.com/embed/DEIN_VIDEO_ID";
+        // finalVideo.src = "https://www.youtube.com/embed/DEIN_VIDEO_ID";
         finalVideoWrapper.classList.remove("hidden");
       } else {
         finalMessage.textContent =
-          "Das ist noch nicht ganz richtig. Denkt noch einmal über alle Hinweise nach. 🧩";
+          "Das ist noch nicht ganz richtig. Schaut euch alle Zeichen und Hinweise nochmal in Ruhe an. 🧩";
         finalMessage.className = "message error";
         playError();
       }
