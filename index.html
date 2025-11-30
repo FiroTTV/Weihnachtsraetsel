@@ -29,6 +29,7 @@
       overflow-x: hidden;
     }
 
+    /* Schneefall */
     .snowflake {
       position: fixed;
       top: -10px;
@@ -56,6 +57,7 @@
       font-size: clamp(1.8rem, 3vw, 2.4rem);
     }
 
+    /* Countdown */
     #countdown {
       margin-top: 16px;
       font-size: 2.2rem;
@@ -71,6 +73,7 @@
       100% { transform: scale(1); opacity: 0.9; }
     }
 
+    /* Cards */
     .card {
       background: var(--card-bg);
       border-radius: 16px;
@@ -103,6 +106,7 @@
       background: #020617;
     }
 
+    /* Fortschritt */
     .letters-progress {
       display: flex;
       flex-wrap: wrap;
@@ -122,12 +126,77 @@
     }
 
     .hidden { display: none; }
+
+    /* Eingabezeilen */
+    .input-row {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .input-row input {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      font-size: 1rem;
+    }
+
+    /* Moderne Buttons */
+    button,
+    .quiz-button,
+    .puzzle-button,
+    #final-button {
+      padding: 7px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(90deg, #3b82f6, #a855f7);
+      transition: 0.2s;
+      font-size: 0.9rem;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+    }
+
+    button:hover,
+    .quiz-button:hover,
+    .puzzle-button:hover,
+    #final-button:hover {
+      transform: scale(1.04);
+      box-shadow: 0 4px 18px rgba(56, 189, 248, 0.5);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .message {
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+    .success { color: var(--success); }
+    .error { color: var(--error); }
+
+    .letter-badge {
+      padding: 2px 6px;
+      background: rgba(56, 189, 248, 0.2);
+      border-radius: 6px;
+      border: 1px solid rgba(56,189,248,0.4);
+      font-weight: 700;
+    }
   </style>
 </head>
 <body>
 
+<!-- Schneefall Script -->
 <script>
-  // Schneefall
   function createSnowflake() {
     const s=document.createElement("div");
     s.className="snowflake";
@@ -140,10 +209,18 @@
     setTimeout(()=>s.remove(),11000);
   }
   setInterval(createSnowflake,200);
+</script>
 
-  // SOUND
+<!-- Sounds -->
+<script>
   let audioCtx=null;
-  function getAudioCtx(){ if(!audioCtx){ const C=window.AudioContext||window.webkitAudioContext; if(C) audioCtx=new C(); } return audioCtx; }
+  function getAudioCtx(){
+    if(!audioCtx){
+      const C=window.AudioContext||window.webkitAudioContext;
+      if(C) audioCtx=new C();
+    }
+    return audioCtx;
+  }
   function playTone(f,d,t="sine",v=0.12){
     const c=getAudioCtx(); if(!c) return;
     const o=c.createOscillator(), g=c.createGain();
@@ -157,8 +234,10 @@
   const playClick=()=>playTone(650,0.07,"triangle",0.1);
   const playSuccess=()=>{ playTone(880,0.1); setTimeout(()=>playTone(1040,0.1),90); }
   const playError=()=>playTone(220,0.14,"square",0.12);
+</script>
 
-  // GLOBALER SPEICHER
+<script>
+  /* Globaler Speicher */
   let progress = {
     solvedQuiz: [],
     solvedPuzzles: {},
@@ -166,7 +245,9 @@
     final: false
   };
 
-  function saveProgress(){ localStorage.setItem("XMASRIDDLE_GLOBAL", JSON.stringify(progress)); }
+  function saveProgress(){
+    localStorage.setItem("XMASRIDDLE_GLOBAL", JSON.stringify(progress));
+  }
 
   function loadProgress(){
     const raw = localStorage.getItem("XMASRIDDLE_GLOBAL");
@@ -188,7 +269,7 @@
     <p>Sammelt Zeichen & knackt das Lösungswort!</p>
   </div>
 
-  <!-- INTRO -->
+  <!-- Intro -->
   <div class="card">
     <div class="card-header">
       <span class="badge">Intro</span>
@@ -198,7 +279,7 @@
     <iframe id="intro-video" src=""></iframe>
   </div>
 
-  <!-- FORTSCHRITT -->
+  <!-- Fortschritt -->
   <div class="card">
     <div class="card-header">
       <span class="badge">Fortschritt</span>
@@ -206,6 +287,7 @@
     </div>
 
     <div class="letters-progress" id="letters-progress">
+      <!-- 27 Zeichen -->
       <span>_</span><span>_</span><span>_</span><span>_</span>
       <span>_</span><span>_</span><span>_</span><span>_</span>
       <span>_</span><span>_</span><span>_</span><span>_</span>
@@ -216,8 +298,8 @@
     </div>
   </div>
 
-  <!-- RÄTSEL 1 – QUIZ -->
-  <div class="card puzzle-card" data-index="0" data-type="quiz">
+  <!-- Rätsel 1 – Quiz -->
+  <div class="card puzzle-card" data-index="0">
     <div class="card-header">
       <span class="badge">Rätsel 1</span>
       <h2>Quiz – 8 Fragen</h2>
@@ -225,6 +307,7 @@
 
     <p>Antworten: 1–8</p>
 
+    <!-- 1 → 3 -->
     <div class="question-row" data-solution="1" data-letter="3">
       <p><strong>Frage 1:</strong> Platzhalter</p>
       <label>Antwort</label>
@@ -233,6 +316,7 @@
       <div class="letter-display hidden">Zeichen: <span class="letter-badge">3</span></div>
     </div>
 
+    <!-- 2 → y -->
     <div class="question-row" data-solution="2" data-letter="y">
       <p><strong>Frage 2:</strong> Platzhalter</p>
       <label>Antwort</label>
@@ -241,6 +325,7 @@
       <div class="letter-display hidden">Zeichen: <span class="letter-badge">y</span></div>
     </div>
 
+    <!-- usw. -->
     <div class="question-row" data-solution="3" data-letter="?">
       <p><strong>Frage 3:</strong> Platzhalter</p>
       <label>Antwort</label>
@@ -292,7 +377,7 @@
     <div id="quiz-summary" class="message"></div>
   </div>
 
-  <!-- RÄTSEL 2 -->
+  <!-- Rätsel 2 -->
   <div class="card puzzle-card hidden"
        data-index="1"
        data-type="single"
@@ -314,7 +399,8 @@
     </div>
 
   </div>
-  <!-- RÄTSEL 3 -->
+
+  <!-- Rätsel 3 -->
   <div class="card puzzle-card hidden"
        data-index="2"
        data-type="single"
@@ -337,7 +423,7 @@
 
   </div>
 
-  <!-- RÄTSEL 4 -->
+  <!-- Rätsel 4 -->
   <div class="card puzzle-card hidden"
        data-index="3"
        data-type="single"
@@ -360,7 +446,7 @@
 
   </div>
 
-  <!-- RÄTSEL 5 -->
+  <!-- Rätsel 5 -->
   <div class="card puzzle-card hidden"
        data-index="4"
        data-type="single"
@@ -383,7 +469,7 @@
 
   </div>
 
-  <!-- RÄTSEL 6 – SPOTIFY -->
+  <!-- Rätsel 6 – Spotify -->
   <div class="card puzzle-card hidden"
        data-index="5"
        data-type="single"
@@ -392,13 +478,10 @@
 
     <div class="card-header">
       <span class="badge">Rätsel 6</span>
-      <h2>Spotify-Rätsel (Platzhalter)</h2>
+      <h2>Spotify-Rätsel</h2>
     </div>
 
-    <p>
-      Hier kommt später dein echtes Spotify-Rätsel hin.<br>
-      Testlösung: <code>SPOTIFY</code>
-    </p>
+    <p>Testlösung: <code>SPOTIFY</code></p>
 
     <div class="input-row">
       <label>Antwort</label>
@@ -408,26 +491,25 @@
     </div>
 
   </div>
-  <!-- FINALE EINGABE -->
+
+  <!-- Finale -->
   <div class="card hidden" id="final-card">
     <div class="card-header">
       <span class="badge">Finale</span>
-      <h2>Gebt das komplette Lösungswort ein</h2>
+      <h2>Komplettes Lösungswort eingeben</h2>
     </div>
 
-    <p>
-      Ihr habt alle Zeichen gesammelt. Jetzt müsst ihr das komplette Lösungswort eingeben.
-    </p>
+    <p>Jetzt müsst ihr nur noch das Endwort eingeben.</p>
 
     <div class="input-row">
       <label for="final-input">Lösungswort</label>
-      <input id="final-input" type="text" autocomplete="off" placeholder="komplettes Lösungswort eingeben">
+      <input id="final-input" type="text" placeholder="komplettes Lösungswort">
       <button id="final-button">Prüfen</button>
       <div class="message" id="final-message"></div>
     </div>
 
     <div id="final-video-wrapper" class="hidden" style="margin-top:16px;">
-      <p>Glückwunsch! 🎉 Hier ist eure finale Botschaft:</p>
+      <p>Glückwunsch! 🎉</p>
       <iframe id="final-video" src="" allowfullscreen></iframe>
     </div>
   </div>
@@ -454,7 +536,7 @@
   let nextLetterIndex = 0;
   let quizSolvedCount = 0;
 
-  // Countdown
+  /* Countdown */
   document.addEventListener("DOMContentLoaded", () => {
     const target = new Date("December 28, 2025 20:00:00").getTime();
     const cdEl = document.getElementById("countdown");
@@ -494,7 +576,7 @@
     else finalCard.classList.remove("hidden");
   }
 
-  // QUIZ-LOGIK
+  /* Quiz */
   quizRows.forEach(row => {
     const input = row.querySelector("input");
     const btn = row.querySelector("button");
@@ -564,7 +646,7 @@
     });
   });
 
-  // RÄTSEL 2–6
+  /* Rätsel 2–6 */
   for (let i = 1; i < puzzleCards.length; i++) {
     const card = puzzleCards[i];
     const idx = card.dataset.index;
@@ -628,7 +710,7 @@
     });
   }
 
-  // FINALE
+  /* Finale */
   finalButton.addEventListener("click", () => {
     playClick();
     const v = (finalInput.value || "").trim();
@@ -649,7 +731,7 @@
       progress.final = true;
       saveProgress();
 
-      // später: finalVideo.src = "https://www.youtube.com/embed/DEINVIDEO";
+      // finalVideo.src = "https://www.youtube.com/embed/DEINVIDEO";
     } else {
       finalMessage.textContent = "Falsch.";
       finalMessage.className = "message error";
@@ -661,21 +743,19 @@
     if (e.key === "Enter") finalButton.click();
   });
 
-  // RESTORE VOM SPEICHER
+
+  /* Restore */
   function restoreProgress() {
-    // Reset
     nextLetterIndex = 0;
     for (let span of lettersSpans) {
       span.textContent = "_";
       span.classList.remove("filled");
     }
 
-    // Letters laden
-    if (!Array.isArray(progress.letters)) progress.letters = [];
+    progress.letters ||= [];
     progress.letters.forEach(ch => addLetterToProgress(ch));
 
-    // Quiz laden
-    if (!Array.isArray(progress.solvedQuiz)) progress.solvedQuiz = [];
+    progress.solvedQuiz ||= [];
     quizSolvedCount = 0;
 
     quizRows.forEach(row => {
@@ -688,10 +768,8 @@
       if (progress.solvedQuiz.includes(qid)) {
         row.dataset.solved = "true";
         quizSolvedCount++;
-
         input.disabled = true;
         btn.disabled = true;
-
         msg.textContent = "Korrekt (geladen)";
         msg.className = "message success";
         disp.classList.remove("hidden");
@@ -710,24 +788,19 @@
       quizSummary.textContent = "Alle 8 Fragen gelöst! 🎉";
       quizSummary.className = "message success";
       puzzleCards[1].classList.remove("hidden");
-    } else if (quizSolvedCount > 0) {
-      quizSummary.textContent = `${quizSolvedCount} von 8 gelöst`;
-      quizSummary.className = "message success";
     }
 
-    // Rätsel 2–6 laden
-    if (!progress.solvedPuzzles) progress.solvedPuzzles = {};
-
+    progress.solvedPuzzles ||= {};
     let highest = 0;
 
     for (let i = 1; i < puzzleCards.length; i++) {
       const card = puzzleCards[i];
+      const solved = progress.solvedPuzzles[i];
       const input = card.querySelector("input");
       const btn = card.querySelector("button");
       const msg = card.querySelector(".message");
       const disp = card.querySelector(".letter-display");
       const letters = card.dataset.letters.split("");
-      const solved = progress.solvedPuzzles[i];
 
       if (solved) {
         card.classList.remove("hidden");
