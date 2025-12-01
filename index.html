@@ -102,18 +102,20 @@
     }
     .letters-progress span.filled { border-color: var(--accent); }
 
-    /* INPUT FIX */
+    /* INPUT DESIGN (mit box-sizing Fix) */
     input[type="text"], input[type="password"] {
-      width: 100%; padding: 10px 14px;
-      margin-top: 6px; font-size: 1rem;
+      width: 100%;
+      padding: 10px 14px;
+      margin-top: 6px;
+      font-size: 1rem;
       border-radius: 10px;
       border: 1px solid rgba(148,163,184,0.25);
       background: rgba(255,255,255,0.06);
-      color: #e5e7eb; outline: none;
+      color: #e5e7eb;
+      outline: none;
       transition: 0.25s ease;
       box-shadow: 0 0 0 rgba(56,189,248,0);
-
-      /* FIX: verhindert Überlaufen */
+      /* verhindert, dass Inputs über den Rand ragen */
       box-sizing: border-box;
     }
     input::placeholder { color: rgba(200,200,200,0.45); }
@@ -124,7 +126,6 @@
       background: rgba(255,255,255,0.10);
     }
 
-    /* Fragen */
     .question-row {
       background: rgba(255,255,255,0.03);
       padding: 14px 16px;
@@ -153,6 +154,7 @@
       color: white;
       background: linear-gradient(90deg, #3b82f6, #a855f7);
       transition: 0.2s; font-size: 0.95rem;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.3);
     }
     button:hover { transform: scale(1.04); }
 
@@ -172,7 +174,7 @@
       margin-right: auto;
     }
 
-    /* Next Unlock */
+    /* Next Unlock Box */
     #next-unlock-card { margin-top: 26px; }
     #next-unlock-countdown {
       margin-top: 8px;
@@ -185,37 +187,45 @@
 </head>
 <body>
 
+<!-- Schneefall -->
 <script>
 function createSnowflake() {
-  const s=document.createElement("div");
-  s.className="snowflake";
-  s.textContent="❄";
-  s.style.left=Math.random()*100+"vw";
-  s.style.fontSize=10+Math.random()*18+"px";
-  s.style.animationDuration=4+Math.random()*6+"s";
-  s.style.opacity=0.4+Math.random()*0.4;
+  const s = document.createElement("div");
+  s.className = "snowflake";
+  s.textContent = "❄";
+  s.style.left = Math.random()*100 + "vw";
+  s.style.fontSize = 10 + Math.random()*18 + "px";
+  s.style.animationDuration = 4 + Math.random()*6 + "s";
+  s.style.opacity = 0.4 + Math.random()*0.4;
   document.body.appendChild(s);
   setTimeout(()=>s.remove(),11000);
 }
 setInterval(createSnowflake,200);
 </script>
 
+<!-- Audio / Soundeffekte -->
 <script>
-let audioCtx=null;
-function getAudioCtx(){ if(!audioCtx){ const C=window.AudioContext||window.webkitAudioContext; if(C) audioCtx=new C(); } return audioCtx; }
+let audioCtx = null;
+function getAudioCtx(){
+  if(!audioCtx){
+    const C = window.AudioContext || window.webkitAudioContext;
+    if(C) audioCtx = new C();
+  }
+  return audioCtx;
+}
 function playTone(f,d,t="sine",v=0.12){
-  const c=getAudioCtx(); if(!c) return;
-  const o=c.createOscillator(), g=c.createGain();
-  o.type=t; o.frequency.value=f; g.gain.value=v;
+  const c = getAudioCtx(); if(!c) return;
+  const o = c.createOscillator(), g = c.createGain();
+  o.type = t; o.frequency.value = f; g.gain.value = v;
   o.connect(g); g.connect(c.destination);
-  const n=c.currentTime;
+  const n = c.currentTime;
   o.start(n); o.stop(n+d);
   g.gain.setValueAtTime(v,n);
   g.gain.linearRampToValueAtTime(0,n+d);
 }
-const playClick=()=>playTone(650,0.07,"triangle",0.1);
-const playSuccess=()=>{ playTone(880,0.1); setTimeout(()=>playTone(1040,0.1),90); }
-const playError=()=>playTone(220,0.14,"square",0.12);
+const playClick   = ()=>playTone(650,0.07,"triangle",0.1);
+const playSuccess = ()=>{ playTone(880,0.1); setTimeout(()=>playTone(1040,0.1),90); }
+const playError   = ()=>playTone(220,0.14,"square",0.12);
 </script>
 
 <div class="container">
@@ -235,7 +245,7 @@ const playError=()=>playTone(220,0.14,"square",0.12);
     <div id="admin-msg" class="message"></div>
   </div>
 
-  <!-- INTRO -->
+  <!-- INTRO VIDEO -->
   <div class="card">
     <div class="card-header">
       <span class="badge">Intro</span><h2>Willkommen!</h2>
@@ -246,136 +256,118 @@ const playError=()=>playTone(220,0.14,"square",0.12);
       allowfullscreen
     ></iframe>
   </div>
-  <!-- ZEICHENFORTSCHRITT -->
+  <!-- FORTSCHRITT -->
   <div class="card">
     <div class="card-header">
-      <span class="badge">Fortschritt</span><h2>Gesammelte Zeichen</h2>
+      <span class="badge">Fortschritt</span>
+      <h2>Gesammelte Zeichen</h2>
     </div>
+
     <div class="letters-progress" id="letters-progress">
-      <!-- 27 Zeichen-Slots -->
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span>
+      <!-- 27 Zeichen -->
+      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
+      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
+      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
+      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
+      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
+      <span>_</span><span>_</span>
     </div>
   </div>
 
   <!-- RÄTSEL 1 – QUIZ -->
-  <div class="card puzzle-card" data-index="0" id="puzzle1">
+  <div class="card puzzle-card hidden" id="puzzle-0">
     <div class="card-header">
-      <span class="badge">Rätsel 1</span>
-      <h2>Quiz – 8 Fragen</h2>
+      <span class="badge">Rätsel 1</span><h2>Quiz – 8 Fragen</h2>
     </div>
+
+    <p id="quiz-summary">0 von 8 gelöst</p>
 
     <!-- Frage 1 -->
-    <div class="question-row" data-solution="3" data-letter="3">
-      <p><strong>Frage 1:</strong> Aus wie vielen Alben besteht die Trilogie von TheWeeknd?</p>
-      <input type="text" placeholder="Zahl eingeben">
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">3</span></div>
-    </div>
-
-    <!-- Frage 2 (MC) -->
-    <div class="question-row" data-solution="25.09.2024" data-letter="y">
-      <p><strong>Frage 2:</strong> Wann war der erste Call in der Discord-Gruppe 3eryk?</p>
-
-      <label><input type="radio" name="q2" value="12.08.2024"> 12.08.2024</label><br>
-      <label><input type="radio" name="q2" value="25.09.2024"> 25.09.2024</label><br>
-      <label><input type="radio" name="q2" value="03.10.2024"> 03.10.2024</label><br>
-      <label><input type="radio" name="q2" value="18.09.2024"> 18.09.2024</label><br>
-
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">
-        Zeichen: <span class="letter-badge">y</span>
-      </div>
-    </div>
-
-    <!-- Frage 3 -->
-    <div class="question-row" data-solution="rot ist meine lieblings zahl im ganzen alphabet" data-letter="?">
-      <p><strong>Frage 3:</strong> Rot...?</p>
-      <input type="text" placeholder="ganzen Satz eingeben">
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">
-        Zeichen: <span class="letter-badge">?</span>
-      </div>
-    </div>
-
-    <!-- Frage 4 -->
-    <div class="question-row" data-solution="wann?" data-letter="2">
-      <p><strong>Frage 4:</strong> Frage...?</p>
+    <div class="question-row" data-solved="false" data-solution="3" data-letter="3">
+      <p>1. Aus wie vielen Alben besteht die Trilogie von TheWeeknd?</p>
       <input type="text" placeholder="Antwort eingeben">
       <button>Prüfen</button>
       <div class="message"></div>
-      <div class="letter-display hidden">
-        Zeichen: <span class="letter-badge">2</span>
-      </div>
+      <div class="letter-display hidden"></div>
+    </div>
+
+    <!-- Frage 2 -->
+    <div class="question-row" data-solved="false" data-solution="25.09.2024" data-letter="e">
+      <p>2. Wann war der erste Call in der Discord Gruppe 3eryk?</p>
+
+      <!-- Multiple Choice -->
+      <label><input type="radio" name="f2" value="10.08.2024"> 10.08.2024</label><br>
+      <label><input type="radio" name="f2" value="25.09.2024"> 25.09.2024</label><br>
+      <label><input type="radio" name="f2" value="01.10.2024"> 01.10.2024</label><br>
+
+      <button>Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden"></div>
+    </div>
+
+    <!-- Frage 3 -->
+    <div class="question-row" data-solved="false" data-solution="rot ist meine lieblings zahl im ganzen alphabet" data-letter="r">
+      <p>3. Rot....?</p>
+      <input type="text" placeholder="ganzen Satz eingeben">
+      <button>Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden"></div>
+    </div>
+
+    <!-- Frage 4 -->
+    <div class="question-row" data-solved="false" data-solution="wann" data-letter="y">
+      <p>4. Frage...?</p>
+      <input type="text" placeholder="Antwort eingeben">
+      <button>Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden"></div>
     </div>
 
     <!-- Frage 5 -->
-    <div class="question-row" data-solution="i" data-letter="i">
-      <p><strong>Frage 5:</strong> Rabsi, Manuel, Firo... Welche Endung ist die schönste?</p>
-      <input type="text" placeholder="Endung eingeben (z.B. i)">
+    <div class="question-row" data-solved="false" data-solution="i" data-letter="?">
+      <p>5. Rabsi, Manuel, Firo... Doch welche Endung ist die schönste?</p>
+      <input type="text" placeholder="Buchstabe eingeben">
       <button>Prüfen</button>
       <div class="message"></div>
-      <div class="letter-display hidden">
-        Zeichen: <span class="letter-badge">i</span>
-      </div>
+      <div class="letter-display hidden"></div>
     </div>
 
     <!-- Frage 6 -->
-    <div class="question-row" data-solution="t" data-letter="t">
-      <p><strong>Frage 6:</strong> Firo’s aktueller Lieblingsbuchstabe...?</p>
-      <input type="text" placeholder="Buchstabe">
+    <div class="question-row" data-solved="false" data-solution="t" data-letter="2">
+      <p>6. Firos aktueller Lieblingsbuchstabe...?</p>
+      <input type="text" placeholder="Buchstabe eingeben">
       <button>Prüfen</button>
       <div class="message"></div>
-      <div class="letter-display hidden">
-        Zeichen: <span class="letter-badge">t</span>
-      </div>
+      <div class="letter-display hidden"></div>
     </div>
 
     <!-- Frage 7 -->
-    <div class="question-row" data-solution="e" data-letter="e">
-      <p><strong>Frage 7:</strong> Welcher Buchstabe ist der verbreitetste in Namen?</p>
-      <input type="text" placeholder="Buchstabe">
+    <div class="question-row" data-solved="false" data-solution="e" data-letter="0">
+      <p>7. Firo findet Namen seit Neuem attraktiv... Doch welcher Buchstabe ist der weitverbreitetste in Namen?</p>
+      <input type="text" placeholder="Buchstabe eingeben">
       <button>Prüfen</button>
       <div class="message"></div>
-      <div class="letter-display hidden">
-        Zeichen: <span class="letter-badge">e</span>
-      </div>
+      <div class="letter-display hidden"></div>
     </div>
 
-    <!-- Frage 8 (MC) -->
-    <div class="question-row" data-solution="47" data-letter="d">
-      <p><strong>Frage 8:</strong> Wie viele Medien/Links/Docs wurden in der WhatsApp-Gruppe geteilt?</p>
+    <!-- Frage 8 -->
+    <div class="question-row" data-solved="false" data-solution="47" data-letter="2">
+      <p>8. Wie viele Medien, Links und Docs wurden in der 3eryk?-WhatsApp Gruppe schon geteilt?</p>
 
-      <label><input type="radio" name="q8" value="23"> 23</label><br>
-      <label><input type="radio" name="q8" value="69"> 69</label><br>
-      <label><input type="radio" name="q8" value="83"> 83</label><br>
-      <label><input type="radio" name="q8" value="47"> 47</label><br>
+      <label><input type="radio" name="f8" value="23"> 23</label><br>
+      <label><input type="radio" name="f8" value="69"> 69</label><br>
+      <label><input type="radio" name="f8" value="83"> 83</label><br>
+      <label><input type="radio" name="f8" value="47"> 47</label><br>
 
       <button>Prüfen</button>
       <div class="message"></div>
-      <div class="letter-display hidden">
-        Zeichen: <span class="letter-badge">d</span>
-      </div>
+      <div class="letter-display hidden"></div>
     </div>
-
-    <div id="quiz-summary" class="message"></div>
   </div>
 
   <!-- RÄTSEL 2 -->
-  <div class="card puzzle-card hidden" data-index="1" data-solution="R2" data-letters="rnch">
-    <div class="card-header">
-      <span class="badge">Rätsel 2</span>
-      <h2>Platzhalter Rätsel 2</h2>
-    </div>
-
+  <div class="card puzzle-card hidden" id="puzzle-1" data-solution="platzhalter" data-letters="k,n">
+    <div class="card-header"><span class="badge">Rätsel 2</span><h2>Rätsel Zwei</h2></div>
     <input type="text" placeholder="Antwort eingeben">
     <button>Prüfen</button>
     <div class="message"></div>
@@ -383,12 +375,8 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   </div>
 
   <!-- RÄTSEL 3 -->
-  <div class="card puzzle-card hidden" data-index="2" data-solution="R3" data-letters="k05W">
-    <div class="card-header">
-      <span class="badge">Rätsel 3</span>
-      <h2>Platzhalter Rätsel 3</h2>
-    </div>
-
+  <div class="card puzzle-card hidden" id="puzzle-2" data-solution="platzhalter" data-letters="5,W">
+    <div class="card-header"><span class="badge">Rätsel 3</span><h2>Rätsel Drei</h2></div>
     <input type="text" placeholder="Antwort eingeben">
     <button>Prüfen</button>
     <div class="message"></div>
@@ -396,12 +384,8 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   </div>
 
   <!-- RÄTSEL 4 -->
-  <div class="card puzzle-card hidden" data-index="3" data-solution="R4" data-letters="ehas">
-    <div class="card-header">
-      <span class="badge">Rätsel 4</span>
-      <h2>Platzhalter Rätsel 4</h2>
-    </div>
-
+  <div class="card puzzle-card hidden" id="puzzle-3" data-solution="platzhalter" data-letters="e,i">
+    <div class="card-header"><span class="badge">Rätsel 4</span><h2>Rätsel Vier</h2></div>
     <input type="text" placeholder="Antwort eingeben">
     <button>Prüfen</button>
     <div class="message"></div>
@@ -409,12 +393,8 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   </div>
 
   <!-- RÄTSEL 5 -->
-  <div class="card puzzle-card hidden" data-index="4" data-solution="R5" data-letters="eiti">
-    <div class="card-header">
-      <span class="badge">Rätsel 5</span>
-      <h2>Platzhalter Rätsel 5</h2>
-    </div>
-
+  <div class="card puzzle-card hidden" id="puzzle-4" data-solution="platzhalter" data-letters="h,n">
+    <div class="card-header"><span class="badge">Rätsel 5</span><h2>Rätsel Fünf</h2></div>
     <input type="text" placeholder="Antwort eingeben">
     <button>Prüfen</button>
     <div class="message"></div>
@@ -422,60 +402,54 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   </div>
 
   <!-- RÄTSEL 6 – SPOTIFY -->
-  <div class="card puzzle-card hidden" data-index="5" data-solution="sta" data-letters="sta">
-    <div class="card-header">
-      <span class="badge">Rätsel 6</span>
-      <h2>Spotify-Rätsel – São Paulo</h2>
-    </div>
+  <div class="card puzzle-card hidden" id="puzzle-5">
+    <div class="card-header"><span class="badge">Rätsel 6</span><h2>Spotify Rätsel</h2></div>
 
-    <p>Scanne den Spotify-Code → Song „São Paulo“ – The Weeknd.<br>
-       Trage die 3 gesuchten Buchstaben einzeln ein:</p>
+    <p>Füllt die drei Buchstaben aus (S - T - A)</p>
 
-    <div style="display:flex; gap:10px; margin-bottom:12px;">
-      <input id="sp1" maxlength="1" placeholder="S">
-      <input id="sp2" maxlength="1" placeholder="T">
-      <input id="sp3" maxlength="1" placeholder="A">
-    </div>
+    <input id="spotify-1" type="text" maxlength="1" placeholder="1. Buchstabe">
+    <input id="spotify-2" type="text" maxlength="1" placeholder="2. Buchstabe" style="margin-top:10px">
+    <input id="spotify-3" type="text" maxlength="1" placeholder="3. Buchstabe" style="margin-top:10px">
 
-    <button id="spotify-check">Prüfen</button>
+    <button id="spotify-check" style="margin-top:12px">Prüfen</button>
+
     <div id="spotify-msg" class="message"></div>
     <div id="spotify-letters" class="letter-display hidden"></div>
   </div>
 
-  <!-- FINALE -->
+  <!-- FINALES RÄTSEL -->
   <div class="card hidden" id="final-card">
-    <div class="card-header">
-      <span class="badge">Finale</span>
-      <h2>Gib das Lösungswort ein</h2>
-    </div>
+    <div class="card-header"><span class="badge">Finale</span><h2>Das große Lösungswort</h2></div>
 
-    <input id="final-input" placeholder="3eryk?2025Weihnachtsedition">
+    <p>Gib das vollständige Lösungswort ein:</p>
+    <input id="final-input" type="text" placeholder="3eryk?2025Weihnachtsedition">
     <button id="final-button">Prüfen</button>
+
     <div id="final-message" class="message"></div>
 
-    <div id="final-video-wrapper" class="hidden" style="margin-top:16px;">
-      <p>Glückwunsch! 🎉</p>
-      <iframe id="final-video" src="https://www.youtube.com/embed/TGvnbko2Jio" allowfullscreen></iframe>
+    <div id="final-video-wrapper" class="hidden" style="margin-top:18px;">
+      <iframe src="https://www.youtube.com/embed/TGvnbko2Jio" allowfullscreen></iframe>
     </div>
   </div>
 
-  <!-- KOMMENDE FREISCHALTUNG -->
+  <!-- NEXT UNLOCK BOX -->
   <div class="card" id="next-unlock-card">
     <div class="card-header">
       <span class="badge">Info</span>
       <h2>Nächstes Rätsel</h2>
     </div>
-    <p id="next-unlock-text">Lade...</p>
-    <div id="next-unlock-countdown"></div>
+
+    <div id="next-unlock-text">Lade…</div>
+    <div id="next-unlock-countdown">…</div>
   </div>
 
   <!-- RESET -->
-  <button id="reset-progress">🔄 Fortschritt zurücksetzen</button>
+  <button id="reset-progress">Fortschritt zurücksetzen</button>
 
-</div> <!-- END CONTAINER -->
+</div> <!-- Ende Container -->
 <script>
-/* -------- GLOBAL COUNTDOWN (keine 0-Einheiten) -------- */
-function formatTimeUnits(diff) {
+/* ---------------- TIMER FORMAT (ohne 0-Einheiten) ---------------- */
+function formatTimeUnits(diff){
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff % 86400000) / 3600000);
   const m = Math.floor((diff % 3600000) / 60000);
@@ -490,147 +464,135 @@ function formatTimeUnits(diff) {
   return parts.join(" ");
 }
 
+/* ---------------- GLOBAL COUNTDOWN ---------------- */
 function updateCountdown(){
   const target = new Date("December 28, 2025 20:00:00").getTime();
   const now = Date.now();
   const diff = target - now;
   const el = document.getElementById("countdown");
 
-  if (diff <= 0) {
+  if (diff <= 0){
     el.textContent = "Es ist so weit! 🎄";
     return;
   }
 
-  el.textContent = formatTimeUnits(diff);
+  const txt = formatTimeUnits(diff);
+  el.textContent = txt.length > 0 ? txt : "Wenige Sekunden…";
 }
-setInterval(updateCountdown, 1000);
-updateCountdown();
 
-/* -------- UNLOCK ZEITEN -------- */
-const unlockSchedule={
-  0:new Date("December 1, 2025 18:00:00").getTime(),
-  1:new Date("December 8, 2025 18:00:00").getTime(),
-  2:new Date("December 10, 2025 18:00:00").getTime(),
-  3:new Date("December 16, 2025 18:00:00").getTime(),
-  4:new Date("December 22, 2025 18:00:00").getTime(),
-  5:new Date("December 28, 2025 20:00:00").getTime()
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+/* ---------------- UNLOCK DATEN ---------------- */
+const unlockSchedule = {
+  0: new Date("December 1, 2025 18:00").getTime(),
+  1: new Date("December 8, 2025 18:00").getTime(),
+  2: new Date("December 10, 2025 18:00").getTime(),
+  3: new Date("December 16, 2025 18:00").getTime(),
+  4: new Date("December 22, 2025 18:00").getTime(),
+  5: new Date("December 28, 2025 20:00").getTime()
 };
 
-let ADMIN_MODE=false;
-const ADMIN_PASSWORD="SuperYK2025";
+let ADMIN_MODE = false;
+const ADMIN_PASSWORD = "SuperYK2025";
 
 function isUnlocked(i){
-  return ADMIN_MODE || Date.now()>=unlockSchedule[i];
+  return ADMIN_MODE || Date.now() >= unlockSchedule[i];
 }
 
-/* -------- PROGRESS SYSTEM -------- */
+/* ---------------- PROGRESS SYSTEM ---------------- */
 let progress = JSON.parse(localStorage.getItem("XMASRIDDLE_GLOBAL") || "{}");
-function saveProgress(){ localStorage.setItem("XMASRIDDLE_GLOBAL", JSON.stringify(progress)); }
 
-/* -------- BUCHSTABEN FORTSCHRITT -------- */
-const lettersSpans=document.getElementById("letters-progress").children;
-let nextLetterIndex=0;
+function saveProgress(){
+  localStorage.setItem("XMASRIDDLE_GLOBAL", JSON.stringify(progress));
+}
 
-function addLetter(ch){
-  if(nextLetterIndex<lettersSpans.length){
-    lettersSpans[nextLetterIndex].textContent=ch;
+/* ---------------- LETTER PROGRESS ---------------- */
+const lettersSpans = document.getElementById("letters-progress").children;
+let nextLetterIndex = 0;
+
+function addLetter(chr){
+  if(nextLetterIndex < lettersSpans.length){
+    lettersSpans[nextLetterIndex].textContent = chr;
     lettersSpans[nextLetterIndex].classList.add("filled");
     nextLetterIndex++;
   }
 }
 
-/* -------- QUIZ LOGIK -------- */
-const quizRows=document.querySelectorAll(".question-row");
-const quizSummary=document.getElementById("quiz-summary");
-let quizSolvedCount=0;
+/* ---------------- QUIZ ---------------- */
+const quizRows = document.querySelectorAll(".question-row");
+let quizSolvedCount = 0;
+const quizSummary = document.getElementById("quiz-summary");
 
-const playClick=()=>playTone(650,0.07,"triangle",0.1);
-const playSuccess=()=>{ playTone(880,0.1); setTimeout(()=>playTone(1040,0.1),90); }
-const playError=()=>playTone(220,0.14,"square",0.12);
-
-function getAudioCtx(){ 
-  if(!audioCtx){ 
-    const C=window.AudioContext||window.webkitAudioContext;
-    if(C) audioCtx=new C(); 
-  } 
-  return audioCtx; 
-}
-let audioCtx=null;
-function playTone(f,d,t="sine",v=0.12){
-  const c=getAudioCtx(); if(!c) return;
-  const o=c.createOscillator(), g=c.createGain();
-  o.type=t; o.frequency.value=f; g.gain.value=v;
-  o.connect(g); g.connect(c.destination);
-  const n=c.currentTime;
-  o.start(n); o.stop(n+d);
-  g.gain.setValueAtTime(v,n);
-  g.gain.linearRampToValueAtTime(0,n+d);
-}
-
-/* Jede Quiz-Frage */
 quizRows.forEach(row=>{
-  const input=row.querySelector("input[type=text]");
-  const radios=row.querySelectorAll("input[type=radio]");
-  const button=row.querySelector("button");
-  const msg=row.querySelector(".message");
-  const disp=row.querySelector(".letter-display");
+  const input = row.querySelector("input[type=text]");
+  const radios = row.querySelectorAll("input[type=radio]");
+  const btn = row.querySelector("button");
+  const msg = row.querySelector(".message");
+  const disp = row.querySelector(".letter-display");
 
-  const solution=row.dataset.solution.toLowerCase();
-  const letter=row.dataset.letter;
+  const solution = row.dataset.solution.toLowerCase();
+  const letter = row.dataset.letter;
 
-  button.addEventListener("click",()=>{
+  btn.addEventListener("click",()=>{
     playClick();
-    let answer="";
 
-    if(radios.length>0){
-      const r=[...radios].find(r=>r.checked);
-      if(r) answer=r.value.toLowerCase();
+    let answer = "";
+
+    if (radios.length > 0){
+      const r = [...radios].find(r=>r.checked);
+      if(r) answer = r.value.toLowerCase();
     } else if(input){
-      answer=input.value.toLowerCase().trim();
+      answer = input.value.toLowerCase().trim();
     }
 
     if(!answer){
-      msg.textContent="Bitte etwas eingeben.";
-      msg.className="message error";
+      msg.textContent = "Bitte etwas eingeben.";
+      msg.className = "message error";
       playError();
       return;
     }
 
-    if(answer===solution){
-      if(row.dataset.solved==="true"){
+    if(answer === solution){
+      if(row.dataset.solved === "true"){
         msg.textContent="Schon gelöst.";
         msg.className="message success";
         return;
       }
 
       row.dataset.solved="true";
-      if(input) input.disabled=true;
-      radios.forEach(r=>r.disabled=true);
-      button.disabled=true;
+      if(input) input.disabled = true;
+      radios.forEach(r=>r.disabled = true);
+      btn.disabled = true;
 
-      msg.textContent="Korrekt!";
-      msg.className="message success";
+      msg.textContent = "Korrekt!";
+      msg.className = "message success";
       playSuccess();
 
       disp.classList.remove("hidden");
+      disp.innerHTML = "Zeichen: <span class='letter-badge'>" + letter + "</span>";
+
       addLetter(letter);
 
       progress.letters ||= [];
       progress.letters.push(letter);
+
       progress.solvedQuiz ||= [];
       progress.solvedQuiz.push(solution);
-      saveProgress();
 
       quizSolvedCount++;
-      quizSummary.textContent=`${quizSolvedCount} von 8 gelöst`;
+      saveProgress();
 
-      if(quizSolvedCount===8){
-        quizSummary.textContent="Alle 8 Fragen gelöst! 🎉";
+      quizSummary.textContent = `${quizSolvedCount} von 8 gelöst`;
+
+      if(quizSolvedCount === 8){
+        quizSummary.textContent = "Alle 8 Fragen gelöst! 🎉";
         progress.solvedPuzzles ||= {};
-        progress.solvedPuzzles[0]=true;
+        progress.solvedPuzzles[0] = true;
         saveProgress();
         showNextPuzzle(0);
       }
+
     } else {
       msg.textContent="Falsch!";
       msg.className="message error";
@@ -639,27 +601,28 @@ quizRows.forEach(row=>{
   });
 });
 
-/* -------- RÄTSEL 2–5 -------- */
-const puzzleCards=document.querySelectorAll(".puzzle-card");
+/* ---------------- RÄTSEL 2–5 ---------------- */
+const puzzleCards = document.querySelectorAll(".puzzle-card");
 
 function showNextPuzzle(i){
-  const next=puzzleCards[i+1];
-  if(next && isUnlocked(i+1)) next.classList.remove("hidden");
-  if(i===4 && isUnlocked(5)) puzzleCards[5].classList.remove("hidden");
+  const next = puzzleCards[i+1];
+  if(next && isUnlocked(i+1)){
+    next.classList.remove("hidden");
+  }
 }
 
 for(let i=1;i<=4;i++){
-  const card=puzzleCards[i];
-  const input=card.querySelector("input");
-  const btn=card.querySelector("button");
-  const msg=card.querySelector(".message");
-  const disp=card.querySelector(".letter-display");
-  const solution=card.dataset.solution.toLowerCase();
-  const letters=card.dataset.letters.split("");
+  const card = puzzleCards[i];
+  const input = card.querySelector("input");
+  const btn = card.querySelector("button");
+  const msg = card.querySelector(".message");
+  const disp = card.querySelector(".letter-display");
+  const solution = card.dataset.solution.toLowerCase();
+  const letters = card.dataset.letters.split(",");
 
   btn.addEventListener("click",()=>{
     playClick();
-    const v=input.value.trim().toLowerCase();
+    const v = input.value.trim().toLowerCase();
 
     if(!v){
       msg.textContent="Bitte etwas eingeben.";
@@ -668,7 +631,7 @@ for(let i=1;i<=4;i++){
       return;
     }
 
-    if(v===solution){
+    if(v === solution){
       if(card.dataset.solved==="true"){
         msg.textContent="Schon gelöst.";
         msg.className="message success";
@@ -676,26 +639,30 @@ for(let i=1;i<=4;i++){
       }
 
       card.dataset.solved="true";
-      input.disabled=true;
-      btn.disabled=true;
+      input.disabled = true;
+      btn.disabled = true;
+
       msg.textContent="Korrekt!";
       msg.className="message success";
       playSuccess();
 
       disp.classList.remove("hidden");
-      let html="Zeichen: ";
+
+      let out = "Zeichen: ";
       letters.forEach(z=>{
-        html+=`<span class='letter-badge'>${z}</span> `;
+        out += `<span class="letter-badge">${z}</span> `;
         addLetter(z);
+
         progress.letters.push(z);
       });
-      disp.innerHTML=html;
+      disp.innerHTML = out;
 
       progress.solvedPuzzles ||= {};
-      progress.solvedPuzzles[i]=true;
-      saveProgress();
+      progress.solvedPuzzles[i] = true;
 
+      saveProgress();
       showNextPuzzle(i);
+
     } else {
       msg.textContent="Falsch!";
       msg.className="message error";
@@ -704,19 +671,19 @@ for(let i=1;i<=4;i++){
   });
 }
 
-/* -------- SPOTIFY-RÄTSEL -------- */
+/* ---------------- SPOTIFY RÄTSEL ---------------- */
 document.getElementById("spotify-check").addEventListener("click",()=>{
   playClick();
 
-  const a=sp1.value.toLowerCase();
-  const b=sp2.value.toLowerCase();
-  const c=sp3.value.toLowerCase();
+  const a = spotify-1.value.toLowerCase();
+  const b = spotify-2.value.toLowerCase();
+  const c = spotify-3.value.toLowerCase();
 
-  const msg=document.getElementById("spotify-msg");
-  const disp=document.getElementById("spotify-letters");
+  const msg = document.getElementById("spotify-msg");
+  const disp = document.getElementById("spotify-letters");
 
-  if(!a||!b||!c){
-    msg.textContent="Bitte alle 3 Felder ausfüllen!";
+  if(!a || !b || !c){
+    msg.textContent="Bitte alles ausfüllen.";
     msg.className="message error";
     playError();
     return;
@@ -727,22 +694,27 @@ document.getElementById("spotify-check").addEventListener("click",()=>{
     msg.className="message success";
     playSuccess();
 
-    sp1.disabled=sp2.disabled=sp3.disabled=true;
-    document.getElementById("spotify-check").disabled=true;
+    spotify-1.disabled = spotify-2.disabled = spotify-3.disabled = true;
+    document.getElementById("spotify-check").disabled = true;
 
-    disp.innerHTML=`Zeichen:
+    disp.classList.remove("hidden");
+    disp.innerHTML = `
+      Zeichen:
       <span class="letter-badge">s</span>
       <span class="letter-badge">t</span>
-      <span class="letter-badge">a</span>`;
-    disp.classList.remove("hidden");
+      <span class="letter-badge">a</span>
+    `;
+
+    progress.solvedPuzzles ||= {};
+    progress.solvedPuzzles[5] = true;
 
     progress.letters.push("s","t","a");
-    progress.solvedPuzzles ||= {};
-    progress.solvedPuzzles[5]=true;
     saveProgress();
 
-    addLetter("s"); addLetter("t"); addLetter("a");
-    showNextPuzzle(5);
+    addLetter("s");
+    addLetter("t");
+    addLetter("a");
+
   } else {
     msg.textContent="Falsch!";
     msg.className="message error";
@@ -750,13 +722,14 @@ document.getElementById("spotify-check").addEventListener("click",()=>{
   }
 });
 
-/* -------- FINALE -------- */
-const SECRET_FINAL_WORD="3eryk?2025Weihnachtsedition";
+/* ---------------- FINALE ---------------- */
+const SECRET_FINAL_WORD = "3eryk?2025Weihnachtsedition";
 
 document.getElementById("final-button").addEventListener("click",()=>{
   playClick();
-  const v=document.getElementById("final-input").value.trim();
-  const msg=document.getElementById("final-message");
+
+  const v = final-input.value.trim();
+  const msg = document.getElementById("final-message");
 
   if(!v){
     msg.textContent="Bitte etwas eingeben.";
@@ -765,13 +738,16 @@ document.getElementById("final-button").addEventListener("click",()=>{
     return;
   }
 
-  if(v.toLowerCase()===SECRET_FINAL_WORD.toLowerCase()){
+  if(v.toLowerCase() === SECRET_FINAL_WORD.toLowerCase()){
     msg.textContent="Richtig! 🎉";
     msg.className="message success";
     playSuccess();
+
     document.getElementById("final-video-wrapper").classList.remove("hidden");
-    progress.final=true;
+
+    progress.final = true;
     saveProgress();
+
   } else {
     msg.textContent="Falsch.";
     msg.className="message error";
@@ -779,14 +755,14 @@ document.getElementById("final-button").addEventListener("click",()=>{
   }
 });
 
-/* -------- ADMIN LOGIN -------- */
+/* ---------------- ADMIN LOGIN ---------------- */
 document.getElementById("admin-btn").addEventListener("click",()=>{
   playClick();
-  const pw=document.getElementById("admin-pass").value.trim();
-  const msg=document.getElementById("admin-msg");
+  const pw = admin-pass.value.trim();
+  const msg = document.getElementById("admin-msg");
 
-  if(pw===ADMIN_PASSWORD){
-    ADMIN_MODE=true;
+  if(pw === ADMIN_PASSWORD){
+    ADMIN_MODE = true;
     msg.textContent="Admin-Modus aktiviert!";
     msg.className="message success";
     updateVisibility();
@@ -797,92 +773,94 @@ document.getElementById("admin-btn").addEventListener("click",()=>{
   }
 });
 
-/* -------- RESET -------- */
+/* ---------------- RESET BUTTON ---------------- */
 document.getElementById("reset-progress").addEventListener("click",()=>{
   playClick();
-  if(confirm("Gesamten Fortschritt löschen?")){
+  if(confirm("Fortschritt wirklich zurücksetzen?")){
     localStorage.removeItem("XMASRIDDLE_GLOBAL");
     location.reload();
   }
 });
 
-/* -------- NÄCHSTES RÄTSEL TIMER (keine 0-Einheiten) -------- */
+/* ---------------- NEXT UNLOCK BOX ---------------- */
 function updateNextUnlockInfo(){
-  const card=document.getElementById("next-unlock-card");
-  const text=document.getElementById("next-unlock-text");
-  const cd=document.getElementById("next-unlock-countdown");
+  const card = document.getElementById("next-unlock-card");
+  const text = document.getElementById("next-unlock-text");
+  const cd = document.getElementById("next-unlock-countdown");
 
   if(ADMIN_MODE){
     card.style.display="none";
     return;
   }
 
-  const now=Date.now();
-  const locked=Object.keys(unlockSchedule)
+  const now = Date.now();
+  const locked = Object.keys(unlockSchedule)
     .map(n=>parseInt(n))
-    .filter(i=>now<unlockSchedule[i]);
+    .filter(i=>now < unlockSchedule[i]);
 
-  if(locked.length===0){
+  if(locked.length === 0){
     card.style.display="none";
     return;
   }
 
-  const nextIndex=Math.min(...locked);
-  const unlockTime=unlockSchedule[nextIndex];
-  const dateObj=new Date(unlockTime);
+  const nextIndex = Math.min(...locked);
+  const unlockTime = unlockSchedule[nextIndex];
 
-  const dateStr=dateObj.toLocaleString("de-DE",{
-    weekday:"long", day:"2-digit", month:"long", year:"numeric",
-    hour:"2-digit", minute:"2-digit"
+  const dateObj = new Date(unlockTime);
+  const dateStr = dateObj.toLocaleString("de-DE",{
+    weekday:"long", day:"2-digit", month:"long",
+    year:"numeric", hour:"2-digit", minute:"2-digit"
   });
 
-  text.innerHTML=`
+  text.innerHTML = `
     🔒 <strong>Nächstes Rätsel:</strong> Rätsel ${nextIndex+1}<br>
     📅 <strong>Unlock:</strong> ${dateStr}
   `;
 
   function tick(){
-    const diff=unlockTime-Date.now();
-    if(diff<=0){
-      cd.textContent="Freigeschaltet! 🎉";
+    const diff = unlockTime - Date.now();
+    if(diff <= 0){
+      cd.textContent="Freigeschaltet!";
       updateVisibility();
       return;
     }
-    cd.textContent=formatTimeUnits(diff);
-  }
 
+    const f = formatTimeUnits(diff);
+    cd.textContent = f.length>0 ? f : "Wenige Sekunden…";
+  }
   tick();
   setInterval(tick,1000);
 }
 
-/* -------- VISIBILITY -------- */
+/* ---------------- VISIBILITY ---------------- */
 function updateVisibility(){
-  const cards=document.querySelectorAll(".puzzle-card");
+  const cards = document.querySelectorAll(".puzzle-card");
 
   cards.forEach(c=>c.classList.add("hidden"));
-  document.getElementById("final-card").classList.add("hidden");
+  final-card.classList.add("hidden");
 
-  if(isUnlocked(0)) cards[0].classList.remove("hidden");
+  if(isUnlocked(0)) puzzle-0.classList.remove("hidden");
 
   for(let i=1;i<=4;i++){
-    if(isUnlocked(i) && progress.solvedPuzzles?.[i-1]) cards[i].classList.remove("hidden");
+    if(isUnlocked(i) && progress.solvedPuzzles?.[i-1])
+      puzzleCards[i].classList.remove("hidden");
   }
 
-  if(isUnlocked(5) && progress.solvedPuzzles?.[4]) cards[5].classList.remove("hidden");
+  if(isUnlocked(5) && progress.solvedPuzzles?.[4])
+    puzzle-5.classList.remove("hidden");
 
-  if([0,1,2,3,4,5].every(x=>progress.solvedPuzzles?.[x]) || ADMIN_MODE){
-    document.getElementById("final-card").classList.remove("hidden");
-  }
+  if([0,1,2,3,4,5].every(x=>progress.solvedPuzzles?.[x]) || ADMIN_MODE)
+    final-card.classList.remove("hidden");
 
   updateNextUnlockInfo();
 }
 
-/* -------- RESTORE -------- */
+/* ---------------- PROGRESS RESTORE ---------------- */
 function restoreProgress(){
-  nextLetterIndex=0;
+  nextLetterIndex = 0;
 
   for(const s of lettersSpans){
-    s.textContent="_";
+    s.textContent = "_";
     s.classList.remove("filled");
   }
 
@@ -891,91 +869,83 @@ function restoreProgress(){
   }
 
   progress.solvedQuiz ||= [];
-  quizSolvedCount=0;
+  quizSolvedCount = progress.solvedQuiz.length;
+  quizSummary.textContent = `${quizSolvedCount} von 8 gelöst`;
 
   quizRows.forEach(row=>{
-    const input=row.querySelector("input[type=text]");
-    const radios=row.querySelectorAll("input[type=radio]");
-    const button=row.querySelector("button");
-    const msg=row.querySelector(".message");
-    const disp=row.querySelector(".letter-display");
-    const solution=row.dataset.solution.toLowerCase();
+    const solution = row.dataset.solution.toLowerCase();
+    const input = row.querySelector("input[type=text]");
+    const radios = row.querySelectorAll("input[type=radio]");
+    const btn = row.querySelector("button");
+    const msg = row.querySelector(".message");
+    const disp = row.querySelector(".letter-display");
 
     if(progress.solvedQuiz.includes(solution)){
       row.dataset.solved="true";
-      if(input) input.disabled=true;
-      radios.forEach(r=>r.disabled=true);
-      button.disabled=true;
+      if(input) input.disabled = true;
+      radios.forEach(r=>r.disabled = true);
+      btn.disabled = true;
       msg.textContent="Korrekt (geladen)";
       msg.className="message success";
       disp.classList.remove("hidden");
-      quizSolvedCount++;
-    } else {
-      row.dataset.solved="false";
-      if(input) input.disabled=false;
-      radios.forEach(r=>{r.disabled=false; r.checked=false;});
-      button.disabled=false;
-      msg.textContent="";
-      disp.classList.add("hidden");
     }
   });
-
-  if(quizSolvedCount===8){
-    quizSummary.textContent="Alle 8 Fragen gelöst! 🎉";
-  }
 
   progress.solvedPuzzles ||= {};
 
   for(let i=1;i<=4;i++){
-    const card=puzzleCards[i];
-    const input=card.querySelector("input");
-    const btn=card.querySelector("button");
-    const msg=card.querySelector(".message");
-    const disp=card.querySelector(".letter-display");
-    const letters=card.dataset.letters.split("");
-
     if(progress.solvedPuzzles[i]){
-      input.disabled=true;
-      btn.disabled=true;
+      const card = puzzleCards[i];
+      const input = card.querySelector("input");
+      const btn = card.querySelector("button");
+      const msg = card.querySelector(".message");
+      const disp = card.querySelector(".letter-display");
+      const letters = card.dataset.letters.split(",");
+
+      input.disabled = true;
+      btn.disabled = true;
       msg.textContent="Korrekt (geladen)";
       msg.className="message success";
 
-      let html="Zeichen: ";
-      letters.forEach(z=>html+=`<span class='letter-badge'>${z}</span> `);
-      disp.innerHTML=html;
+      let out="Zeichen: ";
+      letters.forEach(z=>out+=`<span class='letter-badge'>${z}</span> `);
+      disp.innerHTML = out;
       disp.classList.remove("hidden");
     }
   }
 
   if(progress.solvedPuzzles[5]){
-    const msg=document.getElementById("spotify-msg");
-    const disp=document.getElementById("spotify-letters");
+    spotify-1.disabled = spotify-2.disabled = spotify-3.disabled = true;
+    document.getElementById("spotify-check").disabled = true;
 
-    sp1.disabled=sp2.disabled=sp3.disabled=true;
-    document.getElementById("spotify-check").disabled=true;
+    const msg = document.getElementById("spotify-msg");
+    msg.textContent = "Korrekt (geladen)";
+    msg.className = "message success";
 
-    msg.textContent="Korrekt (geladen)";
-    msg.className="message success";
-
-    disp.innerHTML=`Zeichen:
+    const disp = document.getElementById("spotify-letters");
+    disp.innerHTML = `
+      Zeichen:
       <span class='letter-badge'>s</span>
       <span class='letter-badge'>t</span>
-      <span class='letter-badge'>a</span>`;
+      <span class='letter-badge'>a</span>
+    `;
     disp.classList.remove("hidden");
   }
 
   if(progress.final){
-    document.getElementById("final-message").textContent="Richtig! (geladen)";
-    document.getElementById("final-message").className="message success";
-    document.getElementById("final-video-wrapper").classList.remove("hidden");
+    final-message.textContent="Richtig! (geladen)";
+    final-message.className="message success";
+    final-video-wrapper.classList.remove("hidden");
   }
 
   updateVisibility();
 }
 
-/* -------- START -------- */
+/* ---------------- START ---------------- */
 restoreProgress();
-setInterval(updateVisibility,15000);
+updateNextUnlockInfo();
+setInterval(updateVisibility, 15000);
+
 </script>
 
 </body>
