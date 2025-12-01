@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>3eryk? Weihnachtsrätsel 🎄</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
     :root {
       --bg: #020617;
@@ -15,6 +16,7 @@
       --error: #f97373;
       --success: #4ade80;
     }
+
     body {
       margin: 0;
       font-family: system-ui, -apple-system, sans-serif;
@@ -23,6 +25,8 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
+
+    /* Snow */
     .snowflake {
       position: fixed;
       top: -10px;
@@ -34,19 +38,18 @@
       animation: fall linear infinite;
     }
     @keyframes fall { to { transform: translateY(110vh); } }
+
+    /* Container */
     .container {
       max-width: 900px;
       margin: 0 auto;
       padding: 32px 16px 64px;
     }
-    .title {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-    .title h1 {
-      margin: 0;
-      font-size: clamp(1.8rem, 3vw, 2.4rem);
-    }
+
+    .title { text-align: center; margin-bottom: 24px; }
+    .title h1 { margin: 0; font-size: clamp(1.8rem, 3vw, 2.4rem); }
+
+    /* Countdown */
     #countdown {
       margin-top: 16px;
       font-size: 2.2rem;
@@ -60,6 +63,8 @@
       50% { transform: scale(1.05); text-shadow: 0 0 20px rgba(56,189,248,1); }
       100% { transform: scale(1); text-shadow: 0 0 12px rgba(56,189,248,0.6); }
     }
+
+    /* Cards */
     .card {
       background: var(--card-bg);
       border-radius: 16px;
@@ -68,12 +73,7 @@
       margin-bottom: 18px;
       box-shadow: 0 18px 40px rgba(0,0,0,0.5);
     }
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
+    .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
     .badge {
       font-size: 0.75rem;
       padding: 3px 8px;
@@ -81,59 +81,50 @@
       border: 1px solid var(--border);
       color: var(--text-muted);
     }
+
     iframe {
-      width: 100%;
-      max-width: 600px;
-      height: 338px;
-      margin: 0 auto;
-      display: block;
-      border-radius: 12px;
-      border: none;
+      width: 100%; max-width: 600px; height: 338px;
+      margin: 0 auto; display: block;
+      border-radius: 12px; border: none;
       background: #020617;
     }
+
+    /* Letters */
     .letters-progress {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
+      display: flex; flex-wrap: wrap; gap: 6px;
     }
     .letters-progress span {
-      width: 20px;
-      text-align: center;
-      padding: 3px 0;
-      border-radius: 6px;
+      width: 20px; text-align: center;
+      padding: 3px 0px; border-radius: 6px;
       background: rgba(15,23,42,0.7);
       border: 1px solid rgba(148,163,184,0.35);
       font-size: 0.9rem;
     }
-    .letters-progress span.filled {
-      border-color: var(--accent);
-    }
-    /* neue Input-Optik */
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px 14px;
-      margin-top: 6px;
-      font-size: 1rem;
+    .letters-progress span.filled { border-color: var(--accent); }
+
+    /* NEW INPUT DESIGN */
+    input[type="text"], input[type="password"] {
+      width: 100%; padding: 10px 14px;
+      margin-top: 6px; font-size: 1rem;
       border-radius: 10px;
       border: 1px solid rgba(148,163,184,0.25);
       background: rgba(255,255,255,0.06);
-      color: #e5e7eb;
-      outline: none;
+      color: #e5e7eb; outline: none;
       transition: 0.25s ease;
       box-shadow: 0 0 0 rgba(56,189,248,0);
+
+      /* FIX gegen Überbreite */
+      box-sizing: border-box;
     }
-    input::placeholder {
-      color: rgba(200, 200, 200, 0.45);
-    }
-    input:hover {
-      border-color: rgba(148,163,184,0.4);
-    }
+    input::placeholder { color: rgba(200,200,200,0.45); }
+    input:hover { border-color: rgba(148,163,184,0.4); }
     input:focus {
       border-color: var(--accent);
       box-shadow: 0 0 12px rgba(56,189,248,0.45);
       background: rgba(255,255,255,0.10);
     }
+
+    /* Question rows */
     .question-row {
       background: rgba(255,255,255,0.03);
       padding: 14px 16px;
@@ -142,12 +133,11 @@
       margin-bottom: 14px;
       box-shadow: 0 6px 16px rgba(0,0,0,0.25);
     }
-    .question-row p {
-      margin: 0 0 6px;
-      font-weight: 600;
-    }
+    .question-row p { margin: 0 0 6px; font-weight: 600; }
+
     .message.success { color: var(--success); margin-top: 6px; }
     .message.error { color: var(--error); margin-top: 6px; }
+
     .letter-badge {
       padding: 2px 6px;
       background: rgba(56,189,248,0.25);
@@ -155,26 +145,24 @@
       border: 1px solid rgba(56,189,248,0.4);
       font-weight: 700;
     }
+
     button {
       padding: 8px 18px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
+      border: none; border-radius: 10px;
+      cursor: pointer; font-weight: 600;
       color: white;
       background: linear-gradient(90deg, #3b82f6, #a855f7);
-      transition: 0.2s;
-      font-size: 0.95rem;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+      transition: 0.2s; font-size: 0.95rem;
     }
-    button:hover {
-      transform: scale(1.04);
-    }
+    button:hover { transform: scale(1.04); }
+
     button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
     }
+
     .hidden { display: none !important; }
+
     #reset-progress {
       background: linear-gradient(90deg, #ef4444, #f97316);
       margin-top: 32px;
@@ -183,9 +171,9 @@
       margin-left: auto;
       margin-right: auto;
     }
-    #next-unlock-card {
-      margin-top: 26px;
-    }
+
+    /* Next Unlock Box */
+    #next-unlock-card { margin-top: 26px; }
     #next-unlock-countdown {
       margin-top: 8px;
       font-size: 1.4rem;
@@ -196,6 +184,7 @@
   </style>
 </head>
 <body>
+
 <script>
 function createSnowflake() {
   const s=document.createElement("div");
@@ -210,15 +199,10 @@ function createSnowflake() {
 }
 setInterval(createSnowflake,200);
 </script>
+
 <script>
 let audioCtx=null;
-function getAudioCtx(){
-  if(!audioCtx){
-    const C=window.AudioContext||window.webkitAudioContext;
-    if(C) audioCtx=new C();
-  }
-  return audioCtx;
-}
+function getAudioCtx(){ if(!audioCtx){ const C=window.AudioContext||window.webkitAudioContext; if(C) audioCtx=new C(); } return audioCtx; }
 function playTone(f,d,t="sine",v=0.12){
   const c=getAudioCtx(); if(!c) return;
   const o=c.createOscillator(), g=c.createGain();
@@ -262,13 +246,13 @@ const playError=()=>playTone(220,0.14,"square",0.12);
       allowfullscreen
     ></iframe>
   </div>
-
   <!-- ZEICHENFORTSCHRITT -->
   <div class="card">
     <div class="card-header">
       <span class="badge">Fortschritt</span><h2>Gesammelte Zeichen</h2>
     </div>
     <div class="letters-progress" id="letters-progress">
+      <!-- 27 Zeichenplätze -->
       <span>_</span><span>_</span><span>_</span><span>_</span>
       <span>_</span><span>_</span><span>_</span><span>_</span>
       <span>_</span><span>_</span><span>_</span><span>_</span>
@@ -289,6 +273,7 @@ const playError=()=>playTone(220,0.14,"square",0.12);
     <!-- Frage 1 -->
     <div class="question-row" data-solution="3" data-letter="3">
       <p><strong>Frage 1:</strong> Aus wie vielen Alben besteht die Trilogie von TheWeeknd?</p>
+      <p class="tip">💡 Tipp: Eine Trilogie ist immer Anfang, Mitte und Ende.</p>
       <input type="text" placeholder="Zahl eingeben">
       <button>Prüfen</button>
       <div class="message"></div>
@@ -298,6 +283,7 @@ const playError=()=>playTone(220,0.14,"square",0.12);
     <!-- Frage 2 (MC) -->
     <div class="question-row" data-solution="25.09.2024" data-letter="y">
       <p><strong>Frage 2:</strong> Wann war der erste Call in der Discord-Gruppe 3eryk?</p>
+      <p class="tip">💡 Tipp: Manche Tage wirken erst im Nachhinein wichtig.</p>
       <label><input type="radio" name="q2" value="12.08.2024"> 12.08.2024</label><br>
       <label><input type="radio" name="q2" value="25.09.2024"> 25.09.2024</label><br>
       <label><input type="radio" name="q2" value="03.10.2024"> 03.10.2024</label><br>
@@ -310,6 +296,7 @@ const playError=()=>playTone(220,0.14,"square",0.12);
     <!-- Frage 3 -->
     <div class="question-row" data-solution="rot ist meine lieblings zahl im ganzen alphabet" data-letter="?">
       <p><strong>Frage 3:</strong> Rot...?</p>
+      <p class="tip">💡 Tipp: Manchmal ergibt Unsinn überraschend Sinn.</p>
       <input type="text" placeholder="ganzen Satz eingeben">
       <button>Prüfen</button>
       <div class="message"></div>
@@ -319,6 +306,7 @@ const playError=()=>playTone(220,0.14,"square",0.12);
     <!-- Frage 4 -->
     <div class="question-row" data-solution="wann?" data-letter="2">
       <p><strong>Frage 4:</strong> Frage...?</p>
+      <p class="tip">💡 Tipp: Bei Countdown-Momenten fragt man nicht *was*, sondern *wann*.</p>
       <input type="text" placeholder="Antwort eingeben">
       <button>Prüfen</button>
       <div class="message"></div>
@@ -327,8 +315,9 @@ const playError=()=>playTone(220,0.14,"square",0.12);
 
     <!-- Frage 5 -->
     <div class="question-row" data-solution="i" data-letter="i">
-      <p><strong>Frage 5:</strong> Rabsi, Manuel, Firo... Doch welche Endung ist die schönste?</p>
-      <input type="text" placeholder="z.B. a">
+      <p><strong>Frage 5:</strong> Rabsi, Manuel, Firo... Welche Endung ist die schönste?</p>
+      <p class="tip">💡 Tipp: Manchmal klingt etwas einfach melodisch perfekt.</p>
+      <input type="text" placeholder="z.B. i">
       <button>Prüfen</button>
       <div class="message"></div>
       <div class="letter-display hidden">Zeichen: <span class="letter-badge">i</span></div>
@@ -336,7 +325,8 @@ const playError=()=>playTone(220,0.14,"square",0.12);
 
     <!-- Frage 6 -->
     <div class="question-row" data-solution="t" data-letter="t">
-      <p><strong>Frage 6:</strong> Firo's aktueller Lieblingsbuchstabe...?</p>
+      <p><strong>Frage 6:</strong> Firo’s aktueller Lieblingsbuchstabe...?</p>
+      <p class="tip">💡 Tipp: Ein Trend-Buchstabe, schlicht aber stark.</p>
       <input type="text" placeholder="Buchstabe">
       <button>Prüfen</button>
       <div class="message"></div>
@@ -345,7 +335,8 @@ const playError=()=>playTone(220,0.14,"square",0.12);
 
     <!-- Frage 7 -->
     <div class="question-row" data-solution="e" data-letter="e">
-      <p><strong>Frage 7:</strong> Firo findet Namen seit Neuesten attraktiv. Doch welcher Buchstabe ist der weitverbreitetste in Namen?</p>
+      <p><strong>Frage 7:</strong> Welcher Buchstabe ist der verbreitetste in Namen?</p>
+      <p class="tip">💡 Tipp: Ein Buchstabe, so alltäglich, dass man ihn kaum bemerkt.</p>
       <input type="text" placeholder="Buchstabe">
       <button>Prüfen</button>
       <div class="message"></div>
@@ -354,7 +345,8 @@ const playError=()=>playTone(220,0.14,"square",0.12);
 
     <!-- Frage 8 (MC) -->
     <div class="question-row" data-solution="47" data-letter="d">
-      <p><strong>Frage 8:</strong> Wie viele Medien / Links / Docs wurden in der WhatsApp-Gruppe von 3eryk? schon geteilt?</p>
+      <p><strong>Frage 8:</strong> Wie viele Medien/Links/Docs wurden geteilt?</p>
+      <p class="tip">💡 Tipp: Eine Zahl ist überraschend richtig – nicht zu hoch, nicht zu niedrig.</p>
       <label><input type="radio" name="q8" value="23"> 23</label><br>
       <label><input type="radio" name="q8" value="69"> 69</label><br>
       <label><input type="radio" name="q8" value="83"> 83</label><br>
@@ -467,7 +459,6 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   <button id="reset-progress">🔄 Fortschritt zurücksetzen</button>
 
 </div> <!-- END CONTAINER -->
-
 <script>
 /* COUNTDOWN bis 28.12.2025 20:00 */
 function updateCountdown(){
@@ -614,8 +605,8 @@ for(let i=1;i<=4;i++){
 
   button.addEventListener("click",()=>{
     playClick();
-    const v=input.value.trim().toLowerCase();
 
+    const v=input.value.trim().toLowerCase();
     if(!v){
       msg.textContent="Bitte etwas eingeben.";
       msg.className="message error";
@@ -850,18 +841,15 @@ function updateNextUnlockInfo(){
 function restoreProgress(){
   nextLetterIndex=0;
 
-  // Reset alle Slots
   for(const s of lettersSpans){
     s.textContent="_";
     s.classList.remove("filled");
   }
 
-  // Restore letters
   if(progress.letters){
     progress.letters.forEach(ch=>addLetter(ch));
   }
 
-  // Restore Quiz
   progress.solvedQuiz ||= [];
   quizSolvedCount=0;
 
@@ -897,7 +885,6 @@ function restoreProgress(){
     quizSummary.className="message success";
   }
 
-  // Restore Rätsel 2–5
   progress.solvedPuzzles ||= {};
 
   for(let i=1;i<=4;i++){
@@ -906,7 +893,6 @@ function restoreProgress(){
     const btn=card.querySelector("button");
     const msg=card.querySelector(".message");
     const disp=card.querySelector(".letter-display");
-
     const letters=card.dataset.letters.split("");
 
     if(progress.solvedPuzzles[i]){
@@ -914,6 +900,7 @@ function restoreProgress(){
       btn.disabled=true;
       msg.textContent="Korrekt (geladen)";
       msg.className="message success";
+
       let html="Zeichen: ";
       letters.forEach(z=>html+=`<span class='letter-badge'>${z}</span> `);
       disp.innerHTML=html;
@@ -921,7 +908,6 @@ function restoreProgress(){
     }
   }
 
-  // Restore Spotify
   if(progress.solvedPuzzles[5]){
     const msg=document.getElementById("spotify-msg");
     const disp=document.getElementById("spotify-letters");
@@ -939,7 +925,6 @@ function restoreProgress(){
     disp.classList.remove("hidden");
   }
 
-  // Restore Finale
   if(progress.final){
     finalMessage.textContent="Richtig! (geladen)";
     finalMessage.className="message success";
@@ -956,4 +941,3 @@ setInterval(updateVisibility,15000);
 
 </body>
 </html>
-
