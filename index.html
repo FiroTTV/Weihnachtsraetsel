@@ -232,6 +232,18 @@
       transform: translateY(-2px);
       box-shadow: 0 0 24px rgba(56,189,248,0.25);
     }
+
+    /* Nächstes Rätsel-Info */
+    #next-unlock-card {
+      margin-top: 26px;
+    }
+    #next-unlock-countdown {
+      margin-top: 8px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-shadow: 0 0 12px rgba(56,189,248,0.5);
+    }
   </style>
 </head>
 <body>
@@ -338,6 +350,7 @@ function loadProgress(){
       <span>_</span><span>_</span><span>_</span>
     </div>
   </div>
+
   <!-- RÄTSEL 1 – QUIZ -->
   <div class="card puzzle-card" data-index="0" id="puzzle1">
     <div class="card-header">
@@ -445,6 +458,7 @@ function loadProgress(){
     <div class="message"></div>
     <div class="letter-display hidden"></div>
   </div>
+
   <!-- RÄTSEL 4 -->
   <div class="card puzzle-card hidden" data-index="3" data-solution="R4" data-letters="ehas">
     <div class="card-header">
@@ -517,10 +531,21 @@ function loadProgress(){
     </div>
   </div>
 
+  <!-- INFO NÄCHSTES RÄTSEL -->
+  <div class="card" id="next-unlock-card">
+    <div class="card-header">
+      <span class="badge">Info</span>
+      <h2>Nächstes Rätsel</h2>
+    </div>
+    <p id="next-unlock-text">Wird geladen…</p>
+    <div id="next-unlock-countdown"></div>
+  </div>
+
   <!-- RESET BUTTON -->
   <button id="reset-progress">🔄 Fortschritt zurücksetzen</button>
 
 </div> <!-- ENDE CONTAINER -->
+
 <script>
 /* COUNTDOWN */
 const countdownEl = document.getElementById("countdown");
@@ -573,7 +598,6 @@ const unlockSchedule = {
 let ADMIN_MODE = false;
 const ADMIN_PASSWORD = "SuperYK2025";
 
-
 /* HELFER */
 function isUnlocked(index){
   if(ADMIN_MODE) return true;
@@ -596,6 +620,70 @@ function showNextPuzzle(idx){
   if(isUnlocked(idx+1)) next.classList.remove("hidden");
 }
 
+/* INFO: NÄCHSTES RÄTSEL */
+let _nextUnlockTimer = null;
+function updateNextUnlockInfo(){
+  const card = document.getElementById("next-unlock-card");
+  const txt = document.getElementById("next-unlock-text");
+  const cd  = document.getElementById("next-unlock-countdown");
+  if(!card || !txt || !cd) return;
+
+  if(ADMIN_MODE){
+    card.style.display = "none";
+    if(_nextUnlockTimer) clearInterval(_nextUnlockTimer);
+    return;
+  }
+
+  const now = Date.now();
+  const locked = Object.keys(unlockSchedule)
+    .map(n => parseInt(n))
+    .filter(i => now < unlockSchedule[i]);
+
+  if(locked.length === 0){
+    card.style.display = "none";
+    if(_nextUnlockTimer) clearInterval(_nextUnlockTimer);
+    return;
+  }
+
+  card.style.display = "block";
+
+  const nextIndex = Math.min(...locked);
+  const unlockTime = unlockSchedule[nextIndex];
+
+  const dateObj = new Date(unlockTime);
+  const dateStr = dateObj.toLocaleString("de-DE", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+
+  txt.innerHTML = `
+    🔒 <strong>Nächstes Rätsel:</strong> Rätsel ${nextIndex+1}<br>
+    📅 <strong>Unlock am:</strong> ${dateStr}
+  `;
+
+  function tick(){
+    const diff = unlockTime - Date.now();
+    if(diff <= 0){
+      cd.textContent = "Jetzt freigeschaltet! 🎉";
+      updateVisibility();
+      updateNextUnlockInfo();
+      return;
+    }
+    const d = Math.floor(diff / (1000*60*60*24));
+    const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const s = Math.floor((diff % (1000*60)) / 1000);
+    cd.textContent = `${d}T ${h}h ${m}m ${s}s`;
+  }
+
+  if(_nextUnlockTimer) clearInterval(_nextUnlockTimer);
+  tick();
+  _nextUnlockTimer = setInterval(tick, 1000);
+}
 
 /* QUIZ LOGIK */
 quizRows.forEach(row=>{
@@ -659,7 +747,6 @@ quizRows.forEach(row=>{
   });
 });
 
-
 /* RÄTSEL 2–5 */
 for(let i=1;i<5;i++){
   const card = puzzleCards[i];
@@ -719,7 +806,6 @@ for(let i=1;i<5;i++){
   });
 }
 
-
 /* SPOTIFY-RÄTSEL */
 const sp1=document.getElementById("sp1");
 const sp2=document.getElementById("sp2");
@@ -775,7 +861,6 @@ document.getElementById("spotify-check").addEventListener("click",()=>{
   }
 });
 
-
 /* FINALE */
 finalButton.addEventListener("click",()=>{
   playClick();
@@ -805,7 +890,6 @@ finalButton.addEventListener("click",()=>{
   }
 });
 
-
 /* Sichtbarkeit nach Zeit + Fortschritt */
 function updateVisibility(){
 
@@ -833,8 +917,9 @@ function updateVisibility(){
   if(allSolved || ADMIN_MODE){
     finalCard.classList.remove("hidden");
   }
-}
 
+  updateNextUnlockInfo();
+}
 
 /* RESTORE */
 function restoreProgress(){
@@ -937,7 +1022,6 @@ function restoreProgress(){
   updateVisibility();
 }
 
-
 /* ADMIN LOGIN */
 document.getElementById("admin-btn").addEventListener("click",()=>{
   const pw=document.getElementById("admin-pass").value.trim();
@@ -957,7 +1041,6 @@ document.getElementById("admin-btn").addEventListener("click",()=>{
   }
 });
 
-
 /* RESET */
 document.getElementById("reset-progress").addEventListener("click",()=>{
   playClick();
@@ -968,10 +1051,8 @@ document.getElementById("reset-progress").addEventListener("click",()=>{
   }
 });
 
-
 /* PERIODISCH REFRESHEN FÜR ZEIT-UNLOCK */
 setInterval(updateVisibility, 15000);
-
 
 /* START */
 loadProgress();
