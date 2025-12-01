@@ -328,7 +328,7 @@ const playError=()=>playTone(220,0.14,"square",0.12);
     <!-- Frage 5 -->
     <div class="question-row" data-solution="i" data-letter="i">
       <p><strong>Frage 5:</strong> Rabsi, Manuel, Firo... Doch welche Endung ist die schönste?</p>
-      <input type="text" placeholder="z.B. a">
+      <input type="text" placeholder="z.B. i">
       <button>Prüfen</button>
       <div class="message"></div>
       <div class="letter-display hidden">Zeichen: <span class="letter-badge">i</span></div>
@@ -366,6 +366,7 @@ const playError=()=>playTone(220,0.14,"square",0.12);
 
     <div id="quiz-summary" class="message"></div>
   </div>
+
   <!-- RÄTSEL 2 -->
   <div class="card puzzle-card hidden" data-index="1" data-solution="R2" data-letters="rnch">
     <div class="card-header">
@@ -611,54 +612,52 @@ for(let i=1;i<=4;i++){
   const solution=card.dataset.solution.toLowerCase();
   const letters=card.dataset.letters.split("");
 
-  button.addEventListener("
-    button.addEventListener("click",()=>{
-      playClick();
-      const v=input.value.trim().toLowerCase();
+  button.addEventListener("click",()=>{
+    playClick();
+    const v=input.value.trim().toLowerCase();
 
-      if(!v){
-        msg.textContent="Bitte etwas eingeben.";
-        msg.className="message error";
-        playError();
+    if(!v){
+      msg.textContent="Bitte etwas eingeben.";
+      msg.className="message error";
+      playError();
+      return;
+    }
+
+    if(v===solution){
+      if(card.dataset.solved==="true"){
+        msg.textContent="Schon gelöst.";
+        msg.className="message success";
         return;
       }
 
-      if(v===solution){
-        if(card.dataset.solved==="true"){
-          msg.textContent="Schon gelöst.";
-          msg.className="message success";
-          return;
-        }
+      card.dataset.solved="true";
+      input.disabled=true;
+      button.disabled=true;
 
-        card.dataset.solved="true";
-        input.disabled=true;
-        button.disabled=true;
+      msg.textContent="Korrekt!";
+      msg.className="message success";
+      playSuccess();
 
-        msg.textContent="Korrekt!";
-        msg.className="message success";
-        playSuccess();
+      disp.classList.remove("hidden");
+      let html="Zeichen: ";
+      letters.forEach(z=>{
+        html+=`<span class='letter-badge'>${z}</span> `;
+        addLetter(z);
+        progress.letters.push(z);
+      });
+      disp.innerHTML=html;
 
-        disp.classList.remove("hidden");
-        let html="Zeichen: ";
-        letters.forEach(z=>{
-          html+=`<span class='letter-badge'>${z}</span> `;
-          addLetter(z);
-          progress.letters.push(z);
-        });
-        disp.innerHTML=html;
+      progress.solvedPuzzles ||= {};
+      progress.solvedPuzzles[i]=true;
+      saveProgress();
 
-        progress.solvedPuzzles ||= {};
-        progress.solvedPuzzles[i]=true;
-        saveProgress();
-
-        showNextPuzzle(i);
-      } else {
-        msg.textContent="Falsch!";
-        msg.className="message error";
-        playError();
-      }
-    });
-  }
+      showNextPuzzle(i);
+    } else {
+      msg.textContent="Falsch!";
+      msg.className="message error";
+      playError();
+    }
+  });
 }
 
 /* SPOTIFY-RÄTSEL */
@@ -957,4 +956,3 @@ setInterval(updateVisibility,15000);
 
 </body>
 </html>
-
