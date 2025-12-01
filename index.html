@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>3er-YK Weihnachtsrätsel 🎄</title>
+  <title>3eryk? Weihnachtsrätsel 🎄</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -227,7 +227,7 @@ function loadProgress(){
 <div class="container">
 
   <div class="title">
-    <h1>🎄 3er-YK Weihnachtsrätsel – 2025 Edition 🎄</h1>
+    <h1>🎄 3eryk? Weihnachtsrätsel – 2025 Edition 🎄</h1>
     <div id="countdown">Lade Countdown...</div>
   </div>
 
@@ -248,8 +248,12 @@ function loadProgress(){
       <span class="badge">Intro</span><h2>Willkommen!</h2>
     </div>
     <p>Hier kommt später dein Intro-Video hin.</p>
-    <!-- Hier deinen YouTube-Embed-Link einsetzen -->
-    <iframe id="intro-video"></iframe>
+
+    <iframe 
+      id="intro-video"
+      src="https://www.youtube.com/embed/TGvnbko2Jio?si=z0f59smM_qRPTszH"
+      allowfullscreen
+    ></iframe>
   </div>
 
   <!-- ZEICHENFORTSCHRITT -->
@@ -266,7 +270,6 @@ function loadProgress(){
       <span>_</span><span>_</span><span>_</span>
     </div>
   </div>
-
   <!-- RÄTSEL 1 – QUIZ -->
   <div class="card puzzle-card" data-index="0" id="puzzle1">
     <div class="card-header">
@@ -356,13 +359,13 @@ function loadProgress(){
     <button>Prüfen</button>
     <div class="message"></div><div class="letter-display hidden"></div>
   </div>
-
   <!-- RÄTSEL 4 -->
   <div class="card puzzle-card hidden" data-index="3" data-solution="R4" data-letters="ehas">
     <div class="card-header"><span class="badge">Rätsel 4</span><h2>Platzhalter Rätsel 4</h2></div>
     <label>Antwort</label><input type="text">
     <button>Prüfen</button>
-    <div class="message"></div><div class="letter-display hidden"></div>
+    <div class="message"></div>
+    <div class="letter-display hidden"></div>
   </div>
 
   <!-- RÄTSEL 5 -->
@@ -370,7 +373,8 @@ function loadProgress(){
     <div class="card-header"><span class="badge">Rätsel 5</span><h2>Platzhalter Rätsel 5</h2></div>
     <label>Antwort</label><input type="text">
     <button>Prüfen</button>
-    <div class="message"></div><div class="letter-display hidden"></div>
+    <div class="message"></div>
+    <div class="letter-display hidden"></div>
   </div>
 
   <!-- RÄTSEL 6 – SPOTIFY -->
@@ -408,11 +412,10 @@ function loadProgress(){
     </div>
   </div>
 
-  <!-- RESET -->
+  <!-- RESET BUTTON -->
   <button id="reset-progress">🔄 Fortschritt zurücksetzen</button>
 
-</div>
-
+</div> <!-- ENDE CONTAINER -->
 <script>
 /* COUNTDOWN */
 const countdownEl = document.getElementById("countdown");
@@ -659,7 +662,7 @@ function updateVisibility(){
   });
   finalCard.classList.add("hidden");
 
-  // Rätsel 1 (Quiz)
+  // Rätsel 1
   if(isUnlocked(0)){
     puzzleCards[0].classList.remove("hidden");
   }
@@ -671,12 +674,12 @@ function updateVisibility(){
     }
   }
 
-  // Rätsel 6 (Spotify)
+  // Spotify
   if(isUnlocked(5) && (progress.solvedPuzzles[4] || ADMIN_MODE)){
     puzzleCards[5].classList.remove("hidden");
   }
 
-  // Finale sichtbar, wenn alles gelöst
+  // Finale sichtbar wenn alles gelöst
   const allSolved = [0,1,2,3,4,5].every(i=>progress.solvedPuzzles[i]);
   if(allSolved || ADMIN_MODE){
     finalCard.classList.remove("hidden");
@@ -694,7 +697,7 @@ function restoreProgress(){
     progress.letters.forEach(z=>addLetter(z));
   }
 
-  // Quiz
+  // Quiz restore
   progress.solvedQuiz ||= [];
   quizSolvedCount=0;
   quizRows.forEach(row=>{
@@ -722,7 +725,7 @@ function restoreProgress(){
     quizSummary.className="message success";
   }
 
-  // Rätsel 2–5
+  // Rätsel 2–5 restore
   progress.solvedPuzzles ||= {};
   for(let i=1;i<5;i++){
     const card=puzzleCards[i];
@@ -747,7 +750,7 @@ function restoreProgress(){
     }
   }
 
-  // Spotify
+  // Spotify restore
   if(progress.solvedPuzzles[5]){
     const msg=document.getElementById("spotify-msg");
     const disp=document.getElementById("spotify-letters");
