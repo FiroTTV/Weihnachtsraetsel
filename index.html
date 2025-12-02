@@ -758,3 +758,325 @@ quizRows.forEach(row=>{
     }
   });
 });
+/* RÄTSEL 2–5 */
+puzzleCards.forEach(card=>{
+  const idx=parseInt(card.dataset.index);
+  const sol=card.dataset.solution;
+  const letters=card.dataset.letters ? card.dataset.letters.split(",") : [];
+
+  const input=card.querySelector("input[type=text]");
+  const btn=card.querySelector("button");
+  const msg=card.querySelector(".message");
+  const disp=card.querySelector(".letter-display");
+
+  if(!input || !btn) return;
+
+  btn.addEventListener("click",()=>{
+    playClick();
+    const val=input.value.trim().toLowerCase();
+
+    if(!val){
+      msg.textContent="Bitte etwas eingeben.";
+      msg.className="message error";
+      playError();
+      return;
+    }
+
+    if(val===sol){
+      if(progress.solvedPuzzles && progress.solvedPuzzles[idx]){
+        msg.textContent="Bereits gelöst.";
+        msg.className="message success";
+        return;
+      }
+
+      msg.textContent="Korrekt!";
+      msg.className="message success";
+      playSuccess();
+
+      input.disabled=true;
+      btn.disabled=true;
+
+      disp.classList.remove("hidden");
+      disp.textContent="Zeichen: "+letters.join(", ");
+
+      progress.solvedPuzzles ||= {};
+      progress.solvedPuzzles[idx]=true;
+
+      progress.letters ||= [];
+      letters.forEach(l=>{
+        progress.letters.push(l);
+        addLetter(l);
+      });
+
+      saveProgress();
+      updateVisibility();
+
+    } else {
+      msg.textContent="Falsch!";
+      msg.className="message error";
+      playError();
+    }
+  });
+});
+/* SPOTIFY */
+document.getElementById("spotify-check").addEventListener("click",()=>{
+  playClick();
+
+  const a=document.getElementById("spotify-1").value.toLowerCase();
+  const b=document.getElementById("spotify-2").value.toLowerCase();
+  const c=document.getElementById("spotify-3").value.toLowerCase();
+
+  const msg=document.getElementById("spotify-msg");
+  const disp=document.getElementById("spotify-letters");
+
+  if(a==="s" && b==="t" && c==="a"){
+    if(progress.solvedPuzzles && progress.solvedPuzzles[5]){
+      msg.textContent="Schon gelöst.";
+      msg.className="message success";
+      return;
+    }
+
+    msg.textContent="Korrekt!";
+    msg.className="message success";
+    playSuccess();
+
+    document.getElementById("spotify-1").disabled=true;
+    document.getElementById("spotify-2").disabled=true;
+    document.getElementById("spotify-3").disabled=true;
+    document.getElementById("spotify-check").disabled=true;
+
+    const letters=["W","e","i","h"];
+    disp.classList.remove("hidden");
+    disp.textContent="Zeichen: W, e, i, h";
+
+    progress.solvedPuzzles ||= {};
+    progress.solvedPuzzles[5]=true;
+
+    progress.letters ||= [];
+    letters.forEach(l=>{ progress.letters.push(l); addLetter(l); });
+
+    saveProgress();
+    updateVisibility();
+  } else {
+    msg.textContent="Falsch!";
+    msg.className="message error";
+    playError();
+  }
+});
+/* FINALE */
+document.getElementById("final-button").addEventListener("click",()=>{
+  playClick();
+
+  const val=document.getElementById("final-input").value.trim();
+  const msg=document.getElementById("final-message");
+
+  if(val==="3eryk?2025Weihnachtsedition"){
+    msg.textContent="Richtig! 🎉";
+    msg.className="message success";
+    playSuccess();
+    document.getElementById("final-video-wrapper").classList.remove("hidden");
+  } else {
+    msg.textContent="Falsch!";
+    msg.className="message error";
+    playError();
+  }
+});
+/* BURGER */
+const burgerBtn=document.getElementById("burger-btn");
+const sideMenu=document.getElementById("side-menu");
+const overlay=document.getElementById("menu-overlay");
+
+function openMenu(){
+  burgerBtn.classList.add("burger-open");
+  sideMenu.classList.add("active");
+  sideMenu.classList.remove("hidden");
+  overlay.classList.add("active");
+  overlay.classList.remove("hidden");
+}
+
+function closeMenu(){
+  burgerBtn.classList.remove("burger-open");
+  sideMenu.classList.remove("active");
+  overlay.classList.remove("active");
+  setTimeout(()=>{
+    if(!overlay.classList.contains("active")){
+      sideMenu.classList.add("hidden");
+      overlay.classList.add("hidden");
+    }
+  },250);
+}
+
+burgerBtn.addEventListener("click",()=>{ playClick(); sideMenu.classList.contains("active") ? closeMenu() : openMenu(); });
+overlay.addEventListener("click",()=>{ playClick(); closeMenu(); });
+
+/* Menü klicks */
+document.querySelectorAll("#side-menu li").forEach(li=>{
+  li.addEventListener("click",()=>{
+    const target=li.dataset.target;
+    const el=document.getElementById(target);
+
+    if(li.classList.contains("locked") && !ADMIN_MODE){
+      playError();
+      return;
+    }
+
+    playClick();
+    closeMenu();
+
+    if(el) el.scrollIntoView({behavior:"smooth"});
+  });
+});
+/* VISIBILITY */
+function updateVisibility(){
+  const allCards=document.querySelectorAll(".puzzle-card");
+  allCards.forEach(c=>c.classList.add("hidden"));
+  document.getElementById("final-card").classList.add("hidden");
+
+  /* Rätsel 1 zuerst freischalten (BUGFIX) */
+  if(isUnlocked(0)) document.getElementById("puzzle-0").classList.remove("hidden");
+
+  /* Menü aktualisieren */
+  document.querySelectorAll("#side-menu li").forEach(li=>{
+    const id=li.dataset.target;
+    const el=document.getElementById(id);
+
+    if(ADMIN_MODE || !el.classList.contains("hidden")){
+      li.classList.remove("locked");
+    } else {
+      li.classList.add("locked");
+    }
+  });
+
+  /* Rätsel 2–5 */
+  for(let i=1;i<=4;i++){
+    if(ADMIN_MODE || (isUnlocked(i) && progress.solvedPuzzles && progress.solvedPuzzles[i-1])){
+      puzzleCards[i].classList.remove("hidden");
+    }
+  }
+
+  /* Spotify */
+  if(ADMIN_MODE || (isUnlocked(5) && progress.solvedPuzzles && progress.solvedPuzzles[4])){
+    document.getElementById("puzzle-5").classList.remove("hidden");
+  }
+
+  /* Finale */
+  const allSolved=[0,1,2,3,4,5].every(x=>progress.solvedPuzzles && progress.solvedPuzzles[x]);
+  if(allSolved || ADMIN_MODE){
+    document.getElementById("final-card").classList.remove("hidden");
+  }
+
+  updateNextUnlockBox();
+}
+
+function updateNextUnlockBox(){
+  const text=document.getElementById("next-unlock-text");
+  const cd=document.getElementById("next-unlock-countdown");
+
+  for(let i=0;i<=5;i++){
+    if(!isUnlocked(i)){
+      const diff=unlockSchedule[i]-Date.now();
+      text.textContent="Rätsel "+(i+1);
+      cd.textContent=formatDiff(diff);
+      return;
+    }
+  }
+
+  text.textContent="Alle Rätsel sind freigeschaltet!";
+  cd.textContent="";
+}
+
+setInterval(updateNextUnlockBox,1000);
+/* ADMIN */
+document.getElementById("admin-btn").addEventListener("click",()=>{
+  playClick();
+  const val=document.getElementById("admin-pass").value.trim();
+  const msg=document.getElementById("admin-msg");
+
+  if(val===ADMIN_PASSWORD){
+    ADMIN_MODE=true;
+    msg.textContent="Admin-Modus aktiviert!";
+    msg.className="message success";
+    playSuccess();
+    updateVisibility();
+  } else {
+    msg.textContent="Falsch!";
+    msg.className="message error";
+    playError();
+  }
+});
+/* RESTORE */
+(function restore(){
+  if(progress.letters){
+    nextLetterIndex=0;
+    [...lettersSpans].forEach(s=>{
+      s.textContent="_";
+      s.classList.remove("filled");
+    });
+
+    progress.letters.forEach(l=>addLetter(l));
+  }
+
+  /* QUIZ */
+  if(progress.solvedQuiz){
+    progress.solvedQuiz.forEach(sol=>{
+      const row=[...quizRows].find(r=>r.dataset.solution.toLowerCase()===sol);
+      if(!row) return;
+
+      row.dataset.solved="true";
+      quizSolvedCount++;
+
+      const input=row.querySelector("input[type=text]");
+      const radios=row.querySelectorAll("input[type=radio]");
+      const btn=row.querySelector("button");
+      const disp=row.querySelector(".letter-display");
+
+      if(input) input.disabled=true;
+      radios.forEach(r=>r.disabled=true);
+      if(btn) btn.disabled=true;
+
+      disp.classList.remove("hidden");
+      disp.innerHTML=`Zeichen: <span class="letter-badge">${row.dataset.letter}</span>`;
+    });
+
+    quizSummary.textContent=`${quizSolvedCount} von 8 gelöst`;
+    if(quizSolvedCount===8) quizSummary.textContent="Alle 8 Fragen gelöst! 🎉";
+  }
+
+  /* RÄTSEL 2–5 */
+  for(let i=1;i<=4;i++){
+    if(progress.solvedPuzzles && progress.solvedPuzzles[i]){
+      const card=puzzleCards[i];
+      const input=card.querySelector("input[type=text]");
+      const btn=card.querySelector("button");
+      const disp=card.querySelector(".letter-display");
+
+      if(input) input.disabled=true;
+      if(btn) btn.disabled=true;
+
+      disp.classList.remove("hidden");
+      disp.textContent="Zeichen: "+card.dataset.letters;
+    }
+  }
+
+  /* SPOTIFY */
+  if(progress.solvedPuzzles && progress.solvedPuzzles[5]){
+    document.getElementById("spotify-1").disabled=true;
+    document.getElementById("spotify-2").disabled=true;
+    document.getElementById("spotify-3").disabled=true;
+    document.getElementById("spotify-check").disabled=true;
+    const disp=document.getElementById("spotify-letters");
+    disp.classList.remove("hidden");
+    disp.textContent="Zeichen: W, e, i, h";
+  }
+
+  updateVisibility();
+})();
+/* RESET */
+document.getElementById("reset-progress").addEventListener("click",()=>{
+  playClick();
+  localStorage.removeItem("XMASRIDDLE_GLOBAL");
+  location.reload();
+});
+</script>
+</body>
+</html>
