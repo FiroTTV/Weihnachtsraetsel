@@ -49,7 +49,7 @@
     .title { text-align: center; margin-bottom: 24px; }
     .title h1 { margin: 0; font-size: clamp(1.8rem, 3vw, 2.4rem); }
 
-    /* Countdown */
+    /* Countdown oben */
     #countdown {
       margin-top: 16px;
       font-size: 2.2rem;
@@ -59,9 +59,9 @@
       animation: pulseGlow 2.2s ease-in-out infinite;
     }
     @keyframes pulseGlow {
-      0% { transform: scale(1); text-shadow: 0 0 12px rgba(56,189,248,0.6); }
-      50% { transform: scale(1.05); text-shadow: 0 0 20px rgba(56,189,248,1); }
-      100% { transform: scale(1); text-shadow: 0 0 12px rgba(56,189,248,0.6); }
+      0%   { transform: scale(1);   text-shadow: 0 0 12px rgba(56,189,248,0.6); }
+      50%  { transform: scale(1.05);text-shadow: 0 0 20px rgba(56,189,248,1);   }
+      100% { transform: scale(1);   text-shadow: 0 0 12px rgba(56,189,248,0.6); }
     }
 
     /* Cards */
@@ -89,7 +89,7 @@
       background: #020617;
     }
 
-    /* Letters */
+    /* Letters / Fortschritt */
     .letters-progress {
       display: flex; flex-wrap: wrap; gap: 6px;
     }
@@ -102,15 +102,19 @@
     }
     .letters-progress span.filled { border-color: var(--accent); }
 
-    /* Inputs */
+    /* Inputs – Basis */
     input[type="text"], input[type="password"] {
-      width: 100%; padding: 10px 14px;
-      margin-top: 6px; font-size: 1rem;
-      border-radius: 10px;
+      width: 100%;
+      padding: 10px 14px;
+      margin-top: 6px;
+      font-size: 1rem;
+      border-radius: 10px;           /* R = 10px */
       border: 1px solid rgba(148,163,184,0.25);
       background: rgba(255,255,255,0.06);
-      color: #e5e7eb; outline: none;
+      color: #e5e7eb;
+      outline: none;
       transition: 0.25s ease;
+      box-sizing: border-box;
     }
     input:focus {
       border-color: var(--accent);
@@ -118,6 +122,7 @@
       background: rgba(255,255,255,0.10);
     }
 
+    /* Quiz Layout A1 (Input links ~60%, Button rechts ~100px) */
     .question-row {
       background: rgba(255,255,255,0.03);
       padding: 14px 16px;
@@ -126,18 +131,29 @@
       margin-bottom: 14px;
       box-shadow: 0 6px 16px rgba(0,0,0,0.25);
     }
-    .question-row p { margin: 0 0 6px; font-weight: 600; }
+    .question-row p {
+      margin: 0 0 6px;
+      font-weight: 600;
+    }
+    .question-row .quiz-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .question-row .quiz-controls input[type="text"],
+    .question-row .quiz-controls input[type="password"] {
+      width: 60%;
+      max-width: 60%;
+      border-radius: 10px;
+    }
+    .question-row .quiz-controls button {
+      width: 100px;                   /* B1, ca. 100px */
+      flex-shrink: 0;
+    }
 
     .message.success { color: var(--success); margin-top: 6px; }
     .message.error { color: var(--error); margin-top: 6px; }
-
-    .letter-badge {
-      padding: 2px 6px;
-      background: rgba(56,189,248,0.25);
-      border-radius: 6px;
-      border: 1px solid rgba(56,189,248,0.4);
-      font-weight: 700;
-    }
 
     button {
       padding: 8px 18px;
@@ -146,7 +162,6 @@
       color: white;
       background: linear-gradient(90deg, #3b82f6, #a855f7);
       transition: 0.2s; font-size: 0.95rem;
-      margin-top: 6px;
     }
     button:hover { transform: scale(1.04); }
 
@@ -158,7 +173,7 @@
       width: 220px;
     }
 
-    /* NEXT UNLOCK TIMER — same Style wie main Countdown */
+    /* NEXT UNLOCK TIMER – wie großer Countdown */
     #next-unlock-countdown {
       margin-top: 8px;
       font-size: 2rem;
@@ -330,64 +345,80 @@ setInterval(createSnowflake,200);
     <!-- Frage 1 -->
     <div class="question-row">
       <p>1. Aus wie vielen Alben besteht die Trilogie von TheWeeknd?</p>
-      <input id="q1" placeholder="Antwort eingeben...">
-      <button onclick="checkQuiz(1)">Prüfen</button>
+      <div class="quiz-controls">
+        <input id="q1" placeholder="Antwort eingeben...">
+        <button onclick="checkQuiz(1)">Prüfen</button>
+      </div>
       <div id="m1" class="message"></div>
     </div>
 
     <!-- Frage 2 -->
     <div class="question-row">
       <p>2. Wann war der erste Call in der Discord Gruppe 3eryk?</p>
-      <input id="q2" placeholder="Antwort eingeben... (TT.MM.JJJJ)">
-      <button onclick="checkQuiz(2)">Prüfen</button>
+      <div class="quiz-controls">
+        <input id="q2" placeholder="Antwort eingeben... (TT.MM.JJJJ)">
+        <button onclick="checkQuiz(2)">Prüfen</button>
+      </div>
       <div id="m2" class="message"></div>
     </div>
 
     <!-- Frage 3 -->
     <div class="question-row">
       <p>3. Rot....?</p>
-      <input id="q3" placeholder="ganzen Satz eingeben">
-      <button onclick="checkQuiz(3)">Prüfen</button>
+      <div class="quiz-controls">
+        <input id="q3" placeholder="ganzen Satz eingeben">
+        <button onclick="checkQuiz(3)">Prüfen</button>
+      </div>
       <div id="m3" class="message"></div>
     </div>
 
     <!-- Frage 4 -->
     <div class="question-row">
       <p>4. Frage...?</p>
-      <input id="q4" placeholder="Antwort eingeben...">
-      <button onclick="checkQuiz(4)">Prüfen</button>
+      <div class="quiz-controls">
+        <input id="q4" placeholder="Antwort eingeben...">
+        <button onclick="checkQuiz(4)">Prüfen</button>
+      </div>
       <div id="m4" class="message"></div>
     </div>
 
     <!-- Frage 5 -->
     <div class="question-row">
       <p>5. Rabsi, Manuel, Firo... Doch welche Endung ist die schönste?</p>
-      <input id="q5" placeholder="Buchstabe eingeben">
-      <button onclick="checkQuiz(5)">Prüfen</button>
+      <div class="quiz-controls">
+        <input id="q5" placeholder="Buchstabe eingeben">
+        <button onclick="checkQuiz(5)">Prüfen</button>
+      </div>
       <div id="m5" class="message"></div>
     </div>
 
     <!-- Frage 6 -->
     <div class="question-row">
       <p>6. Firos aktueller Lieblingsbuchstabe...?</p>
-      <input id="q6" placeholder="Antwort eingeben...">
-      <button onclick="checkQuiz(6)">Prüfen</button>
+      <div class="quiz-controls">
+        <input id="q6" placeholder="Antwort eingeben...">
+        <button onclick="checkQuiz(6)">Prüfen</button>
+      </div>
       <div id="m6" class="message"></div>
     </div>
 
     <!-- Frage 7 -->
     <div class="question-row">
       <p>7. Firo findet Namen seit Neuestem attraktiv... Doch welcher Buchstabe ist der verbreitetste?</p>
-      <input id="q7" placeholder="Antwort eingeben...">
-      <button onclick="checkQuiz(7)">Prüfen</button>
+      <div class="quiz-controls">
+        <input id="q7" placeholder="Antwort eingeben...">
+        <button onclick="checkQuiz(7)">Prüfen</button>
+      </div>
       <div id="m7" class="message"></div>
     </div>
 
     <!-- Frage 8 -->
     <div class="question-row">
       <p>8. Wie viele Medien wurden in der WhatsApp-Gruppe geteilt? (MC: 23 / 69 / 83 / 47)</p>
-      <input id="q8" placeholder="Antwort eingeben...">
-      <button onclick="checkQuiz(8)">Prüfen</button>
+      <div class="quiz-controls">
+        <input id="q8" placeholder="Antwort eingeben...">
+        <button onclick="checkQuiz(8)">Prüfen</button>
+      </div>
       <div id="m8" class="message"></div>
     </div>
 
@@ -437,10 +468,12 @@ setInterval(createSnowflake,200);
     <p>Song-Code eingeben (3 Buchstaben):</p>
 
     <div class="question-row">
-      <input type="text" id="sp1" maxlength="1" placeholder="1. Buchstabe">
-      <input type="text" id="sp2" maxlength="1" placeholder="2. Buchstabe" style="margin-top:10px;">
-      <input type="text" id="sp3" maxlength="1" placeholder="3. Buchstabe" style="margin-top:10px;">
-      <button onclick="checkSpotify()">Prüfen</button>
+      <div class="quiz-controls">
+        <input type="text" id="sp1" maxlength="1" placeholder="1. Buchstabe">
+        <input type="text" id="sp2" maxlength="1" placeholder="2. Buchstabe">
+        <input type="text" id="sp3" maxlength="1" placeholder="3. Buchstabe">
+        <button onclick="checkSpotify()">Prüfen</button>
+      </div>
       <div id="sp-msg" class="message"></div>
     </div>
   </div>
