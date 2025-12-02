@@ -451,7 +451,6 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   <div class="card puzzle-card hidden" id="puzzle-0" data-index="0">
     <div class="card-header"><span class="badge">Rätsel 1</span><h2>Quiz – 8 Fragen</h2></div>
     <div id="quiz-summary" class="message">0 von 8 gelöst</div>
-    <!-- FRAGENBLOCK -->
     <div id="quiz-questions">
 
       <!-- Frage 1 -->
@@ -510,7 +509,7 @@ const playError=()=>playTone(220,0.14,"square",0.12);
         <div id="m7" class="message"></div>
       </div>
 
-      <!-- Frage 8 (Multiple Choice) -->
+      <!-- Frage 8 -->
       <div class="question-row">
         <p>8. Die WhatsApp-Gruppe von 3eryk? war schon ein großes Upgrade.  
            Doch wie viele Medien, Links und Docs wurden dort bisher geteilt?</p>
@@ -527,9 +526,8 @@ const playError=()=>playTone(220,0.14,"square",0.12);
         <div id="m8" class="message"></div>
       </div>
 
-    </div> <!-- Quiz-Ende -->
-
-  </div> <!-- Rätsel 1 Karte Ende -->
+    </div>
+  </div>
 
   <!-- RÄTSEL 2–5 (Platzhalter) -->
   <div class="card puzzle-card hidden" id="puzzle-1" data-index="1">
@@ -584,6 +582,9 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   </div>
 
   <button id="reset-progress">Fortschritt zurücksetzen</button>
+
+</div>
+
 <script>
 // ---------- GLOBALS ----------
 let ADMIN_MODE = false;
@@ -637,32 +638,10 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// ---------- AUDIO ----------
-let audioCtx = null;
-function getAudioCtx() {
-  if (!audioCtx) {
-    const C = window.AudioContext || window.webkitAudioContext;
-    if (C) audioCtx = new C();
-  }
-  return audioCtx;
-}
-function beep(freq, dur, type="sine", vol=0.10) {
-  const c = getAudioCtx(); if (!c) return;
-  const o = c.createOscillator(), g = c.createGain();
-  o.type = type;
-  o.frequency.value = freq;
-  g.gain.value = vol;
-  o.connect(g); g.connect(c.destination);
-  const now = c.currentTime;
-  o.start(now);
-  o.stop(now + dur);
-  g.gain.setValueAtTime(vol, now);
-  g.gain.linearRampToValueAtTime(0, now + dur);
-}
-
-function clickSound() { beep(650, 0.07, "triangle", 0.1); }
-function successSound() { beep(880,0.1); setTimeout(()=>beep(1040,0.1),90); }
-function errorSound() { beep(220,0.15,"square",0.15); }
+// ---------- SOUND WRAPPER (nutzt playClick / playSuccess / playError) ----------
+function clickSound(){ playClick(); }
+function successSound(){ playSuccess(); }
+function errorSound(){ playError(); }
 
 // ---------- LETTER DISPLAY ----------
 const slots = document.querySelectorAll("#letters-progress span");
@@ -861,19 +840,16 @@ function updateMenuTitles() {
     const label = li.querySelector(".label");
     const target = li.dataset.target;
 
-    // Finale bleibt Finale
     if (target === "final-card") {
       label.textContent = "Finale";
       return;
     }
 
-    // Locked → nur Rätsel X
     if (li.classList.contains("locked") && !ADMIN_MODE) {
       label.textContent = `Rätsel ${index + 1}`;
       return;
     }
 
-    // Unlocked → echte Titel
     switch (index) {
       case 0: label.textContent = "Rätsel 1 – Quiz"; break;
       case 5: label.textContent = "Rätsel 6 – Spotify"; break;
@@ -886,14 +862,11 @@ function updateMenuTitles() {
 function updateVisibility() {
   const puzzles = document.querySelectorAll(".puzzle-card");
 
-  // Alles verstecken
   puzzles.forEach(p => p.classList.add("hidden"));
   document.getElementById("final-card").classList.add("hidden");
 
-  // Rätsel 1
   if (isUnlocked(0)) document.getElementById("puzzle-0").classList.remove("hidden");
 
-  // Menü-Lock State setzen
   document.querySelectorAll("#side-menu li").forEach((li, index) => {
     const target = li.dataset.target;
     const el = document.getElementById(target);
@@ -904,7 +877,6 @@ function updateVisibility() {
     }
   });
 
-  // Rätsel 2–5 erst sichtbar wenn Quiz komplett
   if (quizSolvedCount === 8 || ADMIN_MODE) {
     for (let i = 1; i <= 4; i++) {
       if (isUnlocked(i) || ADMIN_MODE) {
@@ -913,12 +885,10 @@ function updateVisibility() {
     }
   }
 
-  // Spotify (Rätsel 6)
   if ((quizSolvedCount === 8 && isUnlocked(5)) || ADMIN_MODE) {
     document.getElementById("puzzle-5").classList.remove("hidden");
   }
 
-  // Final
   if (
     ADMIN_MODE ||
     (
@@ -950,10 +920,9 @@ function updateNextUnlockBox() {
 }
 setInterval(updateNextUnlockBox, 1000);
 
-// ---------- RESTORE ----------
+// ---------- RESTORE + RESET ----------
 updateVisibility();
 
-// ---------- RESET ----------
 document.getElementById("reset-progress").addEventListener("click", () => {
   clickSound();
   localStorage.removeItem("XMASRIDDLE_GLOBAL");
