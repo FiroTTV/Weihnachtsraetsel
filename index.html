@@ -44,14 +44,8 @@
       padding:32px 16px 64px;
     }
 
-    .title {
-      text-align:center;
-      margin-bottom:24px;
-    }
-    .title h1 {
-      margin:0;
-      font-size:clamp(1.8rem,3vw,2.4rem);
-    }
+    .title { text-align:center; margin-bottom:24px; }
+    .title h1 { margin:0; font-size:clamp(1.8rem,3vw,2.4rem); }
 
     #countdown {
       margin-top:16px;
@@ -76,12 +70,7 @@
       box-shadow:0 18px 40px rgba(0,0,0,0.5);
     }
 
-    .card-header {
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-bottom:8px;
-    }
+    .card-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
     .badge {
       font-size:0.75rem;
       padding:3px 8px;
@@ -91,33 +80,24 @@
     }
 
     iframe {
-      width:100%;
-      max-width:600px;
-      height:338px;
-      margin:0 auto;
-      display:block;
-      border-radius:12px;
-      border:none;
+      width:100%; max-width:600px; height:338px;
+      margin:0 auto; display:block;
+      border-radius:12px; border:none;
       background:#020617;
     }
 
     .letters-progress {
-      display:flex;
-      flex-wrap:wrap;
-      gap:6px;
+      display:flex; flex-wrap:wrap; gap:6px;
     }
     .letters-progress span {
-      width:20px;
-      text-align:center;
+      width:20px; text-align:center;
       padding:3px 0;
       border-radius:6px;
       background:rgba(15,23,42,0.7);
       border:1px solid rgba(148,163,184,0.35);
       font-size:0.9rem;
     }
-    .letters-progress span.filled {
-      border-color:var(--accent);
-    }
+    .letters-progress span.filled { border-color:var(--accent); }
 
     input[type="text"], input[type="password"] {
       width:100%;
@@ -132,9 +112,8 @@
       transition:0.25s ease;
       box-sizing:border-box;
     }
-    input:hover {
-      border-color:rgba(148,163,184,0.4);
-    }
+
+    input:hover { border-color:rgba(148,163,184,0.4); }
     input:focus {
       border-color:var(--accent);
       box-shadow:0 0 12px rgba(56,189,248,0.45);
@@ -149,29 +128,22 @@
       margin-bottom:14px;
       box-shadow:0 6px 16px rgba(0,0,0,0.25);
     }
-    .question-row p {
-      margin:0 0 6px;
-      font-weight:600;
-    }
+    .question-row p { margin:0 0 6px; font-weight:600; }
 
     .message.success { color:var(--success); margin-top:6px; }
     .message.error { color:var(--error); margin-top:6px; }
 
     button {
       padding:8px 18px;
-      border:none;
-      border-radius:10px;
-      cursor:pointer;
-      font-weight:600;
+      border:none; border-radius:10px;
+      cursor:pointer; font-weight:600;
       color:white;
       background:linear-gradient(90deg,#3b82f6,#a855f7);
-      transition:0.2s;
-      font-size:0.95rem;
+      transition:0.2s; font-size:0.95rem;
       margin-top:6px;
       box-shadow:0 3px 12px rgba(0,0,0,0.3);
     }
     button:hover { transform:scale(1.04); }
-    button:disabled { opacity:0.6; cursor:not-allowed; }
 
     .hidden { display:none !important; }
 
@@ -208,44 +180,33 @@
       box-shadow:0 0 18px rgba(56,189,248,0.6);
     }
 
-    .burger-lines {
-      width:20px;
-      height:16px;
-      position:relative;
-    }
+    .burger-lines { width:20px; height:16px; position:relative; }
     .burger-lines span {
       position:absolute;
-      left:0;
-      right:0;
-      height:2px;
-      background:#e5e7eb;
-      border-radius:999px;
-      transition:0.25s;
+      left:0; right:0;
+      height:2px; background:#e5e7eb;
+      border-radius:999px; transition:0.25s;
     }
     .burger-lines span:nth-child(1){ top:0; }
     .burger-lines span:nth-child(2){ top:7px; }
     .burger-lines span:nth-child(3){ top:14px; }
 
     .menu-overlay {
-      position:fixed;
-      inset:0;
+      position:fixed; inset:0;
       background:rgba(15,23,42,0.75);
       backdrop-filter:blur(4px);
       z-index:40;
-      opacity:0;
-      pointer-events:none;
+      opacity:0; pointer-events:none;
       transition:opacity .25s;
     }
     .menu-overlay.active {
-      opacity:1;
-      pointer-events:auto;
+      opacity:1; pointer-events:auto;
     }
 
     .side-menu {
       position:fixed;
       top:0; right:0;
-      width:260px;
-      max-width:85%;
+      width:260px; max-width:85%;
       height:100vh;
       background:rgba(15,23,42,0.98);
       border-left:1px solid rgba(148,163,184,0.4);
@@ -257,14 +218,7 @@
     }
     .side-menu.active { transform:translateX(0); }
 
-    .side-menu ul {
-      list-style:none;
-      padding:0;
-      margin:0;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
+    .side-menu ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; }
     .side-menu li {
       border-radius:10px;
       padding:10px 12px;
@@ -276,9 +230,7 @@
       transition:.2s;
     }
     .side-menu li.locked {
-      opacity:0.4;
-      cursor:not-allowed;
-      border-style:dashed;
+      opacity:0.4; cursor:not-allowed; border-style:dashed;
     }
   </style>
 </head>
@@ -305,7 +257,7 @@ setInterval(createSnowflake,200);
 <nav id="side-menu" class="side-menu hidden">
   <h3>Navigation</h3>
   <ul>
-    <li data-target="puzzle-0"><span class="label">Rätsel 1</span><span class="tag">Start</span></li>
+    <li data-target="puzzle-0"><span class="label">Rätsel 1</span></li>
     <li data-target="puzzle-1"><span class="label">Rätsel 2</span></li>
     <li data-target="puzzle-2"><span class="label">Rätsel 3</span></li>
     <li data-target="puzzle-3"><span class="label">Rätsel 4</span></li>
@@ -328,23 +280,24 @@ setInterval(createSnowflake,200);
     <div id="countdown">Lade Countdown...</div>
   </div>
 
-  <!-- Admin -->
+  <!-- ADMIN -->
   <div class="card">
     <div class="card-header"><span class="badge">Admin</span><h2>Admin Login</h2></div>
-    <input id="admin-pass" type="password" placeholder="Passwort">
+    <input id="admin-pass" type="password" placeholder="Passwort eingeben">
     <button id="admin-btn">Login</button>
     <div id="admin-msg" class="message"></div>
   </div>
 
-  <!-- Intro -->
+  <!-- INTRO -->
   <div class="card">
     <div class="card-header"><span class="badge">Intro</span><h2>Willkommen!</h2></div>
     <iframe src="https://www.youtube.com/embed/TGvnbko2Jio?si=z0f59smM_qRPTszH" allowfullscreen></iframe>
   </div>
 
-  <!-- Fortschritt -->
+  <!-- FORTSCHRITT -->
   <div class="card">
     <div class="card-header"><span class="badge">Fortschritt</span><h2>Gesammelte Zeichen</h2></div>
+
     <div class="letters-progress" id="letters-progress">
       <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
       <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
@@ -355,26 +308,18 @@ setInterval(createSnowflake,200);
     </div>
   </div>
 
-  <!-- NEXT RÄTSEL -->
-  <div class="card" id="next-unlock-card">
-    <div class="card-header"><span class="badge">Info</span><h2>Nächstes Rätsel</h2></div>
-    <div id="next-unlock-text">Lade...</div>
-    <div id="next-unlock-countdown"></div>
-  </div>
-
-  <!-- QR CODE BLOCK -->
+  <!-- QR-CODE BLOCK -->
   <div class="card" id="qr-hint-card">
     <div class="card-header">
       <span class="badge">QR-Code</span>
       <h2>Zusatzaufgabe</h2>
     </div>
-    <p>
-      <strong>Findet alle Teile des QR-Codes mithilfe von Firo…</strong>
-    </p>
+    <p><strong>Findet alle Teile des QR-Codes mithilfe von Firo…</strong></p>
     <p style="margin-top:10px;color:var(--text-muted);font-size:0.9rem;">
       💡 Es existieren mehrere Teile. Erst zusammensetzen → dann scannen.
     </p>
   </div>
+
   <!-- RÄTSEL 1 – QUIZ -->
   <div class="card puzzle-card hidden" id="puzzle-0" data-index="0">
     <div class="card-header"><span class="badge">Rätsel 1</span><h2>Quiz</h2></div>
@@ -458,6 +403,24 @@ setInterval(createSnowflake,200);
 
     </div>
   </div>
+  <!-- NÄCHSTES RÄTSEL (NEU, MIT SCHLOSS & TIMER) -->
+  <div class="card" id="next-unlock-card">
+    <div class="card-header">
+      <span class="badge">Info</span>
+      <h2>Nächstes Rätsel</h2>
+    </div>
+
+    <div id="next-unlock-text">Lade...</div>
+
+    <div id="next-unlock-countdown" style="margin-top:6px;"></div>
+
+    <div id="next-unlock-icon" 
+         style="font-size:32px;margin-top:10px;opacity:0.8;text-align:center;">
+      🔒
+    </div>
+  </div>
+
+
 
   <!-- RÄTSEL 2 -->
   <div class="card puzzle-card hidden" id="puzzle-1" data-index="1">
@@ -483,9 +446,12 @@ setInterval(createSnowflake,200);
     <p>Wird automatisch freigeschaltet.</p>
   </div>
 
+
+
   <!-- RÄTSEL 6 – SPOTIFY -->
   <div class="card puzzle-card hidden" id="puzzle-5" data-index="5">
     <div class="card-header"><span class="badge">Rätsel 6</span><h2>Spotify Rätsel</h2></div>
+
     <p>Song-Code eingeben (3 Buchstaben):</p>
 
     <div class="question-row">
@@ -497,7 +463,9 @@ setInterval(createSnowflake,200);
     </div>
   </div>
 
-  <!-- FINALE -->
+
+
+  <!-- FINALES LÖSUNGSWORT -->
   <div class="card hidden" id="final-card">
     <div class="card-header"><span class="badge">Ende</span><h2>Finales Lösungswort</h2></div>
 
@@ -507,12 +475,14 @@ setInterval(createSnowflake,200);
     <div id="final-msg" class="message"></div>
   </div>
 
+
+
   <!-- RESET -->
   <button id="reset-progress">Fortschritt zurücksetzen</button>
 
 </div> <!-- /container -->
 <script>
-// ---------------- GLOBAL VARIABLEN ----------------
+// ---------------- GLOBAL DATA ----------------
 let ADMIN_MODE = false;
 const ADMIN_PASSWORD = "SuperYK2025";
 
@@ -535,7 +505,9 @@ function saveProgress() {
   localStorage.setItem("XMASRIDDLE_GLOBAL", JSON.stringify(progress));
 }
 
-// ---------------- COUNTDOWN OBEN ----------------
+
+
+// ---------------- COUNTDOWN TOP ----------------
 function formatDiff(diff) {
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff % 86400000) / 3600000);
@@ -564,7 +536,9 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
-// ---------------- AUDIO ----------------
+
+
+// ---------------- SOUND ----------------
 let audioCtx = null;
 function getAudioCtx() {
   if (!audioCtx) {
@@ -576,22 +550,29 @@ function getAudioCtx() {
 
 function beep(freq, dur, type="sine", vol=0.10) {
   const c = getAudioCtx(); if (!c) return;
-  const o = c.createOscillator(), g = c.createGain();
+  const o = c.createOscillator();
+  const g = c.createGain();
+
   o.type = type;
   o.frequency.value = freq;
   g.gain.value = vol;
+
   o.connect(g); g.connect(c.destination);
+
   const now = c.currentTime;
   o.start(now);
   o.stop(now + dur);
   g.gain.setValueAtTime(vol, now);
   g.gain.linearRampToValueAtTime(0, now + dur);
 }
+
 function clickSound(){ beep(650,0.07,"triangle",0.1); }
 function successSound(){ beep(880,0.09); setTimeout(()=>beep(1040,0.09),80); }
 function errorSound(){ beep(220,0.15,"square",0.15); }
 
-// ---------------- FORTSCHRITT ZEICHEN ----------------
+
+
+// ---------------- FORTSCHRITT BUCHSTABEN ----------------
 const slots = document.querySelectorAll("#letters-progress span");
 let nextIndex = progress.letters ? progress.letters.length : 0;
 
@@ -607,7 +588,9 @@ if (progress.letters) {
   progress.letters.forEach(l => addLetter(l));
 }
 
-// ---------------- QUIZ LOGIK ----------------
+
+
+// ---------------- QUIZ ----------------
 let quizSolved = progress.quizSolved || {};
 let quizSolvedCount = Object.keys(quizSolved).length;
 
@@ -616,7 +599,6 @@ document.getElementById("quiz-summary").textContent =
 
 function checkQuiz(n) {
   clickSound();
-
   const input = document.getElementById("q" + n);
   const msg = document.getElementById("m" + n);
   if (quizSolved[n]) {
@@ -660,12 +642,12 @@ function checkQuiz(n) {
     progress.letters = progress.letters || [];
     progress.letters.push(letters[n]);
     addLetter(letters[n]);
+
     saveProgress();
 
     quizSolvedCount++;
     document.getElementById("quiz-summary").textContent =
-      quizSolvedCount === 8 ? "Alle 8 gelöst! 🎉" :
-      `${quizSolvedCount} von 8 gelöst`;
+      quizSolvedCount === 8 ? "Alle 8 gelöst! 🎉" : `${quizSolvedCount} von 8 gelöst`;
 
     updateVisibility();
   } else {
@@ -675,7 +657,9 @@ function checkQuiz(n) {
   }
 }
 
-// ---------------- SPOTIFY-RÄTSEL ----------------
+
+
+// ---------------- SPOTIFY ----------------
 function checkSpotify() {
   clickSound();
 
@@ -706,7 +690,9 @@ function checkSpotify() {
   }
 }
 
-// ---------------- FINALES LÖSUNGSWORT ----------------
+
+
+// ---------------- FINALE ----------------
 function checkFinal() {
   clickSound();
   const val = document.getElementById("final-input").value.trim();
@@ -722,6 +708,8 @@ function checkFinal() {
     errorSound();
   }
 }
+
+
 
 // ---------------- ADMIN LOGIN ----------------
 document.getElementById("admin-btn").addEventListener("click", () => {
@@ -742,7 +730,9 @@ document.getElementById("admin-btn").addEventListener("click", () => {
   }
 });
 
-// ---------------- BURGER-MENÜ ----------------
+
+
+// ---------------- BURGER MENU ----------------
 const burgerBtn = document.getElementById("burger-btn");
 const sideMenu = document.getElementById("side-menu");
 const overlay = document.getElementById("menu-overlay");
@@ -752,6 +742,7 @@ burgerBtn.addEventListener("click", () => {
   sideMenu.classList.toggle("active");
   overlay.classList.toggle("active");
 });
+
 overlay.addEventListener("click", () => {
   clickSound();
   sideMenu.classList.remove("active");
@@ -773,7 +764,9 @@ document.querySelectorAll("#side-menu li").forEach(li => {
   });
 });
 
-// ---------------- MENÜ-ÜBERSCHRIFTEN ----------------
+
+
+// ---------------- MENU LABELS ----------------
 function updateMenuTitles() {
   const items = document.querySelectorAll("#side-menu li");
 
@@ -799,38 +792,47 @@ function updateMenuTitles() {
   });
 }
 
-// ---------------- SICHTBARKEIT / UNLOCK ----------------
+
+
+// ---------------- VISIBILITY / UNLOCK ----------------
 function updateVisibility() {
+
   const puzzles = document.querySelectorAll(".puzzle-card");
   puzzles.forEach(p => p.classList.add("hidden"));
   document.getElementById("final-card").classList.add("hidden");
 
-  if (isUnlocked(0))
+  // Rätsel 1 immer ab 01.12 unlocked
+  if (isUnlocked(0)) 
     document.getElementById("puzzle-0").classList.remove("hidden");
 
+  // Menü-Icons locken
   document.querySelectorAll("#side-menu li").forEach((li, index) => {
     const target = li.dataset.target;
     const el = document.getElementById(target);
-    if (ADMIN_MODE || !el.classList.contains("hidden")) {
+
+    if (el && !el.classList.contains("hidden")) {
       li.classList.remove("locked");
-    } else {
+    } else if (!ADMIN_MODE) {
       li.classList.add("locked");
     }
   });
 
+  // Rätsel 2–5 erst wenn Quiz komplett gelöst
   if (quizSolvedCount === 8 || ADMIN_MODE) {
-    for (let i=1;i<=4;i++) {
+    for (let i = 1; i <= 4; i++) {
       if (isUnlocked(i) || ADMIN_MODE) {
-        document.getElementById("puzzle-"+i).classList.remove("hidden");
+        document.getElementById("puzzle-" + i).classList.remove("hidden");
       }
     }
   }
 
+  // Rätsel 6: Spotify
   if ((quizSolvedCount === 8 && isUnlocked(5)) || ADMIN_MODE) {
     document.getElementById("puzzle-5").classList.remove("hidden");
   }
 
-  if (ADMIN_MODE || (quizSolvedCount === 8 && progress.spotify === true)) {
+  // Finale
+  if (ADMIN_MODE || (quizSolvedCount === 8 && progress.spotify)) {
     document.getElementById("final-card").classList.remove("hidden");
   }
 
@@ -838,27 +840,42 @@ function updateVisibility() {
   updateMenuTitles();
 }
 
-// ---------------- NÄCHSTES RÄTSEL ----------------
+
+
+// ---------------- NEXT UNLOCK BOX (MIT SCHLOSS) ----------------
 function updateNextUnlockBox() {
   const txt = document.getElementById("next-unlock-text");
   const cd = document.getElementById("next-unlock-countdown");
+  const icon = document.getElementById("next-unlock-icon");
 
-  for (let i=0;i<=5;i++) {
+  for (let i = 0; i <= 5; i++) {
     if (!isUnlocked(i)) {
-      txt.textContent = `Rätsel ${i+1}`;
+
+      txt.textContent = `Rätsel ${i + 1}`;
       cd.textContent = formatDiff(unlockSchedule[i] - Date.now());
+
+      icon.textContent = "🔒";
+      icon.style.color = "#f87171";
+
       return;
     }
   }
 
+  // alles unlocked
   txt.textContent = "Alle Rätsel sind freigeschaltet!";
   cd.textContent = "";
+  icon.textContent = "🔓";
+  icon.style.color = "#4ade80";
 }
 
 setInterval(updateNextUnlockBox, 1000);
 
-// ---------------- INITIALER LOAD ----------------
+
+
+// ---------------- INITIAL LOAD ----------------
 updateVisibility();
+
+
 
 // ---------------- RESET ----------------
 document.getElementById("reset-progress").addEventListener("click", () => {
