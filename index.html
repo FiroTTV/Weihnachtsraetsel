@@ -1,244 +1,241 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>3eryk? Weihnachtsrätsel 🎄</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     :root {
-      --bg:#020617;
-      --card-bg:rgba(15,23,42,0.9);
-      --border:rgba(148,163,184,0.3);
-      --text-main:#e5e7eb;
-      --text-muted:#9ca3af;
-      --accent:#38bdf8;
-      --error:#f97373;
-      --success:#4ade80;
+      --bg: #020617;
+      --card-bg: rgba(15, 23, 42, 0.9);
+      --border: rgba(148, 163, 184, 0.3);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --accent: #38bdf8;
+      --error: #f97373;
+      --success: #4ade80;
     }
 
     body {
-      margin:0;
-      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      background:radial-gradient(circle at top,#1e293b 0,#020617 55%);
-      color:var(--text-main);
-      min-height:100vh;
-      overflow-x:hidden;
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
     /* Snow */
     .snowflake {
-      position:fixed;
-      top:-10px;
-      color:#fff;
-      opacity:0.8;
-      pointer-events:none;
-      z-index:5;
-      animation:fall linear infinite;
+      position: fixed;
+      top: -10px;
+      color: #fff;
+      opacity: 0.8;
+      user-select: none;
+      pointer-events: none;
+      z-index: 5;
+      animation: fall linear infinite;
     }
-    @keyframes fall { to { transform:translateY(110vh); } }
+    @keyframes fall { to { transform: translateY(110vh); } }
 
+    /* Container */
     .container {
-      max-width:900px;
-      margin:0 auto;
-      padding:32px 16px 64px;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
     }
 
-    .title { text-align:center; margin-bottom:24px; }
-    .title h1 { margin:0; font-size:clamp(1.8rem,3vw,2.4rem); }
+    .title { text-align: center; margin-bottom: 24px; }
+    .title h1 { margin: 0; font-size: clamp(1.8rem, 3vw, 2.4rem); }
 
+    /* Countdown */
     #countdown {
-      margin-top:16px;
-      font-size:2.2rem;
-      font-weight:800;
-      color:var(--accent);
-      text-shadow:0 0 10px rgba(56,189,248,0.7);
-      animation:pulseGlow 2.2s ease-in-out infinite;
+      margin-top: 16px;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent);
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+      animation: pulseGlow 2.2s ease-in-out infinite;
     }
     @keyframes pulseGlow {
-      0%{transform:scale(1);}
-      50%{transform:scale(1.05);}
-      100%{transform:scale(1);}
+      0% { transform: scale(1); text-shadow: 0 0 12px rgba(56,189,248,0.6); }
+      50% { transform: scale(1.05); text-shadow: 0 0 20px rgba(56,189,248,1); }
+      100% { transform: scale(1); text-shadow: 0 0 12px rgba(56,189,248,0.6); }
     }
 
+    /* Cards */
     .card {
-      background:var(--card-bg);
-      border-radius:16px;
-      border:1px solid var(--border);
-      padding:20px 18px;
-      margin-bottom:18px;
-      box-shadow:0 18px 40px rgba(0,0,0,0.5);
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 20px 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.5);
     }
-
-    .card-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+    .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
     .badge {
-      font-size:0.75rem;
-      padding:3px 8px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      color:var(--text-muted);
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
     }
 
     iframe {
-      width:100%; max-width:600px; height:338px;
-      margin:0 auto; display:block;
-      border-radius:12px; border:none;
-      background:#020617;
+      width: 100%; max-width: 600px; height: 338px;
+      margin: 0 auto; display: block;
+      border-radius: 12px; border: none;
+      background: #020617;
     }
 
+    /* Letters */
     .letters-progress {
-      display:flex; flex-wrap:wrap; gap:6px;
+      display: flex; flex-wrap: wrap; gap: 6px;
     }
     .letters-progress span {
-      width:20px; text-align:center;
-      padding:3px 0;
-      border-radius:6px;
-      background:rgba(15,23,42,0.7);
-      border:1px solid rgba(148,163,184,0.35);
-      font-size:0.9rem;
+      width: 20px; text-align: center;
+      padding: 3px 0px; border-radius: 6px;
+      background: rgba(15,23,42,0.7);
+      border: 1px solid rgba(148,163,184,0.35);
+      font-size: 0.9rem;
     }
-    .letters-progress span.filled { border-color:var(--accent); }
+    .letters-progress span.filled { border-color: var(--accent); }
 
+    /* Inputs */
     input[type="text"], input[type="password"] {
-      width:100%;
-      padding:10px 14px;
-      margin-top:6px;
-      font-size:1rem;
-      border-radius:10px;
-      border:1px solid rgba(148,163,184,0.25);
-      background:rgba(255,255,255,0.06);
-      color:#e5e7eb;
-      outline:none;
-      transition:0.25s ease;
-      box-sizing:border-box;
+      width: 100%; padding: 10px 14px;
+      margin-top: 6px; font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid rgba(148,163,184,0.25);
+      background: rgba(255,255,255,0.06);
+      color: #e5e7eb; outline: none;
+      transition: 0.25s ease;
     }
-
-    input:hover { border-color:rgba(148,163,184,0.4); }
     input:focus {
-      border-color:var(--accent);
-      box-shadow:0 0 12px rgba(56,189,248,0.45);
-      background:rgba(255,255,255,0.10);
+      border-color: var(--accent);
+      box-shadow: 0 0 12px rgba(56,189,248,0.45);
+      background: rgba(255,255,255,0.10);
     }
 
     .question-row {
-      background:rgba(255,255,255,0.03);
-      padding:14px 16px;
-      border-radius:12px;
-      border:1px solid rgba(148,163,184,0.15);
-      margin-bottom:14px;
-      box-shadow:0 6px 16px rgba(0,0,0,0.25);
+      background: rgba(255,255,255,0.03);
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,0.15);
+      margin-bottom: 14px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
     }
-    .question-row p { margin:0 0 6px; font-weight:600; }
+    .question-row p { margin: 0 0 6px; font-weight: 600; }
 
-    .message.success { color:var(--success); margin-top:6px; }
-    .message.error { color:var(--error); margin-top:6px; }
+    .message.success { color: var(--success); margin-top: 6px; }
+    .message.error { color: var(--error); margin-top: 6px; }
+
+    .letter-badge {
+      padding: 2px 6px;
+      background: rgba(56,189,248,0.25);
+      border-radius: 6px;
+      border: 1px solid rgba(56,189,248,0.4);
+      font-weight: 700;
+    }
 
     button {
-      padding:8px 18px;
-      border:none; border-radius:10px;
-      cursor:pointer; font-weight:600;
-      color:white;
-      background:linear-gradient(90deg,#3b82f6,#a855f7);
-      transition:0.2s; font-size:0.95rem;
-      margin-top:6px;
-      box-shadow:0 3px 12px rgba(0,0,0,0.3);
+      padding: 8px 18px;
+      border: none; border-radius: 10px;
+      cursor: pointer; font-weight: 600;
+      color: white;
+      background: linear-gradient(90deg, #3b82f6, #a855f7);
+      transition: 0.2s; font-size: 0.95rem;
     }
-    button:hover { transform:scale(1.04); }
+    button:hover { transform: scale(1.04); }
 
-    .hidden { display:none !important; }
+    .hidden { display: none !important; }
 
     #reset-progress {
-      background:linear-gradient(90deg,#ef4444,#f97316);
-      margin-top:32px;
-      width:220px;
-      display:block;
-      margin-left:auto;
-      margin-right:auto;
+      background: linear-gradient(90deg, #ef4444, #f97316);
+      margin-top: 32px;
+      width: 220px;
+    }
+
+    /* NEXT UNLOCK TIMER — same style as main countdown */
+    #next-unlock-countdown {
+      margin-top: 8px;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      text-shadow: 0 0 16px rgba(56,189,248,0.8);
+      animation: pulseGlow 2.2s ease-in-out infinite;
+      text-align: left;
+    }
+
+    /* QR Box */
+    .qr-box {
+      padding: 18px;
+      margin: 20px 0;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      font-size: 1.05rem;
     }
 
     /* BURGER MENU */
-    .burger-btn {
-      position:fixed;
-      top:10px;
-      right:10px;
-      width:46px;
-      height:46px;
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,0.5);
-      background:rgba(15,23,42,0.9);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      box-shadow:0 12px 30px rgba(0,0,0,0.7);
-      transition:0.2s;
-      z-index:50;
-    }
-    .burger-btn:hover {
-      transform:scale(1.08);
-      border-color:var(--accent);
-      box-shadow:0 0 18px rgba(56,189,248,0.6);
+    #burger-btn {
+      position: fixed;
+      right: 22px;
+      top: 22px;
+      z-index: 9999;
+      cursor: pointer;
+      font-size: 28px;
+      background: rgba(0,0,0,0.4);
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.15);
     }
 
-    .burger-lines { width:20px; height:16px; position:relative; }
-    .burger-lines span {
-      position:absolute;
-      left:0; right:0;
-      height:2px; background:#e5e7eb;
-      border-radius:999px; transition:0.25s;
+    #side-menu {
+      position: fixed;
+      right: -260px;
+      top: 0;
+      width: 240px;
+      height: 100vh;
+      background: rgba(15,23,42,0.97);
+      border-left: 1px solid rgba(255,255,255,0.12);
+      padding: 20px;
+      transition: 0.3s ease;
+      z-index: 99999;
     }
-    .burger-lines span:nth-child(1){ top:0; }
-    .burger-lines span:nth-child(2){ top:7px; }
-    .burger-lines span:nth-child(3){ top:14px; }
+    #side-menu.active { right: 0; }
 
-    .menu-overlay {
-      position:fixed; inset:0;
-      background:rgba(15,23,42,0.75);
-      backdrop-filter:blur(4px);
-      z-index:40;
-      opacity:0; pointer-events:none;
-      transition:opacity .25s;
+    #side-menu ul { list-style: none; padding: 0; margin: 0; }
+    #side-menu li {
+      padding: 12px;
+      margin-bottom: 10px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      cursor: pointer;
     }
-    .menu-overlay.active {
-      opacity:1; pointer-events:auto;
+    #side-menu li.locked {
+      opacity: 0.4;
+      cursor: not-allowed;
     }
 
-    .side-menu {
-      position:fixed;
-      top:0; right:0;
-      width:260px; max-width:85%;
-      height:100vh;
-      background:rgba(15,23,42,0.98);
-      border-left:1px solid rgba(148,163,184,0.4);
-      box-shadow:-16px 0 30px rgba(0,0,0,0.7);
-      transform:translateX(100%);
-      transition:transform .25s ease-out;
-      z-index:60;
-      padding:20px 18px;
+    #menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      z-index: 99998;
     }
-    .side-menu.active { transform:translateX(0); }
+    #menu-overlay.active { display: block !important; }
 
-    .side-menu ul { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; }
-    .side-menu li {
-      border-radius:10px;
-      padding:10px 12px;
-      cursor:pointer;
-      display:flex;
-      justify-content:space-between;
-      border:1px solid rgba(148,163,184,0.35);
-      background:rgba(20,27,48,0.95);
-      transition:.2s;
-    }
-    .side-menu li.locked {
-      opacity:0.4; cursor:not-allowed; border-style:dashed;
-    }
   </style>
 </head>
 
 <body>
 
 <script>
-function createSnowflake(){
+function createSnowflake() {
   const s=document.createElement("div");
   s.className="snowflake";
   s.textContent="❄";
@@ -252,158 +249,128 @@ function createSnowflake(){
 setInterval(createSnowflake,200);
 </script>
 
-<div id="menu-overlay" class="menu-overlay hidden"></div>
 
-<nav id="side-menu" class="side-menu hidden">
-  <h3>Navigation</h3>
+<!-- BURGER BUTTON -->
+<div id="burger-btn">☰</div>
+
+<!-- SIDE MENU -->
+<nav id="side-menu">
   <ul>
-    <li data-target="puzzle-0"><span class="label">Rätsel 1</span></li>
-    <li data-target="puzzle-1"><span class="label">Rätsel 2</span></li>
-    <li data-target="puzzle-2"><span class="label">Rätsel 3</span></li>
-    <li data-target="puzzle-3"><span class="label">Rätsel 4</span></li>
-    <li data-target="puzzle-4"><span class="label">Rätsel 5</span></li>
-    <li data-target="puzzle-5"><span class="label">Rätsel 6</span></li>
-    <li data-target="final-card"><span class="label">Finale</span></li>
+    <li data-target="puzzle-0" class="locked"><span class="label">Rätsel 1</span></li>
+    <li data-target="puzzle-1" class="locked"><span class="label">Rätsel 2</span></li>
+    <li data-target="puzzle-2" class="locked"><span class="label">Rätsel 3</span></li>
+    <li data-target="puzzle-3" class="locked"><span class="label">Rätsel 4</span></li>
+    <li data-target="puzzle-4" class="locked"><span class="label">Rätsel 5</span></li>
+    <li data-target="puzzle-5" class="locked"><span class="label">Rätsel 6</span></li>
+    <li data-target="final-card" class="locked"><span class="label">Finale</span></li>
   </ul>
 </nav>
 
-<button id="burger-btn" class="burger-btn">
-  <div class="burger-lines">
-    <span></span><span></span><span></span>
-  </div>
-</button>
+<div id="menu-overlay"></div>
+
 
 <div class="container">
-
   <div class="title">
-    <h1>🎄 3eryk? Weihnachtsrätsel – 2025 Edition 🎄</h1>
+    <h1>🎄 3eryk? Weihnachtsrätsel 🎄</h1>
     <div id="countdown">Lade Countdown...</div>
   </div>
-
-  <!-- ADMIN -->
+  <!-- INTRO VIDEO -->
   <div class="card">
-    <div class="card-header"><span class="badge">Admin</span><h2>Admin Login</h2></div>
-    <input id="admin-pass" type="password" placeholder="Passwort eingeben">
-    <button id="admin-btn">Login</button>
-    <div id="admin-msg" class="message"></div>
-  </div>
-
-  <!-- INTRO -->
-  <div class="card">
-    <div class="card-header"><span class="badge">Intro</span><h2>Willkommen!</h2></div>
-    <iframe src="https://www.youtube.com/embed/TGvnbko2Jio?si=z0f59smM_qRPTszH" allowfullscreen></iframe>
-  </div>
-
-  <!-- FORTSCHRITT -->
-  <div class="card">
-    <div class="card-header"><span class="badge">Fortschritt</span><h2>Gesammelte Zeichen</h2></div>
-
-    <div class="letters-progress" id="letters-progress">
-      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span>
-    </div>
-  </div>
-
-  <!-- QR-CODE BLOCK -->
-  <div class="card" id="qr-hint-card">
     <div class="card-header">
-      <span class="badge">QR-Code</span>
-      <h2>Zusatzaufgabe</h2>
+      <span class="badge">Intro</span>
+      <h2>Willkommen!</h2>
     </div>
-    <p><strong>Findet alle Teile des QR-Codes mithilfe von Firo…</strong></p>
-    <p style="margin-top:10px;color:var(--text-muted);font-size:0.9rem;">
-      💡 Es existieren mehrere Teile. Erst zusammensetzen → dann scannen.
-    </p>
+
+    <iframe 
+      src="https://www.youtube.com/embed/TGvnbko2Jio?si=z0f59smM_qRPTszH"
+      allowfullscreen></iframe>
   </div>
+
+
+  <!-- QR-CODE HINWEIS -->
+  <div class="qr-box">
+    <strong>QR-Code:</strong><br>
+    Findet alle Teile des QR-Codes mithilfe von Firo...
+  </div>
+
 
   <!-- RÄTSEL 1 – QUIZ -->
   <div class="card puzzle-card hidden" id="puzzle-0" data-index="0">
-    <div class="card-header"><span class="badge">Rätsel 1</span><h2>Quiz</h2></div>
-
-    <div id="quiz-summary" style="margin-bottom:12px;">0 von 8 gelöst</div>
-
-    <div id="quiz-questions">
-
-      <!-- Frage 1 -->
-      <div class="question-row">
-        <p>1. Aus wie vielen Alben besteht die Trilogie von TheWeeknd?</p>
-        <input type="text" id="q1">
-        <button onclick="checkQuiz(1)">Prüfen</button>
-        <div id="m1" class="message"></div>
-      </div>
-
-      <!-- Frage 2 -->
-      <div class="question-row">
-        <p>2. Wann war der erste Call in der Discord Gruppe 3eryk?</p>
-        <input type="text" id="q2" placeholder="TT.MM.JJJJ">
-        <button onclick="checkQuiz(2)">Prüfen</button>
-        <div id="m2" class="message"></div>
-      </div>
-
-      <!-- Frage 3 -->
-      <div class="question-row">
-        <p>3. Rot....?</p>
-        <input type="text" id="q3">
-        <button onclick="checkQuiz(3)">Prüfen</button>
-        <div id="m3" class="message"></div>
-      </div>
-
-      <!-- Frage 4 -->
-      <div class="question-row">
-        <p>4. Frage...?</p>
-        <input type="text" id="q4">
-        <button onclick="checkQuiz(4)">Prüfen</button>
-        <div id="m4" class="message"></div>
-      </div>
-
-      <!-- Frage 5 -->
-      <div class="question-row">
-        <p>5. Rabsi, Manuel, Firo... Doch welche Endung ist die schönste?</p>
-        <input type="text" id="q5" placeholder="Buchstabe eingeben">
-        <button onclick="checkQuiz(5)">Prüfen</button>
-        <div id="m5" class="message"></div>
-      </div>
-
-      <!-- Frage 6 -->
-      <div class="question-row">
-        <p>6. Firo's aktueller Lieblingsbuchstabe...?</p>
-        <input type="text" id="q6">
-        <button onclick="checkQuiz(6)">Prüfen</button>
-        <div id="m6" class="message"></div>
-      </div>
-
-      <!-- Frage 7 -->
-      <div class="question-row">
-        <p>7. Firo findet Namen seit Neuestem attraktiv... Doch welcher Buchstabe ist der weitverbreitetste in Namen?</p>
-        <input type="text" id="q7">
-        <button onclick="checkQuiz(7)">Prüfen</button>
-        <div id="m7" class="message"></div>
-      </div>
-
-      <!-- Frage 8 -->
-      <div class="question-row">
-        <p>8. Die WhatsApp-Gruppe von 3eryk? war schon ein großes Upgrade.  
-           Doch wie viele Medien, Links und Docs wurden dort bisher geteilt?</p>
-
-        <select id="q8" style="width:100%;margin-top:6px;padding:10px;border-radius:10px;background:#1e253a;color:#e5e7eb;border:1px solid #475569;">
-          <option value="">Auswählen...</option>
-          <option value="23">23</option>
-          <option value="69">69</option>
-          <option value="83">83</option>
-          <option value="47">47</option>
-        </select>
-
-        <button onclick="checkQuiz(8)">Prüfen</button>
-        <div id="m8" class="message"></div>
-      </div>
-
+    <div class="card-header">
+      <span class="badge">Rätsel 1</span>
+      <h2>Quiz – 8 Fragen</h2>
     </div>
-  </div>
-  <!-- NÄCHSTES RÄTSEL (NEU, MIT SCHLOSS & TIMER) -->
+
+    <p id="quiz-summary">0 von 8 gelöst</p>
+
+    <!-- Frage 1 -->
+    <div class="question-row">
+      <p>1. Aus wie vielen Alben besteht die Trilogie von TheWeeknd?</p>
+      <input id="q1" placeholder="Antwort eingeben...">
+      <button onclick="checkQuiz(1)">Prüfen</button>
+      <div id="m1" class="message"></div>
+    </div>
+
+    <!-- Frage 2 -->
+    <div class="question-row">
+      <p>2. Wann war der erste Call in der Discord Gruppe 3eryk?</p>
+      <input id="q2" placeholder="Antwort eingeben... (TT.MM.JJJJ)">
+      <button onclick="checkQuiz(2)">Prüfen</button>
+      <div id="m2" class="message"></div>
+    </div>
+
+    <!-- Frage 3 -->
+    <div class="question-row">
+      <p>3. Rot....?</p>
+      <input id="q3" placeholder="ganzen Satz eingeben">
+      <button onclick="checkQuiz(3)">Prüfen</button>
+      <div id="m3" class="message"></div>
+    </div>
+
+    <!-- Frage 4 -->
+    <div class="question-row">
+      <p>4. Frage...?</p>
+      <input id="q4" placeholder="Antwort eingeben...">
+      <button onclick="checkQuiz(4)">Prüfen</button>
+      <div id="m4" class="message"></div>
+    </div>
+
+    <!-- Frage 5 -->
+    <div class="question-row">
+      <p>5. Rabsi, Manuel, Firo... Doch welche Endung ist die schönste?</p>
+      <input id="q5" placeholder="Buchstabe eingeben">
+      <button onclick="checkQuiz(5)">Prüfen</button>
+      <div id="m5" class="message"></div>
+    </div>
+
+    <!-- Frage 6 -->
+    <div class="question-row">
+      <p>6. Firos aktueller Lieblingsbuchstabe...?</p>
+      <input id="q6" placeholder="Antwort eingeben...">
+      <button onclick="checkQuiz(6)">Prüfen</button>
+      <div id="m6" class="message"></div>
+    </div>
+
+    <!-- Frage 7 -->
+    <div class="question-row">
+      <p>7. Firo findet Namen seit Neuestem attraktiv... Doch welcher Buchstabe ist der verbreitetste?</p>
+      <input id="q7" placeholder="Antwort eingeben...">
+      <button onclick="checkQuiz(7)">Prüfen</button>
+      <div id="m7" class="message"></div>
+    </div>
+
+    <!-- Frage 8 -->
+    <div class="question-row">
+      <p>8. Wie viele Medien wurden in der WhatsApp-Gruppe geteilt? (MC: 23 / 69 / 83 / 47)</p>
+      <input id="q8" placeholder="Antwort eingeben...">
+      <button onclick="checkQuiz(8)">Prüfen</button>
+      <div id="m8" class="message"></div>
+    </div>
+
+  </div> <!-- /Rätsel 1 -->
+
+
+  <!-- NÄCHSTES RÄTSEL (NEU, MIT SCHLOSS & GROßEM TIMER) -->
   <div class="card" id="next-unlock-card">
     <div class="card-header">
       <span class="badge">Info</span>
@@ -412,14 +379,13 @@ setInterval(createSnowflake,200);
 
     <div id="next-unlock-text">Lade...</div>
 
-    <div id="next-unlock-countdown" style="margin-top:6px;"></div>
+    <div id="next-unlock-countdown"></div>
 
     <div id="next-unlock-icon" 
          style="font-size:32px;margin-top:10px;opacity:0.8;text-align:center;">
       🔒
     </div>
   </div>
-
 
 
   <!-- RÄTSEL 2 -->
@@ -447,7 +413,6 @@ setInterval(createSnowflake,200);
   </div>
 
 
-
   <!-- RÄTSEL 6 – SPOTIFY -->
   <div class="card puzzle-card hidden" id="puzzle-5" data-index="5">
     <div class="card-header"><span class="badge">Rätsel 6</span><h2>Spotify Rätsel</h2></div>
@@ -464,7 +429,6 @@ setInterval(createSnowflake,200);
   </div>
 
 
-
   <!-- FINALES LÖSUNGSWORT -->
   <div class="card hidden" id="final-card">
     <div class="card-header"><span class="badge">Ende</span><h2>Finales Lösungswort</h2></div>
@@ -474,7 +438,6 @@ setInterval(createSnowflake,200);
     <button onclick="checkFinal()">Prüfen</button>
     <div id="final-msg" class="message"></div>
   </div>
-
 
 
   <!-- RESET -->
@@ -732,6 +695,7 @@ document.getElementById("admin-btn").addEventListener("click", () => {
 
 
 
+
 // ---------------- BURGER MENU ----------------
 const burgerBtn = document.getElementById("burger-btn");
 const sideMenu = document.getElementById("side-menu");
@@ -801,11 +765,11 @@ function updateVisibility() {
   puzzles.forEach(p => p.classList.add("hidden"));
   document.getElementById("final-card").classList.add("hidden");
 
-  // Rätsel 1 immer ab 01.12 unlocked
+  // Rätsel 1
   if (isUnlocked(0)) 
     document.getElementById("puzzle-0").classList.remove("hidden");
 
-  // Menü-Icons locken
+  // Menü Icons lock/unlock
   document.querySelectorAll("#side-menu li").forEach((li, index) => {
     const target = li.dataset.target;
     const el = document.getElementById(target);
@@ -817,7 +781,7 @@ function updateVisibility() {
     }
   });
 
-  // Rätsel 2–5 erst wenn Quiz komplett gelöst
+  // Rätsel 2–5
   if (quizSolvedCount === 8 || ADMIN_MODE) {
     for (let i = 1; i <= 4; i++) {
       if (isUnlocked(i) || ADMIN_MODE) {
@@ -826,7 +790,7 @@ function updateVisibility() {
     }
   }
 
-  // Rätsel 6: Spotify
+  // Rätsel 6
   if ((quizSolvedCount === 8 && isUnlocked(5)) || ADMIN_MODE) {
     document.getElementById("puzzle-5").classList.remove("hidden");
   }
@@ -842,7 +806,7 @@ function updateVisibility() {
 
 
 
-// ---------------- NEXT UNLOCK BOX (MIT SCHLOSS) ----------------
+// ---------------- NEXT UNLOCK BOX ----------------
 function updateNextUnlockBox() {
   const txt = document.getElementById("next-unlock-text");
   const cd = document.getElementById("next-unlock-countdown");
@@ -861,7 +825,6 @@ function updateNextUnlockBox() {
     }
   }
 
-  // alles unlocked
   txt.textContent = "Alle Rätsel sind freigeschaltet!";
   cd.textContent = "";
   icon.textContent = "🔓";
