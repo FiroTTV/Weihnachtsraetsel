@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>3eryk? Weihnachtsrätsel 🎄</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
     :root {
       --bg: #020617;
@@ -81,121 +82,91 @@
       border: 1px solid var(--border);
       color: var(--text-muted);
     }
-    iframe {
-      width: 100%;
-      max-width: 600px;
-      height: 338px;
-      margin: 0 auto;
-      display: block;
-      border-radius: 12px;
-      border: none;
-      background: #020617;
-    }
-    .letters-progress {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .letters-progress span {
-      width: 20px;
-      text-align: center;
-      padding: 3px 0;
-      border-radius: 6px;
-      background: rgba(15,23,42,0.7);
-      border: 1px solid rgba(148,163,184,0.35);
-      font-size: 0.9rem;
-    }
-    .letters-progress span.filled {
-      border-color: var(--accent);
-    }
-    /* neue Input-Optik */
-    input[type="text"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px 14px;
-      margin-top: 6px;
-      font-size: 1rem;
-      border-radius: 10px;
-      border: 1px solid rgba(148,163,184,0.25);
-      background: rgba(255,255,255,0.06);
-      color: #e5e7eb;
-      outline: none;
-      transition: 0.25s ease;
-      box-shadow: 0 0 0 rgba(56,189,248,0);
-    }
-    input::placeholder {
-      color: rgba(200, 200, 200, 0.45);
-    }
-    input:hover {
-      border-color: rgba(148,163,184,0.4);
-    }
-    input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 12px rgba(56,189,248,0.45);
-      background: rgba(255,255,255,0.10);
-    }
-    .question-row {
-      background: rgba(255,255,255,0.03);
-      padding: 14px 16px;
-      border-radius: 12px;
-      border: 1px solid rgba(148,163,184,0.15);
-      margin-bottom: 14px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-    }
-    .question-row p {
-      margin: 0 0 6px;
-      font-weight: 600;
-    }
-    .message.success { color: var(--success); margin-top: 6px; }
-    .message.error { color: var(--error); margin-top: 6px; }
-    .letter-badge {
-      padding: 2px 6px;
-      background: rgba(56,189,248,0.25);
-      border-radius: 6px;
-      border: 1px solid rgba(56,189,248,0.4);
-      font-weight: 700;
-    }
-    button {
-      padding: 8px 18px;
-      border: none;
-      border-radius: 10px;
+
+    /* ---------------------------- */
+    /* BURGER MENU (NEU EINGEFÜGT) */
+    /* ---------------------------- */
+
+    #burger {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      width: 34px;
+      height: 28px;
       cursor: pointer;
-      font-weight: 600;
-      color: white;
-      background: linear-gradient(90deg, #3b82f6, #a855f7);
-      transition: 0.2s;
-      font-size: 0.95rem;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-    button:hover {
-      transform: scale(1.04);
+    #burger div {
+      width: 100%;
+      height: 4px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      transition: 0.3s;
     }
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
+    #burger.open div:nth-child(1) {
+      transform: translateY(12px) rotate(45deg);
     }
-    .hidden { display: none !important; }
-    #reset-progress {
-      background: linear-gradient(90deg, #ef4444, #f97316);
-      margin-top: 32px;
-      width: 220px;
+    #burger.open div:nth-child(2) {
+      opacity: 0;
+    }
+    #burger.open div:nth-child(3) {
+      transform: translateY(-12px) rotate(-45deg);
+    }
+
+    #side-menu {
+      position: fixed;
+      top: 0;
+      right: -260px;
+      width: 260px;
+      height: 100vh;
+      background: rgba(15,23,42,0.98);
+      backdrop-filter: blur(6px);
+      transition: right 0.35s ease;
+      z-index: 9998;
+      padding: 22px;
+      border-left: 1px solid rgba(148,163,184,0.35);
+    }
+    #side-menu.open {
+      right: 0;
+    }
+    #side-menu h3 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      margin-bottom: 14px;
+    }
+    #side-menu a {
       display: block;
-      margin-left: auto;
-      margin-right: auto;
+      padding: 10px 0;
+      color: #e5e7eb;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(148,163,184,0.2);
+      transition: 0.2s;
     }
-    #next-unlock-card {
-      margin-top: 26px;
-    }
-    #next-unlock-countdown {
-      margin-top: 8px;
-      font-size: 1.4rem;
-      font-weight: 700;
+    #side-menu a:hover {
       color: var(--accent);
-      text-shadow: 0 0 12px rgba(56,189,248,0.5);
     }
   </style>
 </head>
+
 <body>
+
+<!-- BURGER ICON -->
+<div id="burger"><div></div><div></div><div></div></div>
+
+<!-- SIDE MENU -->
+<nav id="side-menu">
+  <h3>🔎 Navigation</h3>
+  <a href="#puzzle1">Rätsel 1 – Quiz</a>
+  <a href="#puzzle2">Rätsel 2</a>
+  <a href="#puzzle3">Rätsel 3</a>
+  <a href="#puzzle4">Rätsel 4</a>
+  <a href="#puzzle5">Rätsel 5</a>
+  <a href="#puzzle6">Rätsel 6 – Spotify</a>
+  <a href="#final-card">Finale</a>
+</nav>
 <script>
 function createSnowflake() {
   const s=document.createElement("div");
@@ -210,6 +181,7 @@ function createSnowflake() {
 }
 setInterval(createSnowflake,200);
 </script>
+
 <script>
 let audioCtx=null;
 function getAudioCtx(){
@@ -368,7 +340,7 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   </div>
 
   <!-- RÄTSEL 2 -->
-  <div class="card puzzle-card hidden" data-index="1" data-solution="R2" data-letters="rnch">
+  <div class="card puzzle-card hidden" data-index="1" id="puzzle2" data-solution="R2" data-letters="rnch">
     <div class="card-header">
       <span class="badge">Rätsel 2</span>
       <h2>Platzhalter Rätsel 2</h2>
@@ -380,7 +352,7 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   </div>
 
   <!-- RÄTSEL 3 -->
-  <div class="card puzzle-card hidden" data-index="2" data-solution="R3" data-letters="k05W">
+  <div class="card puzzle-card hidden" data-index="2" id="puzzle3" data-solution="R3" data-letters="k05W">
     <div class="card-header">
       <span class="badge">Rätsel 3</span>
       <h2>Platzhalter Rätsel 3</h2>
@@ -392,7 +364,7 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   </div>
 
   <!-- RÄTSEL 4 -->
-  <div class="card puzzle-card hidden" data-index="3" data-solution="R4" data-letters="ehas">
+  <div class="card puzzle-card hidden" data-index="3" id="puzzle4" data-solution="R4" data-letters="ehas">
     <div class="card-header">
       <span class="badge">Rätsel 4</span>
       <h2>Platzhalter Rätsel 4</h2>
@@ -404,7 +376,7 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   </div>
 
   <!-- RÄTSEL 5 -->
-  <div class="card puzzle-card hidden" data-index="4" data-solution="R5" data-letters="eiti">
+  <div class="card puzzle-card hidden" data-index="4" id="puzzle5" data-solution="R5" data-letters="eiti">
     <div class="card-header">
       <span class="badge">Rätsel 5</span>
       <h2>Platzhalter Rätsel 5</h2>
@@ -416,7 +388,7 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   </div>
 
   <!-- RÄTSEL 6 – SPOTIFY -->
-  <div class="card puzzle-card hidden" data-index="5" data-solution="sta" data-letters="sta">
+  <div class="card puzzle-card hidden" data-index="5" id="puzzle6" data-solution="sta" data-letters="sta">
     <div class="card-header">
       <span class="badge">Rätsel 6</span>
       <h2>Spotify-Rätsel – São Paulo</h2>
@@ -467,7 +439,6 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   <button id="reset-progress">🔄 Fortschritt zurücksetzen</button>
 
 </div> <!-- END CONTAINER -->
-
 <script>
 /* COUNTDOWN bis 28.12.2025 20:00 */
 function updateCountdown(){
@@ -952,7 +923,19 @@ function restoreProgress(){
 /* START */
 restoreProgress();
 setInterval(updateVisibility,15000);
+
+/* -------------------------- */
+/* BURGER-MENÜ SCRIPT (NEU)   */
+/* -------------------------- */
+const burger=document.getElementById("burger");
+const side=document.getElementById("side-menu");
+burger.addEventListener("click",()=>{
+  burger.classList.toggle("open");
+  side.classList.toggle("open");
+});
 </script>
 
 </body>
 </html>
+
+<!-- Schnee + restlicher Inhalt folgt ... -->
