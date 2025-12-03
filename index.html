@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>3eryk? Weihnachtsrätsel 🎄</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <style>
     :root {
       --bg: #020617;
@@ -82,11 +81,122 @@
       border: 1px solid var(--border);
       color: var(--text-muted);
     }
+    iframe {
+      width: 100%;
+      max-width: 600px;
+      height: 338px;
+      margin: 0 auto;
+      display: block;
+      border-radius: 12px;
+      border: none;
+      background: #020617;
+    }
+    .letters-progress {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .letters-progress span {
+      width: 20px;
+      text-align: center;
+      padding: 3px 0;
+      border-radius: 6px;
+      background: rgba(15,23,42,0.7);
+      border: 1px solid rgba(148,163,184,0.35);
+      font-size: 0.9rem;
+    }
+    .letters-progress span.filled {
+      border-color: var(--accent);
+    }
+    /* neue Input-Optik */
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 14px;
+      margin-top: 6px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid rgba(148,163,184,0.25);
+      background: rgba(255,255,255,0.06);
+      color: #e5e7eb;
+      outline: none;
+      transition: 0.25s ease;
+      box-shadow: 0 0 0 rgba(56,189,248,0);
+    }
+    input::placeholder {
+      color: rgba(200, 200, 200, 0.45);
+    }
+    input:hover {
+      border-color: rgba(148,163,184,0.4);
+    }
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 12px rgba(56,189,248,0.45);
+      background: rgba(255,255,255,0.10);
+    }
+    .question-row {
+      background: rgba(255,255,255,0.03);
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,0.15);
+      margin-bottom: 14px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    }
+    .question-row p {
+      margin: 0 0 6px;
+      font-weight: 600;
+    }
+    .message.success { color: var(--success); margin-top: 6px; }
+    .message.error { color: var(--error); margin-top: 6px; }
+    .letter-badge {
+      padding: 2px 6px;
+      background: rgba(56,189,248,0.25);
+      border-radius: 6px;
+      border: 1px solid rgba(56,189,248,0.4);
+      font-weight: 700;
+    }
+    button {
+      padding: 8px 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(90deg, #3b82f6, #a855f7);
+      transition: 0.2s;
+      font-size: 0.95rem;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+    }
+    button:hover {
+      transform: scale(1.04);
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .hidden { display: none !important; }
+    #reset-progress {
+      background: linear-gradient(90deg, #ef4444, #f97316);
+      margin-top: 32px;
+      width: 220px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #next-unlock-card {
+      margin-top: 26px;
+    }
+    #next-unlock-countdown {
+      margin-top: 8px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-shadow: 0 0 12px rgba(56,189,248,0.5);
+    }
 
     /* ---------------------------- */
-    /* BURGER MENU (NEU EINGEFÜGT) */
+    /* BURGER-MENÜ (NEU)           */
     /* ---------------------------- */
-
     #burger {
       position: fixed;
       top: 18px;
@@ -144,29 +254,28 @@
       text-decoration: none;
       border-bottom: 1px solid rgba(148,163,184,0.2);
       transition: 0.2s;
+      font-size: 0.95rem;
     }
     #side-menu a:hover {
       color: var(--accent);
     }
   </style>
 </head>
-
 <body>
 
 <!-- BURGER ICON -->
-<div id="burger"><div></div><div></div><div></div></div>
+<div id="burger">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
 
-<!-- SIDE MENU -->
+<!-- SIDE MENU (wird dynamisch befüllt) -->
 <nav id="side-menu">
   <h3>🔎 Navigation</h3>
-  <a href="#puzzle1">Rätsel 1 – Quiz</a>
-  <a href="#puzzle2">Rätsel 2</a>
-  <a href="#puzzle3">Rätsel 3</a>
-  <a href="#puzzle4">Rätsel 4</a>
-  <a href="#puzzle5">Rätsel 5</a>
-  <a href="#puzzle6">Rätsel 6 – Spotify</a>
-  <a href="#final-card">Finale</a>
+  <div id="side-menu-links"></div>
 </nav>
+
 <script>
 function createSnowflake() {
   const s=document.createElement("div");
@@ -181,7 +290,6 @@ function createSnowflake() {
 }
 setInterval(createSnowflake,200);
 </script>
-
 <script>
 let audioCtx=null;
 function getAudioCtx(){
@@ -439,6 +547,7 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   <button id="reset-progress">🔄 Fortschritt zurücksetzen</button>
 
 </div> <!-- END CONTAINER -->
+
 <script>
 /* COUNTDOWN bis 28.12.2025 20:00 */
 function updateCountdown(){
@@ -739,6 +848,36 @@ document.getElementById("reset-progress").addEventListener("click",()=>{
   }
 });
 
+/* NAVIGATIONSMENÜ (dynamisch nach Sichtbarkeit) */
+function updateNavMenu(){
+  const container=document.getElementById("side-menu-links");
+  if(!container) return;
+  container.innerHTML="";
+
+  // alle sichtbaren Rätsel-Karten
+  const cards=document.querySelectorAll(".puzzle-card");
+  cards.forEach(card=>{
+    if(card.classList.contains("hidden")) return;
+    const header=card.querySelector(".card-header h2");
+    const label=header ? header.textContent : "Rätsel";
+    const id=card.id;
+    if(!id) return;
+    const a=document.createElement("a");
+    a.href="#"+id;
+    a.textContent=label;
+    container.appendChild(a);
+  });
+
+  // Finale, falls sichtbar
+  const finalCard=document.getElementById("final-card");
+  if(finalCard && !finalCard.classList.contains("hidden")){
+    const a=document.createElement("a");
+    a.href="#final-card";
+    a.textContent="Finale";
+    container.appendChild(a);
+  }
+}
+
 /* VISIBILITY / LOCK */
 function updateVisibility(){
   const cards=document.querySelectorAll(".puzzle-card");
@@ -763,6 +902,7 @@ function updateVisibility(){
   }
 
   updateNextUnlockInfo();
+  updateNavMenu(); // Menü nach Sichtbarkeit aktualisieren
 }
 
 /* NEXT UNLOCK BOX */
@@ -924,18 +1064,24 @@ function restoreProgress(){
 restoreProgress();
 setInterval(updateVisibility,15000);
 
-/* -------------------------- */
-/* BURGER-MENÜ SCRIPT (NEU)   */
-/* -------------------------- */
+/* BURGER-MENÜ SCRIPT */
 const burger=document.getElementById("burger");
 const side=document.getElementById("side-menu");
-burger.addEventListener("click",()=>{
-  burger.classList.toggle("open");
-  side.classList.toggle("open");
-});
+if(burger && side){
+  burger.addEventListener("click",()=>{
+    burger.classList.toggle("open");
+    side.classList.toggle("open");
+  });
+
+  // Menü schließt sich, wenn man auf einen Link klickt
+  side.addEventListener("click",(e)=>{
+    if(e.target.tagName==="A"){
+      side.classList.remove("open");
+      burger.classList.remove("open");
+    }
+  });
+}
 </script>
 
 </body>
 </html>
-
-<!-- Schnee + restlicher Inhalt folgt ... -->
