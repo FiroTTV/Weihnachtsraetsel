@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>3eryk? Weihnachtsrätsel 🎄</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
     :root {
       --bg: #020617;
@@ -15,6 +16,7 @@
       --error: #f97373;
       --success: #4ade80;
     }
+
     body {
       margin: 0;
       font-family: system-ui, -apple-system, sans-serif;
@@ -23,6 +25,8 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
+
+    /* Schneeflocken */
     .snowflake {
       position: fixed;
       top: -10px;
@@ -34,19 +38,17 @@
       animation: fall linear infinite;
     }
     @keyframes fall { to { transform: translateY(110vh); } }
+
     .container {
       max-width: 900px;
       margin: 0 auto;
       padding: 32px 16px 64px;
     }
-    .title {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-    .title h1 {
-      margin: 0;
-      font-size: clamp(1.8rem, 3vw, 2.4rem);
-    }
+
+    .title { text-align: center; margin-bottom: 24px; }
+    .title h1 { margin: 0; font-size: clamp(1.8rem, 3vw, 2.4rem); }
+
+    /* Countdown */
     #countdown {
       margin-top: 16px;
       font-size: 2.2rem;
@@ -60,6 +62,8 @@
       50% { transform: scale(1.05); text-shadow: 0 0 20px rgba(56,189,248,1); }
       100% { transform: scale(1); text-shadow: 0 0 12px rgba(56,189,248,0.6); }
     }
+
+    /* Karten */
     .card {
       background: var(--card-bg);
       border-radius: 16px;
@@ -68,12 +72,7 @@
       margin-bottom: 18px;
       box-shadow: 0 18px 40px rgba(0,0,0,0.5);
     }
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
+    .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
     .badge {
       font-size: 0.75rem;
       padding: 3px 8px;
@@ -81,6 +80,7 @@
       border: 1px solid var(--border);
       color: var(--text-muted);
     }
+
     iframe {
       width: 100%;
       max-width: 600px;
@@ -91,11 +91,9 @@
       border: none;
       background: #020617;
     }
-    .letters-progress {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
+
+    /* Buchstabenfortschritt */
+    .letters-progress { display: flex; flex-wrap: wrap; gap: 6px; }
     .letters-progress span {
       width: 20px;
       text-align: center;
@@ -105,12 +103,10 @@
       border: 1px solid rgba(148,163,184,0.35);
       font-size: 0.9rem;
     }
-    .letters-progress span.filled {
-      border-color: var(--accent);
-    }
-    /* neue Input-Optik */
-    input[type="text"],
-    input[type="password"] {
+    .letters-progress span.filled { border-color: var(--accent); }
+
+    /* Inputs */
+    input[type="text"], input[type="password"] {
       width: 100%;
       padding: 10px 14px;
       margin-top: 6px;
@@ -121,41 +117,26 @@
       color: #e5e7eb;
       outline: none;
       transition: 0.25s ease;
-      box-shadow: 0 0 0 rgba(56,189,248,0);
       box-sizing: border-box;
     }
-    input::placeholder {
-      color: rgba(200, 200, 200, 0.45);
-    }
-    input:hover {
-      border-color: rgba(148,163,184,0.4);
-    }
+    input:hover { border-color: rgba(148,163,184,0.4); }
     input:focus {
       border-color: var(--accent);
       box-shadow: 0 0 12px rgba(56,189,248,0.45);
       background: rgba(255,255,255,0.10);
     }
+
     .question-row {
       background: rgba(255,255,255,0.03);
       padding: 14px 16px;
       border-radius: 12px;
       border: 1px solid rgba(148,163,184,0.15);
       margin-bottom: 14px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
     }
-    .question-row p {
-      margin: 0 0 6px;
-      font-weight: 600;
-    }
+
     .message.success { color: var(--success); margin-top: 6px; }
     .message.error { color: var(--error); margin-top: 6px; }
-    .letter-badge {
-      padding: 2px 6px;
-      background: rgba(56,189,248,0.25);
-      border-radius: 6px;
-      border: 1px solid rgba(56,189,248,0.4);
-      font-weight: 700;
-    }
+
     button {
       padding: 8px 18px;
       border: none;
@@ -165,37 +146,10 @@
       color: white;
       background: linear-gradient(90deg, #3b82f6, #a855f7);
       transition: 0.2s;
-      font-size: 0.95rem;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.3);
     }
-    button:hover {
-      transform: scale(1.04);
-    }
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .hidden { display: none !important; }
-    #reset-progress {
-      background: linear-gradient(90deg, #ef4444, #f97316);
-      margin-top: 32px;
-      width: 220px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    #next-unlock-card {
-      margin-top: 26px;
-    }
-    #next-unlock-countdown {
-      margin-top: 8px;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--accent);
-      text-shadow: 0 0 12px rgba(56,189,248,0.5);
-    }
+    button:hover { transform: scale(1.04); }
 
-    /* --- BURGER-MENÜ --- */
+    /* BURGERMENÜ */
     #burger-btn {
       position: fixed;
       right: 22px;
@@ -206,7 +160,6 @@
       background: rgba(0,0,0,0.4);
       padding: 8px 10px;
       border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.15);
     }
     #side-menu {
       position: fixed;
@@ -215,32 +168,24 @@
       width: 240px;
       height: 100vh;
       background: rgba(15,23,42,0.97);
-      border-left: 1px solid rgba(255,255,255,0.12);
       padding: 20px;
+      border-left: 1px solid rgba(255,255,255,0.12);
       transition: 0.3s ease;
       z-index: 9998;
     }
     #side-menu.active { right: 0; }
-    #side-menu ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
+
+    #side-menu ul { list-style: none; padding: 0; margin: 0; }
     #side-menu li {
       padding: 12px;
       margin-bottom: 10px;
+      border-radius: 10px;
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 10px;
       cursor: pointer;
     }
-    #side-menu li.locked {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
-    #side-menu li .label {
-      font-size: 0.9rem;
-    }
+    #side-menu li.locked { opacity: 0.45; cursor: not-allowed; }
+
     #menu-overlay {
       position: fixed;
       inset: 0;
@@ -248,49 +193,11 @@
       display: none;
       z-index: 9997;
     }
-    #menu-overlay.active { display: block !important; }
+    #menu-overlay.active { display: block; }
   </style>
 </head>
 <body>
-<script>
-function createSnowflake() {
-  const s=document.createElement("div");
-  s.className="snowflake";
-  s.textContent="❄";
-  s.style.left=Math.random()*100+"vw";
-  s.style.fontSize=10+Math.random()*18+"px";
-  s.style.animationDuration=4+Math.random()*6+"s";
-  s.style.opacity=0.4+Math.random()*0.4;
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),11000);
-}
-setInterval(createSnowflake,200);
-</script>
-<script>
-let audioCtx=null;
-function getAudioCtx(){
-  if(!audioCtx){
-    const C=window.AudioContext||window.webkitAudioContext;
-    if(C) audioCtx=new C();
-  }
-  return audioCtx;
-}
-function playTone(f,d,t="sine",v=0.12){
-  const c=getAudioCtx(); if(!c) return;
-  const o=c.createOscillator(), g=c.createGain();
-  o.type=t; o.frequency.value=f; g.gain.value=v;
-  o.connect(g); g.connect(c.destination);
-  const n=c.currentTime;
-  o.start(n); o.stop(n+d);
-  g.gain.setValueAtTime(v,n);
-  g.gain.linearRampToValueAtTime(0,n+d);
-}
-const playClick=()=>playTone(650,0.07,"triangle",0.1);
-const playSuccess=()=>{ playTone(880,0.1); setTimeout(()=>playTone(1040,0.1),90); }
-const playError=()=>playTone(220,0.14,"square",0.12);
-</script>
 
-<!-- BURGER BUTTON + MENU -->
 <div id="burger-btn">☰</div>
 <nav id="side-menu">
   <ul>
@@ -316,369 +223,479 @@ const playError=()=>playTone(220,0.14,"square",0.12);
     <div class="card-header">
       <span class="badge">Admin</span><h2>Admin Login</h2>
     </div>
-    <p>Passwort eingeben, um alle Rätsel freizuschalten (nur für dich 😈):</p>
-    <input id="admin-pass" type="password" placeholder="Passwort">
+    <p>Passwort eingeben:</p>
+    <input id="admin-pass" type="password">
     <button id="admin-btn">Login</button>
     <div id="admin-msg" class="message"></div>
   </div>
 
-  <!-- INTRO -->
+  <!-- INTRO VIDEO -->
   <div class="card">
     <div class="card-header">
       <span class="badge">Intro</span><h2>Willkommen!</h2>
     </div>
-    <iframe
-      id="intro-video"
-      src="https://www.youtube.com/embed/TGvnbko2Jio?si=z0f59smM_qRPTszH"
-      allowfullscreen
-    ></iframe>
+    <iframe src="https://www.youtube.com/embed/TGvnbko2Jio?si=z0f59smM_qRPTszH" allowfullscreen></iframe>
   </div>
 
-  <!-- QR-CODE-BEREICH -->
+  <!-- QR CODE INFO -->
   <div class="card">
     <div class="card-header">
       <span class="badge">Info</span><h2>QR-Code</h2>
     </div>
     <p>QR-Code: Findet alle Teile des QR-Codes mithilfe von Firo…</p>
   </div>
-
-  <!-- ZEICHENFORTSCHRITT -->
-  <div class="card">
-    <div class="card-header">
-      <span class="badge">Fortschritt</span><h2>Gesammelte Zeichen</h2>
-    </div>
-    <div class="letters-progress" id="letters-progress">
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span>
-    </div>
-  </div>
-
   <!-- RÄTSEL 1 – QUIZ -->
-  <div class="card puzzle-card" data-index="0" id="puzzle1">
+  <div class="card hidden" id="puzzle1">
     <div class="card-header">
       <span class="badge">Rätsel 1</span>
       <h2>Quiz – 8 Fragen</h2>
     </div>
 
+    <p id="quiz-progress">0 von 8 gelöst</p>
+
     <!-- Frage 1 -->
-    <div class="question-row" data-solution="3" data-letter="3">
-      <p><strong>Frage 1:</strong> Aus wie vielen Alben besteht die Trilogie von TheWeeknd?</p>
-      <input type="text" placeholder="Zahl eingeben">
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">3</span></div>
+    <div class="question-row">
+      <p>1. Aus wie vielen Alben besteht die Trilogie von TheWeeknd?</p>
+      <input id="q1" placeholder="Antwort eingeben...">
+      <button onclick="checkQuiz(1)">Prüfen</button>
+      <div id="m1" class="message"></div>
     </div>
 
-    <!-- Frage 2 (MC) -->
-    <div class="question-row" data-solution="25.09.2024" data-letter="y">
-      <p><strong>Frage 2:</strong> Wann war der erste Call in der Discord-Gruppe 3eryk?</p>
-      <label><input type="radio" name="q2" value="12.08.2024"> 12.08.2024</label><br>
-      <label><input type="radio" name="q2" value="25.09.2024"> 25.09.2024</label><br>
-      <label><input type="radio" name="q2" value="03.10.2024"> 03.10.2024</label><br>
-      <label><input type="radio" name="q2" value="18.09.2024"> 18.09.2024</label><br>
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">y</span></div>
+    <!-- Frage 2 -->
+    <div class="question-row">
+      <p>2. Wann war der erste Call in der Discord Gruppe 3eryk?</p>
+      <input id="q2" placeholder="Antwort eingeben... (TT.MM.JJJJ)">
+      <button onclick="checkQuiz(2)">Prüfen</button>
+      <div id="m2" class="message"></div>
     </div>
 
     <!-- Frage 3 -->
-    <div class="question-row" data-solution="rot ist meine lieblings zahl im ganzen alphabet" data-letter="?">
-      <p><strong>Frage 3:</strong> Rot...?</p>
-      <input type="text" placeholder="ganzen Satz eingeben">
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">?</span></div>
+    <div class="question-row">
+      <p>3. Rot....?</p>
+      <input id="q3" placeholder="ganzen Satz eingeben">
+      <button onclick="checkQuiz(3)">Prüfen</button>
+      <div id="m3" class="message"></div>
     </div>
 
     <!-- Frage 4 -->
-    <div class="question-row" data-solution="wann?" data-letter="2">
-      <p><strong>Frage 4:</strong> Frage...?</p>
-      <input type="text" placeholder="Antwort eingeben">
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">2</span></div>
+    <div class="question-row">
+      <p>4. Frage...?</p>
+      <input id="q4" placeholder="Antwort eingeben...">
+      <button onclick="checkQuiz(4)">Prüfen</button>
+      <div id="m4" class="message"></div>
     </div>
 
     <!-- Frage 5 -->
-    <div class="question-row" data-solution="i" data-letter="i">
-      <p><strong>Frage 5:</strong> Rabsi, Manuel, Firo... Doch welche Endung ist die schönste?</p>
-      <input type="text" placeholder="z.B. a">
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">i</span></div>
+    <div class="question-row">
+      <p>5. Rabsi, Manuel, Firo… Doch welche Endung ist die schönste?</p>
+      <input id="q5" placeholder="Buchstabe eingeben">
+      <button onclick="checkQuiz(5)">Prüfen</button>
+      <div id="m5" class="message"></div>
     </div>
 
     <!-- Frage 6 -->
-    <div class="question-row" data-solution="t" data-letter="t">
-      <p><strong>Frage 6:</strong> Firo's aktueller Lieblingsbuchstabe...?</p>
-      <input type="text" placeholder="Buchstabe">
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">t</span></div>
+    <div class="question-row">
+      <p>6. Firos aktueller Lieblingsbuchstabe…?</p>
+      <input id="q6" placeholder="Antwort eingeben...">
+      <button onclick="checkQuiz(6)">Prüfen</button>
+      <div id="m6" class="message"></div>
     </div>
 
     <!-- Frage 7 -->
-    <div class="question-row" data-solution="e" data-letter="e">
-      <p><strong>Frage 7:</strong> Firo findet Namen seit Neuesten attraktiv. Doch welcher Buchstabe ist der weitverbreitetste in Namen?</p>
-      <input type="text" placeholder="Buchstabe">
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">e</span></div>
+    <div class="question-row">
+      <p>7. Firo findet Namen seit Neuestem attraktiv… Doch welcher Buchstabe ist der verbreitetste?</p>
+      <input id="q7" placeholder="Antwort eingeben...">
+      <button onclick="checkQuiz(7)">Prüfen</button>
+      <div id="m7" class="message"></div>
     </div>
 
-    <!-- Frage 8 (MC) -->
-    <div class="question-row" data-solution="47" data-letter="d">
-      <p><strong>Frage 8:</strong> Wie viele Medien / Links / Docs wurden in der WhatsApp-Gruppe von 3eryk? schon geteilt?</p>
-      <label><input type="radio" name="q8" value="23"> 23</label><br>
-      <label><input type="radio" name="q8" value="69"> 69</label><br>
-      <label><input type="radio" name="q8" value="83"> 83</label><br>
-      <label><input type="radio" name="q8" value="47"> 47</label><br>
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">d</span></div>
+    <!-- Frage 8 -->
+    <div class="question-row">
+      <p>8. Wie viele Medien wurden in der WhatsApp-Gruppe geteilt? (MC: 23 / 69 / 83 / 47)</p>
+      <input id="q8" placeholder="Antwort eingeben...">
+      <button onclick="checkQuiz(8)">Prüfen</button>
+      <div id="m8" class="message"></div>
     </div>
 
-    <div id="quiz-summary" class="message"></div>
-  </div>
+  </div> <!-- /Rätsel 1 -->
 
-  <!-- RÄTSEL 2 -->
-  <div class="card puzzle-card hidden" data-index="1" data-solution="R2" data-letters="rnch" id="puzzle2">
-    <div class="card-header">
-      <span class="badge">Rätsel 2</span>
-      <h2>Platzhalter Rätsel 2</h2>
-    </div>
-    <input type="text" placeholder="Antwort eingeben">
-    <button>Prüfen</button>
-    <div class="message"></div>
-    <div class="letter-display hidden"></div>
-  </div>
 
-  <!-- RÄTSEL 3 -->
-  <div class="card puzzle-card hidden" data-index="2" data-solution="R3" data-letters="k05W" id="puzzle3">
-    <div class="card-header">
-      <span class="badge">Rätsel 3</span>
-      <h2>Platzhalter Rätsel 3</h2>
-    </div>
-    <input type="text" placeholder="Antwort eingeben">
-    <button>Prüfen</button>
-    <div class="message"></div>
-    <div class="letter-display hidden"></div>
-  </div>
-
-  <!-- RÄTSEL 4 -->
-  <div class="card puzzle-card hidden" data-index="3" data-solution="R4" data-letters="ehas" id="puzzle4">
-    <div class="card-header">
-      <span class="badge">Rätsel 4</span>
-      <h2>Platzhalter Rätsel 4</h2>
-    </div>
-    <input type="text" placeholder="Antwort eingeben">
-    <button>Prüfen</button>
-    <div class="message"></div>
-    <div class="letter-display hidden"></div>
-  </div>
-
-  <!-- RÄTSEL 5 -->
-  <div class="card puzzle-card hidden" data-index="4" data-solution="R5" data-letters="eiti" id="puzzle5">
-    <div class="card-header">
-      <span class="badge">Rätsel 5</span>
-      <h2>Platzhalter Rätsel 5</h2>
-    </div>
-    <input type="text" placeholder="Antwort eingeben">
-    <button>Prüfen</button>
-    <div class="message"></div>
-    <div class="letter-display hidden"></div>
-  </div>
-
-  <!-- RÄTSEL 6 – SPOTIFY -->
-  <div class="card puzzle-card hidden" data-index="5" data-solution="sta" data-letters="sta" id="puzzle6">
-    <div class="card-header">
-      <span class="badge">Rätsel 6</span>
-      <h2>Spotify-Rätsel – São Paulo</h2>
-    </div>
-
-    <p>Scanne den Spotify-Code → Song „São Paulo“ – The Weeknd.<br>
-       Trage die 3 gesuchten Buchstaben einzeln ein:</p>
-
-    <div style="display:flex; gap:10px; margin-bottom:12px;">
-      <input id="sp1" maxlength="1" placeholder="S">
-      <input id="sp2" maxlength="1" placeholder="T">
-      <input id="sp3" maxlength="1" placeholder="A">
-    </div>
-
-    <button id="spotify-check">Prüfen</button>
-    <div id="spotify-msg" class="message"></div>
-    <div id="spotify-letters" class="letter-display hidden"></div>
-  </div>
-
-  <!-- FINALE -->
-  <div class="card hidden" id="final-card">
-    <div class="card-header">
-      <span class="badge">Finale</span>
-      <h2>Gib das Lösungswort ein</h2>
-    </div>
-
-    <input id="final-input" placeholder="3eryk?2025Weihnachtsedition">
-    <button id="final-button">Prüfen</button>
-    <div id="final-message" class="message"></div>
-
-    <div id="final-video-wrapper" class="hidden" style="margin-top:16px;">
-      <p>Glückwunsch! 🎉</p>
-      <iframe id="final-video" src="https://www.youtube.com/embed/TGvnbko2Jio" allowfullscreen></iframe>
-    </div>
-  </div>
-
-  <!-- KOMMENDE FREISCHALTUNG -->
+  <!-- NÄCHSTES RÄTSEL -->
   <div class="card" id="next-unlock-card">
     <div class="card-header">
       <span class="badge">Info</span>
       <h2>Nächstes Rätsel</h2>
     </div>
-    <p id="next-unlock-text">Lade...</p>
-    <div id="next-unlock-countdown"></div>
+
+    <p id="next-riddle-text">Lade…</p>
+    <div id="next-riddle-countdown" style="font-size: 1.5rem; color: var(--accent);"></div>
+
+    <div style="text-align:center; margin-top:10px; font-size:32px; opacity:0.8;">
+      🔒
+    </div>
   </div>
 
+
+  <!-- RÄTSEL 2 -->
+  <div class="card hidden" id="puzzle2">
+    <div class="card-header">
+      <span class="badge">Rätsel 2</span><h2>Rätsel erscheint am 08.12.</h2>
+    </div>
+    <p>Wird automatisch freigeschaltet.</p>
+  </div>
+
+  <!-- RÄTSEL 3 -->
+  <div class="card hidden" id="puzzle3">
+    <div class="card-header">
+      <span class="badge">Rätsel 3</span><h2>Rätsel erscheint am 10.12.</h2>
+    </div>
+    <p>Wird automatisch freigeschaltet.</p>
+  </div>
+
+  <!-- RÄTSEL 4 -->
+  <div class="card hidden" id="puzzle4">
+    <div class="card-header">
+      <span class="badge">Rätsel 4</span><h2>Rätsel erscheint am 16.12.</h2>
+    </div>
+    <p>Wird automatisch freigeschaltet.</p>
+  </div>
+
+  <!-- RÄTSEL 5 -->
+  <div class="card hidden" id="puzzle5">
+    <div class="card-header">
+      <span class="badge">Rätsel 5</span><h2>Rätsel erscheint am 22.12.</h2>
+    </div>
+    <p>Wird automatisch freigeschaltet.</p>
+  </div>
+
+  <!-- RÄTSEL 6 – SPOTIFY -->
+  <div class="card hidden" id="puzzle6">
+    <div class="card-header">
+      <span class="badge">Rätsel 6</span><h2>Spotify Rätsel</h2>
+    </div>
+
+    <p>Song-Code eingeben (3 Buchstaben):</p>
+
+    <div class="question-row">
+      <input id="sp1" maxlength="1" placeholder="1. Buchstabe">
+      <input id="sp2" maxlength="1" placeholder="2. Buchstabe" style="margin-top:10px;">
+      <input id="sp3" maxlength="1" placeholder="3. Buchstabe" style="margin-top:10px;">
+      <button onclick="checkSpotify()">Prüfen</button>
+      <div id="sp-msg" class="message"></div>
+    </div>
+  </div>
+
+
+  <!-- FINALES LÖSUNGSWORT -->
+  <div class="card hidden" id="final-card">
+    <div class="card-header">
+      <span class="badge">Ende</span><h2>Finales Lösungswort</h2>
+    </div>
+
+    <p>Hier endgültiges Lösungswort eingeben:</p>
+    <input id="final-input">
+    <button onclick="checkFinal()">Prüfen</button>
+    <div id="final-msg" class="message"></div>
+  </div>
+
+
   <!-- RESET -->
-  <button id="reset-progress">🔄 Fortschritt zurücksetzen</button>
+  <button id="reset-progress"
+          style="background: linear-gradient(90deg,#ef4444,#f97316); margin-top:40px;">
+    Fortschritt zurücksetzen
+  </button>
 
-</div> <!-- END CONTAINER -->
-
+</div> <!-- /container -->
 <script>
-/* COUNTDOWN bis 28.12.2025 20:00 */
-function updateCountdown(){
-  const target=new Date("December 28, 2025 20:00:00").getTime();
-  const now=Date.now();
-  const diff=target-now;
-  const el=document.getElementById("countdown");
-
-  if(diff<=0){ el.textContent="Es ist so weit! 🎄"; return; }
-
-  const d=Math.floor(diff/86400000);
-  const h=Math.floor((diff%86400000)/3600000);
-  const m=Math.floor((diff%3600000)/60000);
-  const s=Math.floor((diff%60000)/1000);
-
-  el.textContent=`${d}T ${h}h ${m}m ${s}s`;
+/* ============================================================
+   SNOW (wie zuvor)
+============================================================ */
+function createSnowflake() {
+  const s = document.createElement("div");
+  s.className = "snowflake";
+  s.textContent = "❄";
+  s.style.left = Math.random() * 100 + "vw";
+  s.style.fontSize = 10 + Math.random() * 18 + "px";
+  s.style.animationDuration = 4 + Math.random() * 6 + "s";
+  s.style.opacity = 0.4 + Math.random() * 0.4;
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 11000);
 }
-setInterval(updateCountdown,1000);
-updateCountdown();
+setInterval(createSnowflake, 200);
 
-/* UNLOCK-ZEITEN */
-const unlockSchedule={
-  0:new Date("December 1, 2025 18:00:00").getTime(),
-  1:new Date("December 8, 2025 18:00:00").getTime(),
-  2:new Date("December 10, 2025 18:00:00").getTime(),
-  3:new Date("December 16, 2025 18:00:00").getTime(),
-  4:new Date("December 22, 2025 18:00:00").getTime(),
-  5:new Date("December 28, 2025 20:00:00").getTime()
+
+/* ============================================================
+   AUDIO CLICK
+============================================================ */
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    const C = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new C();
+  }
+  return audioCtx;
+}
+function playClick() {
+  const ctx = getAudioCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+
+  osc.frequency.value = 220;
+  gain.gain.value = 0.12;
+
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+
+  osc.start();
+  osc.stop(ctx.currentTime + 0.08);
+}
+
+
+/* ============================================================
+   RÄTSEL-UNLOCK-DATEN
+============================================================ */
+const unlockTimes = {
+  1: new Date("2025-12-01T18:00:00"),
+  2: new Date("2025-12-08T18:00:00"),
+  3: new Date("2025-12-10T18:00:00"),
+  4: new Date("2025-12-16T18:00:00"),
+  5: new Date("2025-12-22T18:00:00"),
+  6: new Date("2025-12-28T20:00:00")
 };
-let ADMIN_MODE=false;
-const ADMIN_PASSWORD="SuperYK2025";
 
-function isUnlocked(i){
-  return ADMIN_MODE || Date.now()>=unlockSchedule[i];
+const finalUnlock = unlockTimes[6];
+
+
+/* ============================================================
+   ADMIN LOGIN
+============================================================ */
+const ADMIN_PASS = "FIRO-MADE-THIS";
+
+let adminMode = false;
+if (localStorage.getItem("adminMode") === "true") {
+  adminMode = true;
 }
 
-let progress=JSON.parse(localStorage.getItem("XMASRIDDLE_GLOBAL")||"{}");
-function saveProgress(){ localStorage.setItem("XMASRIDDLE_GLOBAL",JSON.stringify(progress)); }
+function tryAdminLogin() {
+  playClick();
+  const inp = document.getElementById("admin-password");
+  if (!inp) return;
 
-/* BUCHSTABEN */
-const lettersSpans=document.getElementById("letters-progress").children;
-let nextLetterIndex=0;
-function addLetter(ch){
-  if(nextLetterIndex<lettersSpans.length){
-    lettersSpans[nextLetterIndex].textContent=ch;
-    lettersSpans[nextLetterIndex].classList.add("filled");
-    nextLetterIndex++;
+  if (inp.value === ADMIN_PASS) {
+    adminMode = true;
+    localStorage.setItem("adminMode", "true");
+    alert("Admin aktiviert");
+    location.reload();
+  } else {
+    alert("Falsches Passwort");
   }
 }
 
-/* QUIZ LOGIK */
-const quizRows=document.querySelectorAll(".question-row");
-const quizSummary=document.getElementById("quiz-summary");
-let quizSolvedCount=0;
 
-quizRows.forEach(row=>{ /* Quiz-Logik bleibt wie in deiner Datei */ });
-
-/* --- (Hier bleibt deine komplette bisherige JS-Logik für Quiz, Rätsel 2–5,
-   Spotify, Finale, Admin, Reset, Visibility, Restore – unverändert.
-   Ich kürze sie hier im Text NICHT, damit kein Fehler entsteht.
-   => Lass einfach ALLES unterhalb dieses Kommentars so stehen,
-      wie es in deiner hochgeladenen Datei war, PLUS den Burger-Code
-      den ich gleich anhänge.  --- */
-</script>
-<!-- HINWEIS: Wegen Platz hier im Chat kann ich nicht den kompletten
-JS-Block nochmal 1:1 duplizieren, ohne dass es unübersichtlich wird.
-Nimm einfach den JS-Teil aus deiner Datei und füge NUR folgenden
-Burger-Menü-Code am Ende hinzu: -->
-
-<script>
-/* --- BURGER-MENÜ LOGIK --- */
-const burgerBtn = document.getElementById("burger-btn");
-const sideMenu  = document.getElementById("side-menu");
-const menuOverlay = document.getElementById("menu-overlay");
-
-if (burgerBtn && sideMenu && menuOverlay) {
-  burgerBtn.addEventListener("click", () => {
-    playClick();
-    sideMenu.classList.add("active");
-    menuOverlay.classList.add("active");
-  });
-
-  menuOverlay.addEventListener("click", () => {
-    sideMenu.classList.remove("active");
-    menuOverlay.classList.remove("active");
-  });
-
-  document.querySelectorAll("#side-menu li").forEach(li => {
-    li.addEventListener("click", () => {
-      if (li.classList.contains("locked") && !ADMIN_MODE) {
-        playError();
-        return;
-      }
-      const targetId = li.dataset.target;
-      const el = document.getElementById(targetId);
-      if (el) {
-        el.scrollIntoView({behavior:"smooth"});
-        sideMenu.classList.remove("active");
-        menuOverlay.classList.remove("active");
-      }
-    });
-  });
+/* ============================================================
+   FUNKTION: Prüft, ob Rätsel freigeschaltet ist
+============================================================ */
+function puzzleIsUnlocked(id) {
+  if (adminMode) return true;
+  return new Date() >= unlockTimes[id];
 }
 
-/* Menü-Beschriftung abhängig von Sichtbarkeit */
-function refreshMenuLabels(){
-  document.querySelectorAll("#side-menu li").forEach(li=>{
-    const targetId = li.dataset.target;
-    const el = document.getElementById(targetId);
-    const label = li.querySelector(".label");
-    if(!el || !label) return;
 
-    const visible = !el.classList.contains("hidden");
+/* ============================================================
+   TIMER FORMAT
+============================================================ */
+function formatRemaining(d) {
+  if (d <= 0) return "Jetzt!";
 
-    if(visible || ADMIN_MODE){
-      li.classList.remove("locked");
-      if(targetId==="final-card"){
-        label.textContent = "Finale";
-      } else {
-        const h2 = el.querySelector(".card-header h2");
-        label.textContent = h2 ? h2.textContent : "Rätsel";
-      }
-    } else {
-      li.classList.add("locked");
-      label.textContent = "🔒 Gesperrt";
+  let sec = Math.floor(d / 1000);
+  const days = Math.floor(sec / 86400);
+  sec %= 86400;
+  const hours = Math.floor(sec / 3600);
+  sec %= 3600;
+  const minutes = Math.floor(sec / 60);
+  sec %= 60;
+
+  let out = "";
+  if (days > 0) out += `${days}T `;
+  if (hours > 0) out += `${hours}h `;
+  if (minutes > 0) out += `${minutes}m `;
+  out += `${sec}s`;
+
+  return out.trim();
+}
+
+
+/* ============================================================
+   NEXT-RIDDLE-BOX aktualisieren
+============================================================ */
+function updateNextRiddleBox() {
+  const box = document.getElementById("next-riddle-card");
+  const text = document.getElementById("next-riddle-text");
+  const countdown = document.getElementById("next-riddle-countdown");
+  if (!box) return;
+
+  // Finde das nächste Rätsel, welches noch zu ist
+  let next = null;
+  for (let i = 1; i <= 6; i++) {
+    if (!puzzleIsUnlocked(i)) {
+      next = i;
+      break;
     }
-  });
+  }
+
+  if (!next) {
+    text.textContent = "Alle Rätsel sind freigeschaltet!";
+    countdown.textContent = "";
+    return;
+  }
+
+  text.textContent = `Rätsel ${next} wird freigeschaltet in:`;
+
+  function tick() {
+    const diff = unlockTimes[next] - new Date();
+    countdown.textContent = formatRemaining(diff);
+    if (diff <= 0 && !adminMode) {
+      location.reload();
+    }
+  }
+  tick();
+  setInterval(tick, 1000);
 }
 
-/* Wichtig: rufe refreshMenuLabels() am Ende deiner updateVisibility()
-   und restoreProgress()-Funktionen auf, damit das Menü sich aktualisiert. */
+
+/* ============================================================
+   RÄTSEL-SICHTBARKEIT
+============================================================ */
+function applyPuzzleVisibility() {
+  for (let i = 1; i <= 6; i++) {
+    const card = document.getElementById("puzzle" + i);
+    if (!card) continue;
+
+    if (puzzleIsUnlocked(i)) {
+      card.classList.remove("hidden");
+    } else {
+      card.classList.add("hidden");
+    }
+  }
+}
+
+
+/* ============================================================
+   QUIZ – LÖSUNGEN
+============================================================ */
+const quizSolutions = {
+  1: { solution: "3", letter: "3" },
+  2: { solution: "25.09.2024", letter: "e" },
+  3: { solution: "Rot ist meine lieblings Zahl im ganzen Alphabet".toLowerCase(), letter: "r" },
+  4: { solution: "wann", letter: "y" },
+  5: { solution: "i", letter: "k" },
+  6: { solution: "t", letter: "?" },
+  7: { solution: "e", letter: "2" },
+  8: { solution: "47", letter: "0" }
+};
+
+/* Speichere Quiz-Fortschritt */
+let quizState = JSON.parse(localStorage.getItem("quizProgress") || "{}");
+
+function saveQuizState() {
+  localStorage.setItem("quizProgress", JSON.stringify(quizState));
+}
+
+function updateQuizProgressUI() {
+  const solved = Object.keys(quizState).length;
+  const el = document.getElementById("quiz-progress");
+  if (el) el.textContent = `${solved} von 8 gelöst`;
+}
+
+function checkQuiz(n) {
+  playClick();
+  const inp = document.getElementById("q" + n);
+  const msg = document.getElementById("m" + n);
+  if (!inp || !msg) return;
+
+  const user = inp.value.trim().toLowerCase();
+  const correct = quizSolutions[n].solution.toLowerCase();
+
+  if (user === correct) {
+    msg.textContent = `Richtig! Du erhältst: ${quizSolutions[n].letter}`;
+    msg.className = "message success";
+    quizState[n] = quizSolutions[n].letter;
+    saveQuizState();
+    updateQuizProgressUI();
+  } else {
+    msg.textContent = "Falsch!";
+    msg.className = "message error";
+  }
+}
+
+
+/* ============================================================
+   SPOTIFY-RÄTSEL
+============================================================ */
+function checkSpotify() {
+  playClick();
+  const a = document.getElementById("sp1").value.toLowerCase();
+  const b = document.getElementById("sp2").value.toLowerCase();
+  const c = document.getElementById("sp3").value.toLowerCase();
+  const msg = document.getElementById("sp-msg");
+
+  if (a + b + c === "sta") {
+    msg.textContent = "Richtig! Zeichen: 5";
+    msg.className = "message success";
+    localStorage.setItem("spotifySolved", "5");
+  } else {
+    msg.textContent = "Falsch!";
+    msg.className = "message error";
+  }
+}
+
+
+/* ============================================================
+   FINALE LÖSUNG
+============================================================ */
+function checkFinal() {
+  playClick();
+  const val = document.getElementById("final-input").value.trim();
+  const msg = document.getElementById("final-msg");
+  if (!msg) return;
+
+  if (val === "3eryk?2025Weihnachtsedition") {
+    msg.textContent = "KORREKT! 🎉";
+    msg.className = "message success";
+  } else {
+    msg.textContent = "Leider falsch...";
+    msg.className = "message error";
+  }
+}
+
+
+/* ============================================================
+   BURGER-MENÜ LOGIK
+============================================================ */
+function toggleMenu() {
+  const m = document.getElementById("mobile-menu");
+  if (m.classList.contains("open")) {
+    m.classList.remove("open");
+  } else {
+    m.classList.add("open");
+  }
+}
+
+function jumpTo(id) {
+  playClick();
+  document.getElementById("mobile-menu").classList.remove("open");
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth" });
+}
+
+
+/* ============================================================
+   INITIALISIERUNG
+============================================================ */
+window.onload = () => {
+  applyPuzzleVisibility();
+  updateNextRiddleBox();
+  updateQuizProgressUI();
+};
 </script>
 
-</body>
-</html>
