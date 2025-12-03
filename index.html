@@ -195,7 +195,7 @@
     }
 
     /* ---------------------------- */
-    /* BURGER-MENÜ (NEU)           */
+    /* BURGER-MENÜ                  */
     /* ---------------------------- */
     #burger {
       position: fixed;
@@ -259,6 +259,22 @@
     #side-menu a:hover {
       color: var(--accent);
     }
+
+    /* ---------------------------- */
+    /* ADMIN-BANNER (NEU)          */
+    /* ---------------------------- */
+    #admin-banner {
+      max-width: 900px;
+      margin: 0 auto 16px;
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #b91c1c, #f97316);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-align: center;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    }
   </style>
 </head>
 <body>
@@ -318,6 +334,11 @@ const playError=()=>playTone(220,0.14,"square",0.12);
   <div class="title">
     <h1>🎄 3eryk? Weihnachtsrätsel – 2025 Edition 🎄</h1>
     <div id="countdown">Lade Countdown...</div>
+  </div>
+
+  <!-- ADMIN-BANNER (nur sichtbar bei Admin-Mode) -->
+  <div id="admin-banner" style="display:none;">
+    ⚠️ ADMIN-MODUS AKTIV – alle Rätsel & das Finale sind sichtbar, unabhängig vom Fortschritt.
   </div>
 
   <!-- ADMIN LOGIN -->
@@ -878,31 +899,54 @@ function updateNavMenu(){
   }
 }
 
-/* VISIBILITY / LOCK */
+/* VISIBILITY / LOCK – mit Admin-Mode-Override + Banner */
 function updateVisibility(){
   const cards=document.querySelectorAll(".puzzle-card");
+  const finalCardEl=document.getElementById("final-card");
+  const adminBanner=document.getElementById("admin-banner");
 
+  // alles erstmal verstecken
   cards.forEach(c=>c.classList.add("hidden"));
-  document.getElementById("final-card").classList.add("hidden");
+  if(finalCardEl) finalCardEl.classList.add("hidden");
+
+  // Admin-Banner anzeigen/verstecken
+  if(adminBanner){
+    adminBanner.style.display = ADMIN_MODE ? "block" : "none";
+  }
+
+  // ADMIN-MODUS: alles sichtbar machen, Zeit & Fortschritt egal
+  if(ADMIN_MODE){
+    cards.forEach(c=>c.classList.remove("hidden"));
+    if(finalCardEl) finalCardEl.classList.remove("hidden");
+    updateNextUnlockInfo();   // blendet Info-Card aus
+    updateNavMenu();          // Menü mit allen Rätseln
+    return;
+  }
+
+  // Normales Verhalten ohne Admin:
 
   // Quiz
   if(isUnlocked(0)) cards[0].classList.remove("hidden");
 
-  // Rätsel 2-5
+  // Rätsel 2–5
   for(let i=1;i<=4;i++){
-    if(isUnlocked(i) && progress.solvedPuzzles?.[i-1]) cards[i].classList.remove("hidden");
+    if(isUnlocked(i) && progress.solvedPuzzles?.[i-1]) {
+      cards[i].classList.remove("hidden");
+    }
   }
 
   // Spotify
-  if(isUnlocked(5) && progress.solvedPuzzles?.[4]) cards[5].classList.remove("hidden");
+  if(isUnlocked(5) && progress.solvedPuzzles?.[4]) {
+    cards[5].classList.remove("hidden");
+  }
 
   // Finale
-  if([0,1,2,3,4,5].every(x=>progress.solvedPuzzles?.[x]) || ADMIN_MODE){
-    document.getElementById("final-card").classList.remove("hidden");
+  if([0,1,2,3,4,5].every(x=>progress.solvedPuzzles?.[x])){
+    if(finalCardEl) finalCardEl.classList.remove("hidden");
   }
 
   updateNextUnlockInfo();
-  updateNavMenu(); // Menü nach Sichtbarkeit aktualisieren
+  updateNavMenu();
 }
 
 /* NEXT UNLOCK BOX */
@@ -912,7 +956,10 @@ function updateNextUnlockInfo(){
   const text=document.getElementById("next-unlock-text");
   const cd=document.getElementById("next-unlock-countdown");
 
-  if(ADMIN_MODE){ card.style.display="none"; return; }
+  if(ADMIN_MODE){ 
+    if(card) card.style.display="none"; 
+    return; 
+  }
 
   const now=Date.now();
   const locked=Object.keys(unlockSchedule)
@@ -920,7 +967,7 @@ function updateNextUnlockInfo(){
     .filter(i=>now<unlockSchedule[i]);
 
   if(locked.length===0){
-    card.style.display="none";
+    if(card) card.style.display="none";
     return;
   }
 
@@ -933,6 +980,7 @@ function updateNextUnlockInfo(){
     hour:"2-digit", minute:"2-digit"
   });
 
+  if(card) card.style.display="block";
   text.innerHTML=`🔒 <strong>Nächstes Rätsel:</strong> Rätsel ${nextIndex+1}<br>
                   📅 <strong>Unlock:</strong> ${dateStr}`;
 
