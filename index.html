@@ -60,9 +60,10 @@
       font-size: 2.2rem;
       font-weight: 800;
       color: var(--accent);
-      text-shadow: 0 0 10px rgba(56, 189, 248, 0.7);
+      text-shadow: 0 0 10px rgba(56,189,248,0.7);
     }
 
+    /* CARDS */
     .card {
       background: var(--card-bg);
       border-radius: 16px;
@@ -98,7 +99,7 @@
       background: #020617;
     }
 
-    /* INPUT FELDER */
+    /* INPUTS */
     input[type="text"],
     input[type="password"] {
       width: 100%;
@@ -109,11 +110,21 @@
       border: 1px solid rgba(148,163,184,0.25);
       background: rgba(255,255,255,0.06);
       color: #e5e7eb;
-      outline: none;
       transition: 0.25s ease;
+      outline: none;
     }
 
-    /* Spotify Inputs */
+    input:hover {
+      border-color: rgba(148,163,184,0.4);
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 12px rgba(56,189,248,0.45);
+      background: rgba(255,255,255,0.10);
+    }
+
+    /* SPOTIFY INPUTS */
     .spotify-letter {
       width: 60px;
       text-align: center;
@@ -123,10 +134,33 @@
       border: 1px solid rgba(148,163,184,0.25);
       background: rgba(255,255,255,0.06);
       color: #e5e7eb;
-      transition: 0.25s;
     }
 
-    /* BURGER ICON */
+    /* BUTTON FIX – STYLISCHES GRADIENT */
+    button {
+      padding: 8px 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      color: white;
+      background: linear-gradient(90deg, #3b82f6, #a855f7);
+      transition: 0.2s;
+      font-size: 0.95rem;
+    }
+
+    button:hover {
+      transform: scale(1.04);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .hidden { display: none !important; }
+
+    /* BURGER */
     #burger {
       position: fixed;
       top: 18px;
@@ -146,44 +180,31 @@
       border-radius: 4px;
       transition: 0.3s;
     }
+    #burger.open div:nth-child(1) { transform: translateY(12px) rotate(45deg); }
+    #burger.open div:nth-child(2) { opacity: 0; }
+    #burger.open div:nth-child(3) { transform: translateY(-12px) rotate(-45deg); }
 
-    #burger.open div:nth-child(1) {
-      transform: translateY(12px) rotate(45deg);
-    }
-    #burger.open div:nth-child(2) {
-      opacity: 0;
-    }
-    #burger.open div:nth-child(3) {
-      transform: translateY(-12px) rotate(-45deg);
-    }
-
-    /* SIDEBAR — MIT FIX */
+    /* SIDEBAR mit FIX */
     #side-menu {
       position: fixed;
       top: 0;
-      right: -300px;  /* ← FIX: komplett unsichtbar */
+      right: -300px; /* FIX: komplett unsichtbar */
       width: 260px;
       height: 100vh;
       background: rgba(15,23,42,0.98);
       backdrop-filter: blur(6px);
-
       transition: right 0.35s ease;
       z-index: 9998;
-
       padding: 22px;
-
-      /* Sicherheit */
       border-left: 1px solid rgba(148,163,184,0.35);
-      box-shadow: none !important;
+      box-shadow: none !important; /* FIX */
     }
 
-    #side-menu.open {
-      right: 0;
-    }
+    #side-menu.open { right: 0; }
 
     #side-menu a {
       display: block;
-      padding: 10px 0;
+      padding: 12px 0;
       color: #e5e7eb;
       text-decoration: none;
       border-bottom: 1px solid rgba(148,163,184,0.2);
@@ -297,7 +318,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
       <h2>Gesammelte Zeichen</h2>
     </div>
     <div class="letters-progress" id="letters-progress">
-      <!-- 29 Slots für 29 Zeichen -->
+      <!-- 29 Plätze -->
       <span>_</span><span>_</span><span>_</span><span>_</span>
       <span>_</span><span>_</span><span>_</span><span>_</span>
       <span>_</span><span>_</span><span>_</span><span>_</span>
@@ -321,7 +342,9 @@ const playError   = () => playTone(220,0.14,"square",0.12);
       <input type="text" placeholder="Zahl eingeben">
       <button>Prüfen</button>
       <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">3</span></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">3</span>
+      </div>
     </div>
 
     <!-- Frage 2 -->
@@ -333,7 +356,9 @@ const playError   = () => playTone(220,0.14,"square",0.12);
       <label><input type="radio" name="q2" value="18.09.2024"> 18.09.2024</label><br>
       <button>Prüfen</button>
       <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">y</span></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">y</span>
+      </div>
     </div>
 
     <!-- Frage 3 -->
@@ -342,55 +367,67 @@ const playError   = () => playTone(220,0.14,"square",0.12);
       <input type="text" placeholder="ganzen Satz eingeben">
       <button>Prüfen</button>
       <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">?</span></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">?</span>
+      </div>
     </div>
 
     <!-- Frage 4 -->
     <div class="question-row" data-solution="wann?" data-letter="2">
       <p><strong>Frage 4:</strong> Frage…?</p>
-      <input type="text" placeholder="Antwort eingeben">
+      <input type="text" placeholder="Antwort">
       <button>Prüfen</button>
       <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">2</span></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">2</span>
+      </div>
     </div>
 
     <!-- Frage 5 -->
     <div class="question-row" data-solution="i" data-letter="i">
-      <p><strong>Frage 5:</strong> Rabsi, Manuel, Firo… Doch welche Endung ist die schönste?</p>
+      <p><strong>Frage 5:</strong> Welche Endung ist die schönste?</p>
       <input type="text" placeholder="z.B. a">
       <button>Prüfen</button>
       <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">i</span></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">i</span>
+      </div>
     </div>
 
     <!-- Frage 6 -->
     <div class="question-row" data-solution="t" data-letter="t">
-      <p><strong>Frage 6:</strong> Firo's aktueller Lieblingsbuchstabe…?</p>
+      <p><strong>Frage 6:</strong> Firo's Lieblingsbuchstabe?</p>
       <input type="text" placeholder="Buchstabe">
       <button>Prüfen</button>
       <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">t</span></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">t</span>
+      </div>
     </div>
 
     <!-- Frage 7 -->
     <div class="question-row" data-solution="e" data-letter="e">
-      <p><strong>Frage 7:</strong> Welcher Buchstabe kommt am häufigsten in Namen vor?</p>
+      <p><strong>Frage 7:</strong> Welcher Buchstabe kommt am häufigsten vor?</p>
       <input type="text" placeholder="Buchstabe">
       <button>Prüfen</button>
       <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">e</span></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">e</span>
+      </div>
     </div>
 
     <!-- Frage 8 -->
     <div class="question-row" data-solution="47" data-letter="d">
-      <p><strong>Frage 8:</strong> Wie viele Medien wurden in der WhatsApp-Gruppe geteilt?</p>
+      <p><strong>Frage 8:</strong> Wie viele Medien wurden geteilt?</p>
       <label><input type="radio" name="q8" value="23"> 23</label><br>
       <label><input type="radio" name="q8" value="69"> 69</label><br>
       <label><input type="radio" name="q8" value="83"> 83</label><br>
       <label><input type="radio" name="q8" value="47"> 47</label><br>
       <button>Prüfen</button>
       <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">d</span></div>
+      <div class="letter-display hidden">
+        Zeichen: <span class="letter-badge">d</span>
+      </div>
     </div>
 
     <div id="quiz-summary" class="message"></div>
@@ -444,7 +481,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
       <h2>Spotify-Rätsel – São Paulo</h2>
     </div>
 
-    <p>Scanne den Spotify-Code → Song „São Paulo“ – The Weeknd.<br>  
+    <p>Scanne den Spotify-Code → Song „São Paulo“ – The Weeknd.<br>
     Trage die 3 gesuchten Buchstaben ein:</p>
 
     <div style="display:flex; gap:12px; margin-bottom:12px;">
@@ -535,7 +572,7 @@ function saveProgress(){
   localStorage.setItem("XMASRIDDLE_GLOBAL", JSON.stringify(progress));
 }
 
-/* FORTSCHRITT / BUCHSTABEN */
+/* FORTSCHRITT */
 const lettersSpans = document.getElementById("letters-progress").children;
 let nextLetterIndex = 0;
 
@@ -624,7 +661,7 @@ quizRows.forEach(row=>{
   });
 });
 
-/* RÄTSEL 2–5 LOGIK */
+/* RÄTSEL 2–5 */
 const puzzleCards = document.querySelectorAll(".puzzle-card");
 
 function showNextPuzzle(i){
@@ -777,7 +814,7 @@ finalButton.addEventListener("click", ()=>{
   }
 });
 
-/* ADMIN LOGIN */
+/* ADMIN */
 document.getElementById("admin-btn").addEventListener("click", ()=>{
   playClick();
 
@@ -830,7 +867,7 @@ function updateNavMenu(){
   }
 }
 
-/* VISIBILITY LOGIK */
+/* SICHTBARKEIT */
 function updateVisibility(){
   const cards = document.querySelectorAll(".puzzle-card");
   const finalCard = document.getElementById("final-card");
@@ -871,7 +908,7 @@ function updateVisibility(){
   updateNavMenu();
 }
 
-/* NEXT UNLOCK BOX */
+/* NEXT UNLOCK */
 let nextUnlockTimer = null;
 
 function updateNextUnlockInfo(){
@@ -880,7 +917,7 @@ function updateNextUnlockInfo(){
   const cd   = document.getElementById("next-unlock-countdown");
 
   if(ADMIN_MODE){
-    if(card) card.style.display = "none";
+    card.style.display = "none";
     return;
   }
 
@@ -890,7 +927,7 @@ function updateNextUnlockInfo(){
     .filter(i => now < unlockSchedule[i]);
 
   if(locked.length === 0){
-    if(card) card.style.display = "none";
+    card.style.display = "none";
     return;
   }
 
