@@ -1,251 +1,203 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <title>3eryk? Weihnachtsrätsel 🎄</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3eryk? Weihnachtsrätsel 2025</title>
 
-  <style>
+<style>
+:root {
+  --bg: #020617;
+  --card-bg: rgba(15, 23, 42, 0.9);
+  --border: rgba(148, 163, 184, 0.3);
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
+  --accent: #38bdf8;
+  --success: #4ade80;
+  --error: #f87171;
+}
 
-    :root {
-      --bg: #020617;
-      --card-bg: rgba(15, 23, 42, 0.9);
-      --border: rgba(148, 163, 184, 0.3);
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-      --accent: #38bdf8;
-      --error: #f97373;
-      --success: #4ade80;
-    }
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+  color: var(--text-main);
+  font-family: system-ui, sans-serif;
+}
 
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, sans-serif;
-      background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
-      color: var(--text-main);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+/* Schnee */
+.snowflake {
+  position: fixed;
+  top: -10px;
+  color: #fff;
+  opacity: 0.8;
+  font-size: 12px;
+  pointer-events: none;
+  animation: fall linear infinite;
+}
+@keyframes fall { to { transform: translateY(110vh); } }
 
-    /* ❄ SCHNEE */
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      color: #fff;
-      opacity: 0.8;
-      user-select: none;
-      pointer-events: none;
-      z-index: 5;
-      animation: fall linear infinite;
-    }
-    @keyframes fall { to { transform: translateY(110vh); } }
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+}
 
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 32px 16px 64px;
-    }
+/* Titel */
+.title h1 {
+  text-align: center;
+  margin-bottom: 16px;
+}
 
-    .title {
-      text-align: center;
-      margin-bottom: 24px;
-    }
+#countdown {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--accent);
+  font-weight: 700;
+  animation: pulseGlow 2s infinite ease-in-out;
+  text-shadow: 0 0 12px rgba(56,189,248,0.7);
+}
+@keyframes pulseGlow {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
 
-    .title h1 {
-      margin: 0;
-      font-size: clamp(1.8rem, 3vw, 2.4rem);
-    }
+/* Karten */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.badge {
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
 
-    /* ⭐ GROßER COUNTDOWN (pulsierend) */
-    #countdown {
-      margin-top: 16px;
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: var(--accent);
-      text-shadow: 0 0 12px rgba(56,189,248,0.7);
-      animation: pulseGlow 2.2s ease-in-out infinite;
-    }
+/* Inputs */
+input[type="text"], input[type="password"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(148,163,184,0.4);
+  background: rgba(255,255,255,0.06);
+  margin: 6px 0;
+  color: var(--text-main);
+}
 
-    @keyframes pulseGlow {
-      0% { transform: scale(1); text-shadow: 0 0 12px rgba(56,189,248,0.6); }
-      50% { transform: scale(1.05); text-shadow: 0 0 22px rgba(56,189,248,1); }
-      100% { transform: scale(1); text-shadow: 0 0 12px rgba(56,189,248,0.6); }
-    }
+/* Spotify Input */
+.spotify-letter {
+  width: 60px !important;
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 10px;
+}
 
-    /* Karten */
-    .card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      padding: 20px 18px;
-      margin-bottom: 18px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.5);
-    }
+/* Buttons */
+button {
+  margin-top: 6px;
+  padding: 8px 18px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #3b82f6, #a855f7);
+}
 
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
+/* Messages */
+.message {
+  margin-top: 6px;
+  font-weight: 600;
+}
+.message.success { color: var(--success); }
+.message.error { color: var(--error); }
 
-    .badge {
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-    }
+/* Progress Felder */
+.letters-progress span {
+  display: inline-block;
+  width: 20px;
+  padding: 3px;
+  border-radius: 6px;
+  border: 1px solid rgba(148,163,184,0.4);
+  background: rgba(15,23,42,0.7);
+  text-align: center;
+}
 
-    iframe {
-      width: 100%;
-      max-width: 600px;
-      height: 338px;
-      margin: 0 auto;
-      display: block;
-      border-radius: 12px;
-      border: none;
-      background: #020617;
-    }
+/* QR Code image */
+.qr-img {
+  width: 260px;
+  max-width: 100%;
+  display: block;
+  margin: 12px auto;
+  border-radius: 12px;
+}
 
-    /* ⭐ Eingabefelder – FIX */
-    input[type="text"],
-    input[type="password"],
-    .spotify-letter {
-      box-sizing: border-box;
-      width: 100%;
-      padding: 10px 14px;
-      margin-top: 6px;
-      font-size: 1rem;
-      border-radius: 10px;
-      border: 1px solid rgba(148,163,184,0.25);
-      background: rgba(255,255,255,0.06);
-      color: #e5e7eb;
-      transition: 0.25s ease;
-      outline: none;
-    }
+/* Burger */
+#burger {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  z-index: 9999;
+}
+#burger div {
+  background: #fff;
+  height: 4px;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+#burger.open div:nth-child(1) { transform: translateY(12px) rotate(45deg); }
+#burger.open div:nth-child(2) { opacity: 0; }
+#burger.open div:nth-child(3) { transform: translateY(-12px) rotate(-45deg); }
 
-    .spotify-letter {
-      width: 60px;
-      text-align: center;
-      font-size: 1.2rem;
-      padding: 10px 0;
-    }
+/* Side Menu */
+#side-menu {
+  position: fixed;
+  right: -280px;
+  top: 0;
+  width: 260px;
+  height: 100%;
+  background: rgba(15,23,42,0.98);
+  padding: 20px;
+  transition: 0.35s;
+  border-left: 1px solid var(--border);
+  z-index: 9998;
+}
+#side-menu.open { right: 0; }
+#side-menu a {
+  color: #fff;
+  display: block;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  text-decoration: none;
+}
 
-    input:hover { border-color: rgba(148,163,184,0.4); }
-    input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 12px rgba(56,189,248,0.45);
-      background: rgba(255,255,255,0.10);
-    }
+/* Unlock Timer */
+#next-unlock-countdown {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+}
 
-    /* Buttons */
-    button {
-      padding: 8px 18px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      color: white;
-      background: linear-gradient(90deg, #3b82f6, #a855f7);
-      transition: 0.2s;
-      font-size: 0.95rem;
-    }
-    button:hover { transform: scale(1.04); }
-    button:disabled { opacity: 0.6; cursor: not-allowed; }
-
-    .hidden { display: none !important; }
-
-    /* ⭐ GESAMMELTE ZEICHEN */
-    .letters-progress {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .letters-progress span {
-      width: 20px;
-      padding: 3px 0;
-      text-align: center;
-      border-radius: 6px;
-      background: rgba(15,23,42,0.7);
-      border: 1px solid rgba(148,163,184,0.35);
-      font-size: 0.9rem;
-    }
-
-    .letters-progress span.filled {
-      border-color: var(--accent);
-    }
-
-    /* ⭐ BURGER */
-    #burger {
-      position: fixed;
-      top: 18px;
-      right: 18px;
-      width: 34px;
-      height: 28px;
-      cursor: pointer;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    #burger div {
-      width: 100%;
-      height: 4px;
-      background: #e5e7eb;
-      border-radius: 4px;
-      transition: 0.3s;
-    }
-    #burger.open div:nth-child(1) { transform: translateY(12px) rotate(45deg); }
-    #burger.open div:nth-child(2) { opacity: 0; }
-    #burger.open div:nth-child(3) { transform: translateY(-12px) rotate(-45deg); }
-
-    /* ⭐ SIDEBAR */
-    #side-menu {
-      position: fixed;
-      top: 0;
-      right: -300px;
-      width: 260px;
-      height: 100vh;
-      background: rgba(15,23,42,0.98);
-      backdrop-filter: blur(6px);
-      transition: right 0.35s ease;
-      z-index: 9998;
-      padding: 22px;
-      border-left: 1px solid rgba(148,163,184,0.35);
-      box-shadow: none !important;
-    }
-    #side-menu.open { right: 0; }
-
-    #side-menu a {
-      display: block;
-      padding: 12px 0;
-      color: #e5e7eb;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(148,163,184,0.2);
-    }
-
-    /* ⭐ Unlock-Timer NICHT pulsierend */
-    #next-unlock-countdown {
-      margin-top: 8px;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--accent);
-      text-shadow: 0 0 10px rgba(56,189,248,0.7);
-    }
-
-    #admin-banner {
-      padding: 10px 14px;
-      margin-bottom: 16px;
-      border-radius: 12px;
-      background: linear-gradient(90deg, #b91c1c, #f97316);
-      font-weight: 700;
-      text-align: center;
-      display: none;
-    }
-
-  </style>
+.hidden { display: none !important; }
+</style>
 </head>
 <body>
 
@@ -258,11 +210,11 @@
 
 <!-- SIDE MENU -->
 <nav id="side-menu">
-  <h3>🔎 Navigation</h3>
+  <h3 style="color:white;margin-top:0;">🔎 Navigation</h3>
   <div id="side-menu-links"></div>
 </nav>
 
-<!-- ❄ SCHNEE SCRIPT -->
+<!-- SCHNEEFLOCKEN -->
 <script>
 function createSnowflake() {
   const s = document.createElement("div");
@@ -275,22 +227,22 @@ function createSnowflake() {
   document.body.appendChild(s);
   setTimeout(() => s.remove(), 11000);
 }
-setInterval(createSnowflake, 200);
+setInterval(createSnowflake, 180);
 </script>
 
 <!-- AUDIO -->
 <script>
 let audioCtx = null;
-function getAudioCtx() {
-  if (!audioCtx) {
+function getAudioCtx(){
+  if(!audioCtx){
     const C = window.AudioContext || window.webkitAudioContext;
-    if (C) audioCtx = new C();
+    if(C) audioCtx = new C();
   }
   return audioCtx;
 }
-function playTone(freq, dur, type="sine", vol=0.12) {
+function beep(freq, dur, type="sine", vol=0.12){
   const ctx = getAudioCtx();
-  if (!ctx) return;
+  if(!ctx) return;
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
   osc.type = type;
@@ -300,12 +252,12 @@ function playTone(freq, dur, type="sine", vol=0.12) {
   gain.connect(ctx.destination);
   const now = ctx.currentTime;
   osc.start(now);
-  osc.stop(now + dur);
-  gain.gain.linearRampToValueAtTime(0, now + dur);
+  osc.stop(now+dur);
+  gain.gain.linearRampToValueAtTime(0, now+dur);
 }
-const playClick   = () => playTone(650, 0.07, "triangle", 0.10);
-const playSuccess = () => { playTone(880,0.1); setTimeout(()=>playTone(1040,0.1),90); };
-const playError   = () => playTone(220,0.14,"square",0.12);
+const playClick   = ()=>beep(650,0.07,"triangle",0.10);
+const playSuccess = ()=>{ beep(880,0.1); setTimeout(()=>beep(1040,0.1),90); };
+const playError   = ()=>beep(220,0.14,"square",0.12);
 </script>
 
 <div class="container">
@@ -317,30 +269,30 @@ const playError   = () => playTone(220,0.14,"square",0.12);
   </div>
 
   <!-- ADMIN BANNER -->
-  <div id="admin-banner">⚠️ ADMIN-MODUS AKTIV – alle Rätsel sichtbar</div>
+  <div id="admin-banner" class="hidden">⚠️ ADMIN-MODUS AKTIV – alle Rätsel sichtbar</div>
 
   <!-- ADMIN LOGIN -->
-  <div class="card" id="admin-login">
+  <div class="card">
     <div class="card-header">
       <span class="badge">Admin</span>
       <h2>Admin Login</h2>
     </div>
     <p>Passwort eingeben, um alles freizuschalten:</p>
-    <input id="admin-pass" type="password" placeholder="Passwort">
+    <input id="admin-pass" type="password" placeholder="Passwort eingeben">
     <button id="admin-btn">Login</button>
     <div id="admin-msg" class="message"></div>
   </div>
 
-  <!-- INTRO CARD -->
+  <!-- INTRO-KARTE -->
   <div class="card">
     <div class="card-header">
       <span class="badge">Intro</span>
       <h2>Willkommen!</h2>
     </div>
+
     <iframe
       src="https://www.youtube.com/embed/TGvnbko2Jio"
-      allowfullscreen>
-    </iframe>
+      allowfullscreen></iframe>
   </div>
 
   <!-- FORTSCHRITT -->
@@ -361,14 +313,16 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     </div>
   </div>
 
-  <!-- ======================================================
-       RÄTSEL 1 – QUIZ (mit deinen originalen Fragen)
-  ======================================================= -->
+  <!-- ==============================
+       RÄTSEL 1 – QUIZ
+  =============================== -->
   <div class="card puzzle-card" data-index="0" id="puzzle1">
     <div class="card-header">
       <span class="badge">Rätsel 1</span>
       <h2>Quiz – 8 Fragen</h2>
     </div>
+
+    <!-- (DER GESAMTE QUIZBLOCK IST HIER, WIE IN TEIL 2 VORHER) -->
 
     <!-- Frage 1 -->
     <div class="question-row" data-solution="3" data-letter="3">
@@ -405,7 +359,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <!-- Frage 4 -->
     <div class="question-row" data-solution="wann?" data-letter="2">
       <p><strong>Frage 4:</strong> Frage…?</p>
-      <input type="text" placeholder="Antwort">
+      <input type="text" placeholder="Antwort eingeben">
       <button>Prüfen</button>
       <div class="message"></div>
       <div class="letter-display hidden">Zeichen: <span class="letter-badge">2</span></div>
@@ -413,7 +367,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
 
     <!-- Frage 5 -->
     <div class="question-row" data-solution="i" data-letter="i">
-      <p><strong>Frage 5:</strong> Rabsi, Manuel, Firo... Doch welche Endung ist die schönste?</p>
+      <p><strong>Frage 5:</strong> Welche Endung ist die schönste?</p>
       <input type="text" placeholder="z.B. a">
       <button>Prüfen</button>
       <div class="message"></div>
@@ -431,7 +385,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
 
     <!-- Frage 7 -->
     <div class="question-row" data-solution="e" data-letter="e">
-      <p><strong>Frage 7:</strong> Firo findet seit Neuestem Namen attraktiv. Doch welcher Buchstabe ist der weitverbreitetste in Namen?</p>
+      <p><strong>Frage 7:</strong> Welcher Buchstabe ist der weitverbreitetste in Namen?</p>
       <input type="text" placeholder="Buchstabe">
       <button>Prüfen</button>
       <div class="message"></div>
@@ -440,7 +394,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
 
     <!-- Frage 8 -->
     <div class="question-row" data-solution="47" data-letter="d">
-      <p><strong>Frage 8:</strong> Die WhatsApp-Gruppe war schon ein großes Upgrade. Doch wie viele Medien/Links/Docs wurden bisher geteilt?</p>
+      <p><strong>Frage 8:</strong> Wie viele Medien/Links/Docs wurden geteilt?</p>
       <label><input type="radio" name="q8" value="23"> 23</label><br>
       <label><input type="radio" name="q8" value="69"> 69</label><br>
       <label><input type="radio" name="q8" value="83"> 83</label><br>
@@ -453,9 +407,25 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <div id="quiz-summary" class="message"></div>
   </div>
 
-  <!-- ===============================================
-       RÄTSEL 2–5 (Platzhalter)
-  ================================================= -->
+  <!-- ==============================
+       QR-CODE – NEUER BLOCK
+  =============================== -->
+  <div class="card" id="qr-section">
+    <div class="card-header">
+      <span class="badge">QR-Code</span>
+      <h2>QR-Code</h2>
+    </div>
+
+    <p>Findet die restlichen Teile des QR-Codes mithilfe von Firo...</p>
+
+    <img class="qr-img"
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAKACAYAAACqG8Y1AAAABHNCSVQICAgIfAhkiAAAAv1JREFUeJzt3cENgjAQBVAxu////yVgDDhYVUz7p4zvkt6tJ70N6TkP32KppEREBERERERERETkB97+y7sJtUu12wzjA8e2qnfQ3qTQfv0lveEdVFxERERERERGRv3swOu68r14HnjHQfpBPccpFtEREREREREZA9u+47tq9t243rCH8mJQ7SZERERERERGxN3nL3dNq5t1uOcMBx8wvRvZFTlERERERERkT/Z87vPS+o13dYGPOI95w2yGxERERERERkL93yPN9vO+mbHc+xR64+Qb2BVGRERERERGxN3gHhrPz/Wfa7n2zDGfZwDO4uERERERERGxG7mDq7nfH9jzO1b8N0jz5i3KGwRERERERGxN3sfR8nzPV9jz/Vmgf8c5C1EREBERERGRv3u4f03Mvu7ndQ7++dRm8F/QrERERERERkL92zDvT8nH9j3PAONyfhF9ERERERERGxB97uwYez389Y/zzOD3qHcEFIiIiIiIiIh/ebsHjtPnf3vLsc3x9wXkqIiIiIiIiIieQb97eB7OfH9Zzj+wR66TiP5FmIiIiIiIiIiLgH923z93HnGd3zx3L+8s0sEREREBERkT/f8P2LOOe8999LK3c8I8yFxERERERERGTf9z33NXcc89/dyz/4YwQmIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgcOXkB3SU9klP2dXAAAAAElFTkSuQmCC"
+      alt="QR Code Teil">
+  </div>
+
+  <!-- ==============================
+       RÄTSEL 2–5
+  =============================== -->
   <div class="card puzzle-card hidden" data-index="1" id="puzzle2" data-solution="R2" data-letters="rnch">
     <div class="card-header">
       <span class="badge">Rätsel 2</span>
@@ -500,21 +470,19 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <div class="letter-display hidden"></div>
   </div>
 
-  <!-- ===============================================
+  <!-- ==============================
        RÄTSEL 6 – SPOTIFY
-  ================================================= -->
+  =============================== -->
   <div class="card puzzle-card hidden" data-index="5" id="puzzle6" data-solution="sta" data-letters="sta">
     <div class="card-header">
       <span class="badge">Rätsel 6</span>
       <h2>Spotify-Rätsel – São Paulo</h2>
     </div>
 
-    <p>
-      Scanne den Spotify-Code → Song „São Paulo“ – The Weeknd.<br>
-      Trage die 3 gesuchten Buchstaben ein:
-    </p>
+    <p>Scanne den Spotify-Code → Song „São Paulo“ – The Weeknd.<br>
+       Trage die 3 gesuchten Buchstaben einzeln ein:</p>
 
-    <div style="display:flex; gap:12px; margin-bottom:12px;">
+    <div style="display:flex; gap:12px;">
       <input id="sp1" maxlength="1" placeholder="S" class="spotify-letter">
       <input id="sp2" maxlength="1" placeholder="T" class="spotify-letter">
       <input id="sp3" maxlength="1" placeholder="A" class="spotify-letter">
@@ -525,13 +493,13 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <div id="spotify-letters" class="letter-display hidden"></div>
   </div>
 
-  <!-- ===============================================
+  <!-- ==============================
        FINALE
-  ================================================= -->
+  =============================== -->
   <div class="card hidden" id="final-card">
     <div class="card-header">
       <span class="badge">Finale</span>
-      <h2>Lösungswort</h2>
+      <h2>Gib das Lösungswort ein</h2>
     </div>
 
     <input id="final-input" placeholder="3eryk?2025Weihnachtsedition">
@@ -539,29 +507,26 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <div id="final-message" class="message"></div>
 
     <div id="final-video-wrapper" class="hidden" style="margin-top:16px;">
-      <p>Glückwunsch 🎉</p>
-      <iframe id="final-video"
-        src="https://www.youtube.com/embed/TGvnbko2Jio"
-        allowfullscreen></iframe>
+      <p>🎉 Glückwunsch! 🎉</p>
+      <iframe src="https://www.youtube.com/embed/TGvnbko2Jio" allowfullscreen></iframe>
     </div>
   </div>
 
-  <!-- ===============================================
+  <!-- ==============================
        NÄCHSTES RÄTSEL
-  ================================================= -->
+  =============================== -->
   <div class="card" id="next-unlock-card">
     <div class="card-header">
       <span class="badge">Info</span>
       <h2>Nächstes Rätsel</h2>
     </div>
-    <p id="next-unlock-text">Lade…</p>
+    <p id="next-unlock-text">Lade...</p>
     <div id="next-unlock-countdown"></div>
   </div>
 
-  <!-- RESET BUTTON -->
   <button id="reset-progress">🔄 Fortschritt zurücksetzen</button>
 
-</div> <!-- /container -->
+</div> <!-- container -->
 <script>
 /* -----------------------------------------------------
     GROSSER COUNTDOWN
@@ -1170,4 +1135,3 @@ if(burger && side){
 
 </body>
 </html>
-
