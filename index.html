@@ -6,245 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-
-    :root {
-      --bg: #020617;
-      --card-bg: rgba(15, 23, 42, 0.9);
-      --border: rgba(148, 163, 184, 0.3);
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-      --accent: #38bdf8;
-      --error: #f97373;
-      --success: #4ade80;
-    }
-
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, sans-serif;
-      background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
-      color: var(--text-main);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* ❄ SCHNEE */
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      color: #fff;
-      opacity: 0.8;
-      user-select: none;
-      pointer-events: none;
-      z-index: 5;
-      animation: fall linear infinite;
-    }
-    @keyframes fall { to { transform: translateY(110vh); } }
-
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 32px 16px 64px;
-    }
-
-    .title {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    .title h1 {
-      margin: 0;
-      font-size: clamp(1.8rem, 3vw, 2.4rem);
-    }
-
-    /* ⭐ GROßER COUNTDOWN (pulsierend) */
-    #countdown {
-      margin-top: 16px;
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: var(--accent);
-      text-shadow: 0 0 12px rgba(56,189,248,0.7);
-      animation: pulseGlow 2.2s ease-in-out infinite;
-    }
-
-    @keyframes pulseGlow {
-      0% { transform: scale(1); text-shadow: 0 0 12px rgba(56,189,248,0.6); }
-      50% { transform: scale(1.05); text-shadow: 0 0 22px rgba(56,189,248,1); }
-      100% { transform: scale(1); text-shadow: 0 0 12px rgba(56,189,248,0.6); }
-    }
-
-    /* Karten */
-    .card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      padding: 20px 18px;
-      margin-bottom: 18px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.5);
-    }
-
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-
-    .badge {
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-    }
-
-    iframe {
-      width: 100%;
-      max-width: 600px;
-      height: 338px;
-      margin: 0 auto;
-      display: block;
-      border-radius: 12px;
-      border: none;
-      background: #020617;
-    }
-
-    /* ⭐ Eingabefelder */
-    input[type="text"],
-    input[type="password"],
-    .spotify-letter {
-      box-sizing: border-box;
-      width: 100%;
-      padding: 10px 14px;
-      margin-top: 6px;
-      font-size: 1rem;
-      border-radius: 10px;
-      border: 1px solid rgba(148,163,184,0.25);
-      background: rgba(255,255,255,0.06);
-      color: #e5e7eb;
-      transition: 0.25s ease;
-      outline: none;
-    }
-
-    .spotify-letter {
-      width: 60px;
-      text-align: center;
-      font-size: 1.2rem;
-      padding: 10px 0;
-    }
-
-    input:hover { border-color: rgba(148,163,184,0.4); }
-    input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 12px rgba(56,189,248,0.45);
-      background: rgba(255,255,255,0.10);
-    }
-
-    /* Buttons */
-    button {
-      padding: 8px 18px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      color: white;
-      background: linear-gradient(90deg, #3b82f6, #a855f7);
-      transition: 0.2s;
-      font-size: 0.95rem;
-    }
-    button:hover { transform: scale(1.04); }
-    button:disabled { opacity: 0.6; cursor: not-allowed; }
-
-    .hidden { display: none !important; }
-
-    /* ⭐ GESAMMELTE ZEICHEN */
-    .letters-progress {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .letters-progress span {
-      width: 20px;
-      padding: 3px 0;
-      text-align: center;
-      border-radius: 6px;
-      background: rgba(15,23,42,0.7);
-      border: 1px solid rgba(148,163,184,0.35);
-      font-size: 0.9rem;
-    }
-
-    .letters-progress span.filled {
-      border-color: var(--accent);
-    }
-
-    /* ⭐ BURGER */
-    #burger {
-      position: fixed;
-      top: 18px;
-      right: 18px;
-      width: 34px;
-      height: 28px;
-      cursor: pointer;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    #burger div {
-      width: 100%;
-      height: 4px;
-      background: #e5e7eb;
-      border-radius: 4px;
-      transition: 0.3s;
-    }
-    #burger.open div:nth-child(1) { transform: translateY(12px) rotate(45deg); }
-    #burger.open div:nth-child(2) { opacity: 0; }
-    #burger.open div:nth-child(3) { transform: translateY(-12px) rotate(-45deg); }
-
-    /* ⭐ SIDEBAR */
-    #side-menu {
-      position: fixed;
-      top: 0;
-      right: -300px;
-      width: 260px;
-      height: 100vh;
-      background: rgba(15,23,42,0.98);
-      backdrop-filter: blur(6px);
-      transition: right 0.35s ease;
-      z-index: 9998;
-      padding: 22px;
-      border-left: 1px solid rgba(148,163,184,0.35);
-      box-shadow: none !important;
-    }
-    #side-menu.open { right: 0; }
-
-    #side-menu a {
-      display: block;
-      padding: 12px 0;
-      color: #e5e7eb;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(148,163,184,0.2);
-    }
-
-    /* ⭐ Unlock-Timer NICHT pulsierend */
-    #next-unlock-countdown {
-      margin-top: 8px;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--accent);
-      text-shadow: 0 0 10px rgba(56,189,248,0.7);
-    }
-
-    #admin-banner {
-      padding: 10px 14px;
-      margin-bottom: 16px;
-      border-radius: 12px;
-      background: linear-gradient(90deg, #b91c1c, #f97316);
-      font-weight: 700;
-      text-align: center;
-      display: none;
-    }
-
+    … (unverändert, exakt aus deiner Datei)
   </style>
 </head>
 <body>
@@ -262,196 +24,11 @@
   <div id="side-menu-links"></div>
 </nav>
 
-<!-- ❄ SCHNEE SCRIPT -->
-<script>
-function createSnowflake() {
-  const s = document.createElement("div");
-  s.className = "snowflake";
-  s.textContent = "❄";
-  s.style.left = Math.random() * 100 + "vw";
-  s.style.fontSize = 10 + Math.random() * 18 + "px";
-  s.style.animationDuration = 4 + Math.random() * 6 + "s";
-  s.style.opacity = 0.4 + Math.random() * 0.4;
-  document.body.appendChild(s);
-  setTimeout(() => s.remove(), 11000);
-}
-setInterval(createSnowflake, 200);
-</script>
-
-<!-- AUDIO -->
-<script>
-let audioCtx = null;
-function getAudioCtx() {
-  if (!audioCtx) {
-    const C = window.AudioContext || window.webkitAudioContext;
-    if (C) audioCtx = new C();
-  }
-  return audioCtx;
-}
-function playTone(freq, dur, type="sine", vol=0.12) {
-  const ctx = getAudioCtx();
-  if (!ctx) return;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = type;
-  osc.frequency.value = freq;
-  gain.gain.value = vol;
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  const now = ctx.currentTime;
-  osc.start(now);
-  osc.stop(now + dur);
-  gain.gain.linearRampToValueAtTime(0, now + dur);
-}
-const playClick   = () => playTone(650, 0.07, "triangle", 0.10);
-const playSuccess = () => { playTone(880,0.1); setTimeout(()=>playTone(1040,0.1),90); };
-const playError   = () => playTone(220,0.14,"square",0.12);
-</script>
+<!-- Schnee, Audio-Scripts etc. (unverändert) -->
 
 <div class="container">
 
-  <!-- TITLE -->
-  <div class="title">
-    <h1>🎄 3eryk? Weihnachtsrätsel – 2025 Edition 🎄</h1>
-    <div id="countdown">Lade Countdown...</div>
-  </div>
-
-  <!-- ADMIN BANNER -->
-  <div id="admin-banner">⚠️ ADMIN-MODUS AKTIV – alle Rätsel sichtbar</div>
-
-  <!-- ADMIN LOGIN -->
-  <div class="card" id="admin-login">
-    <div class="card-header">
-      <span class="badge">Admin</span>
-      <h2>Admin Login</h2>
-    </div>
-    <p>Passwort eingeben, um alles freizuschalten:</p>
-    <input id="admin-pass" type="password" placeholder="Passwort">
-    <button id="admin-btn">Login</button>
-    <div id="admin-msg" class="message"></div>
-  </div>
-
-  <!-- INTRO CARD -->
-  <div class="card">
-    <div class="card-header">
-      <span class="badge">Intro</span>
-      <h2>Willkommen!</h2>
-    </div>
-    <iframe
-      src="https://www.youtube.com/embed/TGvnbko2Jio"
-      allowfullscreen>
-    </iframe>
-  </div>
-
-  <!-- FORTSCHRITT -->
-  <div class="card">
-    <div class="card-header">
-      <span class="badge">Fortschritt</span>
-      <h2>Gesammelte Zeichen</h2>
-    </div>
-
-    <div class="letters-progress" id="letters-progress">
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span>
-    </div>
-  </div>
-
-  <!-- ======================================================
-       RÄTSEL 1 – QUIZ
-  ======================================================= -->
-  <div class="card puzzle-card" data-index="0" id="puzzle1">
-    <div class="card-header">
-      <span class="badge">Rätsel 1</span>
-      <h2>Quiz – 8 Fragen</h2>
-    </div>
-
-    <!-- Frage 1 -->
-    <div class="question-row" data-solution="3" data-letter="3">
-      <p><strong>Frage 1:</strong> Aus wie vielen Alben besteht die Trilogie von The Weeknd?</p>
-      <input type="text" placeholder="Zahl eingeben">
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">
-        Zeichen: <span class="letter-badge">3</span>
-      </div>
-    </div>
-
-    <!-- Frage 2 -->
-    <div class="question-row" data-solution="25.09.2024" data-letter="y">
-      <p><strong>Frage 2:</strong> Wann war der erste Call in der Discord-Gruppe 3eryk?</p>
-      <label><input type="radio" name="q2" value="12.08.2024"> 12.08.2024</label><br>
-      <label><input type="radio" name="q2" value="25.09.2024"> 25.09.2024</label><br>
-      <label><input type="radio" name="q2" value="03.10.2024"> 03.10.2024</label><br>
-      <label><input type="radio" name="q2" value="18.09.2024"> 18.09.2024</label><br>
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">y</span></div>
-    </div>
-
-    <!-- Frage 3 -->
-    <div class="question-row" data-solution="rot ist meine lieblings zahl im ganzen alphabet" data-letter="?">
-      <p><strong>Frage 3:</strong> Rot…?</p>
-      <input type="text" placeholder="ganzen Satz eingeben">
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">?</span></div>
-    </div>
-
-    <!-- Frage 4 -->
-    <div class="question-row" data-solution="wann?" data-letter="2">
-      <p><strong>Frage 4:</strong> Frage…?</p>
-      <input type="text" placeholder="Antwort">
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">2</span></div>
-    </div>
-
-    <!-- Frage 5 -->
-    <div class="question-row" data-solution="i" data-letter="i">
-      <p><strong>Frage 5:</strong> Welche Endung ist die schönste?</p>
-      <input type="text" placeholder="z.B. a">
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">i</span></div>
-    </div>
-
-    <!-- Frage 6 -->
-    <div class="question-row" data-solution="t" data-letter="t">
-      <p><strong>Frage 6:</strong> Firo’s aktueller Lieblingsbuchstabe…?</p>
-      <input type="text" placeholder="Buchstabe">
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">t</span></div>
-    </div>
-
-    <!-- Frage 7 -->
-    <div class="question-row" data-solution="e" data-letter="e">
-      <p><strong>Frage 7:</strong> Welcher Buchstabe ist der weitverbreitetste in Namen?</p>
-      <input type="text" placeholder="Buchstabe">
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">e</span></div>
-    </div>
-
-    <!-- Frage 8 -->
-    <div class="question-row" data-solution="47" data-letter="d">
-      <p><strong>Frage 8:</strong> Wie viele Medien/Links/Docs wurden geteilt?</p>
-      <label><input type="radio" name="q8" value="23"> 23</label><br>
-      <label><input type="radio" name="q8" value="69"> 69</label><br>
-      <label><input type="radio" name="q8" value="83"> 83</label><br>
-      <label><input type="radio" name="q8" value="47"> 47</label><br>
-      <button>Prüfen</button>
-      <div class="message"></div>
-      <div class="letter-display hidden">Zeichen: <span class="letter-badge">d</span></div>
-    </div>
-
-    <div id="quiz-summary" class="message"></div>
-  </div>
+  … (Intro, Quiz, Rätsel 1 unverändert)
 
   <!-- ===============================================
        QR-CODE BEREICH
@@ -465,14 +42,30 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <p>Findet die restlichen Teile des QR-Codes mithilfe von Firo...</p>
 
     <img
-      src="data:image/png;base64,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"
+      src="data:image/png;base64,iVBORw0K…(dein kompletter QR-Code)…"
       alt="QR Code Teil"
       style="width:260px; max-width:100%; display:block; margin:12px auto; border-radius:12px;">
   </div>
 
   <!-- ===============================================
+       AUDIO-BEREICH (NEU)
+  =============================================== -->
+  <div class="card" id="audio-section">
+    <div class="card-header">
+      <span class="badge">Audio</span>
+      <h2>Audio-Hinweis</h2>
+    </div>
+
+    <p>Hört euch diesen Hinweis gut an… vielleicht versteckt sich darin mehr, als ihr denkt. 🔊👀</p>
+
+    <audio controls style="width:100%; margin-top:10px; border-radius:10px;">
+      <source src="audio/hinweis.mp3" type="audio/mpeg">
+      Dein Browser unterstützt den Audio-Player nicht.
+    </audio>
+  </div>
+  <!-- ===============================================
        RÄTSEL 2–5 (Platzhalter)
-  ================================================= -->
+  =============================================== -->
   <div class="card puzzle-card hidden" data-index="1" id="puzzle2" data-solution="R2" data-letters="rnch">
     <div class="card-header">
       <span class="badge">Rätsel 2</span>
@@ -519,7 +112,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
 
   <!-- ===============================================
        RÄTSEL 6 – SPOTIFY
-  ================================================= -->
+  =============================================== -->
   <div class="card puzzle-card hidden" data-index="5" id="puzzle6" data-solution="sta" data-letters="sta">
     <div class="card-header">
       <span class="badge">Rätsel 6</span>
@@ -544,7 +137,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
 
   <!-- ===============================================
        FINALE
-  ================================================= -->
+  =============================================== -->
   <div class="card hidden" id="final-card">
     <div class="card-header">
       <span class="badge">Finale</span>
@@ -565,7 +158,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
 
   <!-- ===============================================
        NÄCHSTES RÄTSEL
-  ================================================= -->
+  =============================================== -->
   <div class="card" id="next-unlock-card">
     <div class="card-header">
       <span class="badge">Info</span>
@@ -579,7 +172,6 @@ const playError   = () => playTone(220,0.14,"square",0.12);
   <button id="reset-progress">🔄 Fortschritt zurücksetzen</button>
 
 </div> <!-- /container -->
-
 <script>
 /* -----------------------------------------------------
     GROSSER COUNTDOWN
@@ -750,7 +342,6 @@ for(let i=1;i<=4;i++){
   btn.addEventListener("click", ()=>{
     playClick();
     const v = input.value.trim().toLowerCase();
-
     if(!v){
       msg.textContent = "Bitte etwas eingeben.";
       msg.className   = "message error";
@@ -774,9 +365,8 @@ for(let i=1;i<=4;i++){
       playSuccess();
 
       disp.classList.remove("hidden");
-
       let html = "Zeichen: ";
-      letters.forEach(z=>{
+      letters.forEach(z => {
         html += `<span class='letter-badge'>${z}</span> `;
         addLetter(z);
         progress.letters.push(z);
@@ -858,10 +448,10 @@ document.getElementById("spotify-check").addEventListener("click", ()=>{
 ----------------------------------------------------- */
 const SECRET_FINAL_WORD = "3eryk?2025Weihnachtsedition";
 
-const finalInput       = document.getElementById("final-input");
-const finalButton      = document.getElementById("final-button");
-const finalMessage     = document.getElementById("final-message");
-const finalVideoWrapper= document.getElementById("final-video-wrapper");
+const finalInput        = document.getElementById("final-input");
+const finalButton       = document.getElementById("final-button");
+const finalMessage      = document.getElementById("final-message");
+const finalVideoWrapper = document.getElementById("final-video-wrapper");
 
 finalButton.addEventListener("click", ()=>{
   playClick();
@@ -878,6 +468,7 @@ finalButton.addEventListener("click", ()=>{
     finalMessage.textContent = "Richtig! 🎉";
     finalMessage.className   = "message success";
     playSuccess();
+
     finalVideoWrapper.classList.remove("hidden");
     progress.final = true;
     saveProgress();
@@ -903,6 +494,7 @@ document.getElementById("admin-btn").addEventListener("click", ()=>{
     msg.textContent = "Admin-Modus aktiviert!";
     msg.className   = "message success";
     updateVisibility();
+
   } else {
     msg.textContent = "Falsches Passwort.";
     msg.className   = "message error";
@@ -1184,6 +776,36 @@ if(burger && side){
     }
   });
 }
+
+/* -----------------------------------------------------
+    AUDIO: CLICK / SUCCESS / ERROR
+----------------------------------------------------- */
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    const C = window.AudioContext || window.webkitAudioContext;
+    if (C) audioCtx = new C();
+  }
+  return audioCtx;
+}
+function playTone(freq, dur, type="sine", vol=0.12) {
+  const ctx = getAudioCtx();
+  if (!ctx) return;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type;
+  osc.frequency.value = freq;
+  gain.gain.value = vol;
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  const now = ctx.currentTime;
+  osc.start(now);
+  osc.stop(now + dur);
+  gain.gain.linearRampToValueAtTime(0, now + dur);
+}
+const playClick   = () => playTone(650, 0.07, "triangle", 0.10);
+const playSuccess = () => { playTone(880,0.1); setTimeout(()=>playTone(1040,0.1),90); };
+const playError   = () => playTone(220,0.14,"square",0.12);
 </script>
 
 </body>
