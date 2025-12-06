@@ -20,25 +20,13 @@
 
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "SF Pro Icons", "Segoe UI", sans-serif;
       background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
       color: var(--text-main);
       min-height: 100vh;
       overflow-x: hidden;
     }
-
-    /* ❄ SCHNEE */
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      color: #fff;
-      opacity: 0.8;
-      user-select: none;
-      pointer-events: none;
-      z-index: 5;
-      animation: fall linear infinite;
-    }
-    @keyframes fall { to { transform: translateY(110vh); } }
 
     .container {
       max-width: 900px;
@@ -53,181 +41,379 @@
 
     .title h1 {
       margin: 0;
-      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-size: 1.9rem;
+      letter-spacing: 0.03em;
     }
 
-    /* ⭐ GROßER COUNTDOWN (pulsierend) */
     #countdown {
-      margin-top: 16px;
-      font-size: 2.2rem;
-      font-weight: 800;
-      color: var(--accent);
-      text-shadow: 0 0 12px rgba(56,189,248,0.7);
-      animation: pulseGlow 2.2s ease-in-out infinite;
+      margin-top: 10px;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      display: inline-block;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.15), transparent);
+      animation: pulseBig 2.2s infinite;
     }
 
-    @keyframes pulseGlow {
-      0% { transform: scale(1); text-shadow: 0 0 12px rgba(56,189,248,0.6); }
-      50% { transform: scale(1.05); text-shadow: 0 0 22px rgba(56,189,248,1); }
-      100% { transform: scale(1); text-shadow: 0 0 12px rgba(56,189,248,0.6); }
+    @keyframes pulseBig {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.35);
+      }
+      70% {
+        transform: scale(1.04);
+        box-shadow: 0 0 0 12px rgba(56, 189, 248, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+      }
     }
 
-    /* Karten */
     .card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      padding: 20px 18px;
-      margin-bottom: 18px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.5);
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(244, 63, 94, 0.08), transparent 50%),
+        rgba(15, 23, 42, 0.96);
+      border-radius: 18px;
+      padding: 18px 18px 18px;
+      margin-bottom: 22px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(16px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(250, 250, 250, 0.04), transparent 60%);
+      opacity: 0.8;
+      pointer-events: none;
     }
 
     .card-header {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
     }
 
     .badge {
-      font-size: 0.75rem;
-      padding: 3px 8px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 4px 9px;
       border-radius: 999px;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(148, 163, 184, 0.55);
       color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(12px);
     }
 
-    iframe {
-      width: 100%;
-      max-width: 600px;
-      height: 338px;
-      margin: 0 auto;
-      display: block;
-      border-radius: 12px;
-      border: none;
-      background: #020617;
+    h2 {
+      margin: 0;
+      font-size: 1.05rem;
+      position: relative;
+      z-index: 1;
     }
 
-    /* ⭐ Eingabefelder */
+    p {
+      position: relative;
+      z-index: 1;
+      line-height: 1.45;
+      color: #cbd5f5;
+      font-size: 0.95rem;
+    }
+
     input[type="text"],
-    input[type="password"],
-    .spotify-letter {
-      box-sizing: border-box;
+    input[type="password"] {
       width: 100%;
-      padding: 10px 14px;
-      margin-top: 6px;
-      font-size: 1rem;
+      box-sizing: border-box;
+      padding: 9px 12px;
       border-radius: 10px;
-      border: 1px solid rgba(148,163,184,0.25);
-      background: rgba(255,255,255,0.06);
-      color: #e5e7eb;
-      transition: 0.25s ease;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: rgba(15, 23, 42, 0.92);
+      color: var(--text-main);
       outline: none;
+      font-size: 0.92rem;
+      position: relative;
+      z-index: 1;
     }
 
-    .spotify-letter {
-      width: 60px;
-      text-align: center;
-      font-size: 1.2rem;
-      padding: 10px 0;
-    }
-
-    input:hover { border-color: rgba(148,163,184,0.4); }
-    input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 12px rgba(56,189,248,0.45);
-      background: rgba(255,255,255,0.10);
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: rgba(56, 189, 248, 0.9);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.7);
+      background: rgba(15, 23, 42, 0.96);
     }
 
     button {
-      padding: 8px 18px;
+      position: relative;
+      z-index: 1;
+      margin-top: 8px;
+      border-radius: 999px;
       border: none;
-      border-radius: 10px;
-      cursor: pointer;
+      padding: 7px 18px;
+      font-size: 0.9rem;
       font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
       color: white;
-      background: linear-gradient(90deg, #3b82f6, #a855f7);
-      transition: 0.2s;
-      font-size: 0.95rem;
+      background: linear-gradient(90deg, #38bdf8, #a855f7);
+      box-shadow: 0 10px 25px rgba(56, 189, 248, 0.45);
+      transition: transform 0.08s ease-out, box-shadow 0.08s ease-out,
+        filter 0.08s ease-out, opacity 0.08s ease-out;
     }
-    button:hover { transform: scale(1.04); }
-    button:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    .hidden { display: none !important; }
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(56, 189, 248, 0.55);
+      filter: brightness(1.05);
+    }
 
-    .letters-progress {
+    button:active {
+      transform: translateY(0px) scale(0.98);
+      box-shadow: 0 7px 18px rgba(15, 23, 42, 0.7);
+      opacity: 0.95;
+    }
+
+    button:disabled {
+      opacity: 0.4;
+      cursor: default;
+      box-shadow: none;
+      filter: grayscale(0.2);
+    }
+
+    .message {
+      margin-top: 6px;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .message.success {
+      color: var(--success);
+    }
+
+    .message.error {
+      color: var(--error);
+    }
+
+    .question-row {
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px dashed rgba(148, 163, 184, 0.4);
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+      background: radial-gradient(circle at left, rgba(56, 189, 248, 0.08), transparent 60%);
+    }
+
+    .question-row p {
+      margin-bottom: 6px;
+    }
+
+    label {
+      font-size: 0.9rem;
+      color: #d1d5db;
+      position: relative;
+      z-index: 1;
+    }
+
+    .letter-display {
+      margin-top: 7px;
+      font-size: 0.87rem;
+      color: #e5e7eb;
+    }
+
+    .letter-badge {
+      display: inline-block;
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.8), rgba(59, 130, 246, 0.95));
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-right: 4px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #0f172a;
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.5);
+    }
+
+    .puzzle-card {
+      position: relative;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    #letters-progress {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 3px;
+      margin-top: 10px;
     }
 
-    .letters-progress span {
-      width: 20px;
-      padding: 3px 0;
-      text-align: center;
+    #letters-progress span {
+      width: 22px;
+      height: 22px;
       border-radius: 6px;
-      background: rgba(15,23,42,0.7);
-      border: 1px solid rgba(148,163,184,0.35);
-      font-size: 0.9rem;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.9);
     }
 
-    .letters-progress span.filled {
-      border-color: var(--accent);
+    #letters-progress span.filled {
+      border-color: rgba(56, 189, 248, 0.9);
+      color: #e0f2fe;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.35);
     }
 
-    /* ⭐ BURGER */
+    #final-video {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.75);
+    }
+
+    #reset-progress {
+      display: block;
+      margin: 0 auto;
+      margin-top: 10px;
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: none;
+      text-transform: none;
+      letter-spacing: 0;
+      padding-inline: 16px;
+    }
+
+    #next-unlock-countdown {
+      margin-top: 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      font-size: 0.86rem;
+      color: #bfdbfe;
+    }
+
+    .spotify-letter {
+      width: 60px !important;
+      text-align: center;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+    }
+
+    iframe {
+      border: none;
+    }
+
+    /* Burger + Side-Menu */
     #burger {
       position: fixed;
-      top: 18px;
-      right: 18px;
-      width: 34px;
-      height: 28px;
-      cursor: pointer;
-      z-index: 9999;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 24px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-    }
-    #burger div {
-      width: 100%;
-      height: 4px;
-      background: #e5e7eb;
-      border-radius: 4px;
-      transition: 0.3s;
+      cursor: pointer;
+      z-index: 50;
     }
 
-    #burger.open div:nth-child(1) { transform: translateY(12px) rotate(45deg); }
-    #burger.open div:nth-child(2) { opacity: 0; }
-    #burger.open div:nth-child(3) { transform: translateY(-12px) rotate(-45deg); }
+    #burger div {
+      height: 3px;
+      background: #f9fafb;
+      border-radius: 999px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    #burger.open div:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+
+    #burger.open div:nth-child(2) {
+      opacity: 0;
+    }
+
+    #burger.open div:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
 
     #side-menu {
       position: fixed;
       top: 0;
-      right: -300px;
-      width: 260px;
+      right: -260px;
+      width: 240px;
       height: 100vh;
-      background: rgba(15,23,42,0.98);
-      backdrop-filter: blur(6px);
-      transition: right 0.35s ease;
-      z-index: 9998;
-      padding: 22px;
-      border-left: 1px solid rgba(148,163,184,0.35);
-      box-shadow: none !important;
+      background: rgba(15, 23, 42, 0.98);
+      border-left: 1px solid rgba(148, 163, 184, 0.45);
+      box-shadow: -18px 0 40px rgba(0, 0, 0, 0.75);
+      padding: 18px 16px;
+      z-index: 40;
+      transition: right 0.2s ease-out;
     }
-    #side-menu.open { right: 0; }
 
-    #side-menu a {
+    #side-menu.open {
+      right: 0;
+    }
+
+    #side-menu h3 {
+      margin: 0 0 12px 0;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    #side-menu-links a {
       display: block;
-      padding: 12px 0;
+      padding: 8px 0;
+      margin-bottom: 4px;
+      font-size: 0.9rem;
       color: #e5e7eb;
       text-decoration: none;
-      border-bottom: 1px solid rgba(148,163,184,0.2);
+      border-bottom: 1px dashed rgba(75, 85, 99, 0.7);
+    }
+
+    #side-menu-links a:hover {
+      color: #bfdbfe;
+    }
+
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: #e5e7eb;
+      opacity: 0.85;
+      font-size: 12px;
+      pointer-events: none;
+      animation: fall linear infinite;
+      z-index: 5;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+      }
     }
   </style>
 </head>
+
 <body>
 
-<!-- BURGER -->
 <div id="burger">
   <div></div>
   <div></div>
@@ -239,74 +425,165 @@
   <div id="side-menu-links"></div>
 </nav>
 
-<!-- SCHNEE -->
 <script>
-function createSnowflake(){
-  const s=document.createElement("div");
-  s.className="snowflake";
-  s.textContent="❄";
-  s.style.left=Math.random()*100+"vw";
-  s.style.fontSize=10+Math.random()*18+"px";
-  s.style.animationDuration=4+Math.random()*6+"s";
-  s.style.opacity=0.4+Math.random()*0.4;
+function createSnowflake() {
+  const s = document.createElement("div");
+  s.className = "snowflake";
+  s.textContent = "❄";
+  s.style.left = Math.random() * 100 + "vw";
+  s.style.fontSize = 10 + Math.random() * 18 + "px";
+  s.style.animationDuration = 4 + Math.random() * 6 + "s";
+  s.style.opacity = 0.4 + Math.random() * 0.4;
   document.body.appendChild(s);
-  setTimeout(()=>s.remove(),11000);
+  setTimeout(() => s.remove(), 11000);
 }
-setInterval(createSnowflake,200);
+setInterval(createSnowflake, 200);
 </script>
 
 <div class="container">
 
   <div class="title">
     <h1>🎄 3eryk? Weihnachtsrätsel – 2025 Edition 🎄</h1>
-    <div id="countdown">Lade Countdown...</div>
+    <div id="countdown">Lade Countdown…</div>
   </div>
 
-  <div id="admin-banner" style="display:none;">⚠️ ADMIN-MODUS AKTIV – alle Rätsel sichtbar</div>
-
-  <!-- ADMIN LOGIN -->
-  <div class="card" id="admin-login">
+  <div class="card">
     <div class="card-header">
       <span class="badge">Admin</span>
       <h2>Admin Login</h2>
     </div>
     <p>Passwort eingeben, um alles freizuschalten:</p>
-    <input id="admin-pass" type="password" placeholder="Passwort">
+    <input id="admin-pass" type="password" />
     <button id="admin-btn">Login</button>
     <div id="admin-msg" class="message"></div>
   </div>
 
-  <!-- INTRO -->
   <div class="card">
     <div class="card-header">
       <span class="badge">Intro</span>
       <h2>Willkommen!</h2>
     </div>
-    <iframe src="https://www.youtube.com/embed/TGvnbko2Jio"></iframe>
+    <iframe
+      width="100%"
+      height="315"
+      src="https://www.youtube.com/embed/TGvnbko2Jio"
+      allowfullscreen
+    ></iframe>
   </div>
 
-  <!-- PROGRESS -->
   <div class="card">
     <div class="card-header">
       <span class="badge">Fortschritt</span>
       <h2>Gesammelte Zeichen</h2>
     </div>
-
-    <div class="letters-progress" id="letters-progress">
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
+    <div id="letters-progress">
+      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
+      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
+      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
+      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
+      <span>_</span><span>_</span><span>_</span><span>_</span><span>_</span>
       <span>_</span><span>_</span><span>_</span>
     </div>
   </div>
 
-  <!-- RÄTSEL 1 (Quiz) -->
-  ... (bleibt vollständig unverändert) ...
+  <!-- ========================================= -->
+  <!-- RÄTSEL 1 – QUIZ -->
+  <!-- ========================================= -->
 
-  <!-- QR-CODE -->
+  <div class="card puzzle-card" id="puzzle1" data-index="0">
+    <div class="card-header">
+      <span class="badge">Rätsel 1</span>
+      <h2>Quiz – 8 Fragen</h2>
+    </div>
+
+    <!-- Frage 1 -->
+    <div class="question-row" data-solution="3" data-letter="3">
+      <p><strong>Frage 1:</strong> Aus wie vielen Alben besteht die Trilogie von The Weeknd?</p>
+      <input type="text">
+      <button>Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">Zeichen: <span class="letter-badge">3</span></div>
+    </div>
+
+    <!-- Frage 2 -->
+    <div class="question-row" data-solution="25.09.2024" data-letter="y">
+      <p><strong>Frage 2:</strong> Wann war der erste Call in der Discord-Gruppe 3eryk?</p>
+
+      <label><input type="radio" name="q2" value="12.08.2024"> 12.08.2024</label><br>
+      <label><input type="radio" name="q2" value="25.09.2024"> 25.09.2024</label><br>
+      <label><input type="radio" name="q2" value="03.10.2024"> 03.10.2024</label><br>
+      <label><input type="radio" name="q2" value="18.09.2024"> 18.09.2024</label>
+
+      <button>Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">Zeichen: <span class="letter-badge">y</span></div>
+    </div>
+
+    <!-- Frage 3 -->
+    <div class="question-row" data-solution="rot ist meine lieblings zahl im ganzen alphabet" data-letter="?">
+      <p><strong>Frage 3:</strong> Rot…?</p>
+      <input type="text">
+      <button>Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">Zeichen: <span class="letter-badge">?</span></div>
+    </div>
+
+    <!-- Frage 4 -->
+    <div class="question-row" data-solution="wann?" data-letter="2">
+      <p><strong>Frage 4:</strong> Frage…?</p>
+      <input type="text">
+      <button>Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">Zeichen: <span class="letter-badge">2</span></div>
+    </div>
+
+    <!-- Frage 5 -->
+    <div class="question-row" data-solution="i" data-letter="i">
+      <p><strong>Frage 5:</strong> Welche Endung ist die schönste?</p>
+      <input type="text">
+      <button>Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">Zeichen: <span class="letter-badge">i</span></div>
+    </div>
+
+    <!-- Frage 6 -->
+    <div class="question-row" data-solution="t" data-letter="t">
+      <p><strong>Frage 6:</strong> Firo’s aktueller Lieblingsbuchstabe…?</p>
+      <input type="text">
+      <button>Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">Zeichen: <span class="letter-badge">t</span></div>
+    </div>
+
+    <!-- Frage 7 -->
+    <div class="question-row" data-solution="e" data-letter="e">
+      <p><strong>Frage 7:</strong> Welcher Buchstabe ist der weitverbreitetste in Namen?</p>
+      <input type="text">
+      <button>Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">Zeichen: <span class="letter-badge">e</span></div>
+    </div>
+
+    <!-- Frage 8 -->
+    <div class="question-row" data-solution="47" data-letter="d">
+      <p><strong>Frage 8:</strong> Wie viele Medien/Links/Docs wurden geteilt?</p>
+
+      <label><input type="radio" name="q8" value="23"> 23</label><br>
+      <label><input type="radio" name="q8" value="69"> 69</label><br>
+      <label><input type="radio" name="q8" value="83"> 83</label><br>
+      <label><input type="radio" name="q8" value="47"> 47</label>
+
+      <button>Prüfen</button>
+      <div class="message"></div>
+      <div class="letter-display hidden">Zeichen: <span class="letter-badge">d</span></div>
+    </div>
+
+    <div id="quiz-summary" class="message"></div>
+  </div>
+
+  <!-- ===============================================
+       QR-CODE BEREICH
+  =============================================== -->
   <div class="card" id="qr-section">
     <div class="card-header">
       <span class="badge">QR-Code</span>
@@ -316,77 +593,76 @@ setInterval(createSnowflake,200);
     <p>Findet die restlichen Teile des QR-Codes mithilfe von Firo...</p>
 
     <img
-      src="data:image/png;base64,iVBORw0K…(gekürzt)…"
+      src="data:image/png;base64,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"
+      alt="QR Code Teil"
       style="width:260px; max-width:100%; display:block; margin:12px auto; border-radius:12px;">
   </div>
 
-  <!-- ⭐ NEUER BLOCK — AUDIO-HINWEIS (EINGEFÜGT) -->
+  <!-- ===============================================
+       AUDIO-HINWEIS
+  =============================================== -->
   <div class="card" id="audio-hint">
     <div class="card-header">
       <span class="badge">Audio</span>
       <h2>Audio-Hinweis</h2>
     </div>
 
-    <p>Hört euch diesen Hinweis gut an… vielleicht versteckt sich darin mehr.</p>
+    <p>Hört euch diesen Hinweis gut an… vielleicht versteckt sich darin mehr, als ihr denkt. 🔊👀</p>
 
     <audio controls style="width:100%; margin-top:12px; border-radius:12px;">
       <source src="Hinweis #3.wav" type="audio/wav">
+      Dein Browser unterstützt den Audio-Player nicht.
     </audio>
   </div>
 
-  <!-- RÄTSEL 2 -->
-  <div class="card puzzle-card hidden" id="puzzle2" data-index="1" data-solution="R2" data-letters="rnch">
+  <!-- ===============================================
+       RÄTSEL 2–5 (Platzhalter)
+  ================================================= -->
+  <div class="card puzzle-card hidden" data-index="1" id="puzzle2" data-solution="R2" data-letters="rnch">
     <div class="card-header">
       <span class="badge">Rätsel 2</span>
       <h2>Platzhalter Rätsel 2</h2>
     </div>
-
     <input type="text" placeholder="Antwort eingeben">
     <button>Prüfen</button>
     <div class="message"></div>
     <div class="letter-display hidden"></div>
   </div>
 
-  <!-- RÄTSEL 3 -->
-  <div class="card puzzle-card hidden" id="puzzle3" data-index="2" data-solution="R3" data-letters="k05W">
+  <div class="card puzzle-card hidden" data-index="2" id="puzzle3" data-solution="R3" data-letters="k05W">
     <div class="card-header">
       <span class="badge">Rätsel 3</span>
       <h2>Platzhalter Rätsel 3</h2>
     </div>
-
     <input type="text" placeholder="Antwort eingeben">
     <button>Prüfen</button>
     <div class="message"></div>
     <div class="letter-display hidden"></div>
   </div>
 
-  <!-- RÄTSEL 4 -->
-  <div class="card puzzle-card hidden" id="puzzle4" data-index="3" data-solution="R4" data-letters="ehas">
+  <div class="card puzzle-card hidden" data-index="3" id="puzzle4" data-solution="R4" data-letters="ehas">
     <div class="card-header">
       <span class="badge">Rätsel 4</span>
       <h2>Platzhalter Rätsel 4</h2>
     </div>
-
     <input type="text" placeholder="Antwort eingeben">
     <button>Prüfen</button>
     <div class="message"></div>
     <div class="letter-display hidden"></div>
   </div>
 
-  <!-- RÄTSEL 5 -->
-  <div class="card puzzle-card hidden" id="puzzle5" data-index="4" data-solution="R5" data-letters="eiti">
+  <div class="card puzzle-card hidden" data-index="4" id="puzzle5" data-solution="R5" data-letters="eiti">
     <div class="card-header">
       <span class="badge">Rätsel 5</span>
       <h2>Platzhalter Rätsel 5</h2>
     </div>
-
     <input type="text" placeholder="Antwort eingeben">
     <button>Prüfen</button>
     <div class="message"></div>
     <div class="letter-display hidden"></div>
   </div>
 
-  <!-- RÄTSEL 6 – Spotify -->
+  <!-- RÄTSEL 6 – SPOTIFY -->
   <div class="card puzzle-card hidden" id="puzzle6" data-index="5" data-solution="sta" data-letters="sta">
     <div class="card-header">
       <span class="badge">Rätsel 6</span>
@@ -417,17 +693,20 @@ setInterval(createSnowflake,200);
 
     <input id="final-input" placeholder="3eryk?2025Weihnachtsedition">
     <button id="final-button">Prüfen</button>
+
     <div id="final-message" class="message"></div>
 
     <div id="final-video-wrapper" class="hidden" style="margin-top:16px;">
       <p>Glückwunsch 🎉</p>
-      <iframe id="final-video" width="100%" height="315"
+      <iframe id="final-video"
+              width="100%"
+              height="315"
               src="https://www.youtube.com/embed/TGvnbko2Jio"
               allowfullscreen></iframe>
     </div>
   </div>
 
-  <!-- UNLOCK COUNTDOWN -->
+  <!-- NÄCHSTES RÄTSEL – UNLOCK CARD -->
   <div class="card" id="next-unlock-card">
     <div class="card-header">
       <span class="badge">Info</span>
@@ -440,11 +719,14 @@ setInterval(createSnowflake,200);
 
   <button id="reset-progress">🔄 Fortschritt zurücksetzen</button>
 
-</div> <!-- container -->
+</div> <!-- ENDE .container -->
+
 <script>
-/* ===========================================================
-   COUNTDOWN (oben, pulsierend)
-   =========================================================== */
+
+//
+// COUNTDOWN
+//
+
 const countdownEl = document.getElementById("countdown");
 
 function updateCountdown() {
@@ -457,10 +739,10 @@ function updateCountdown() {
     return;
   }
 
-  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  const s = Math.floor((diff % (1000 * 60)) / 1000);
+  const d = Math.floor(diff / (1000*60*60*24));
+  const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+  const s = Math.floor((diff % (1000*60)) / 1000);
 
   countdownEl.textContent = `${d}T ${h}h ${m}m ${s}s`;
 }
@@ -469,9 +751,9 @@ setInterval(updateCountdown, 1000);
 updateCountdown();
 
 
-/* ===========================================================
-   QUIZ (Rätsel 1)
-   =========================================================== */
+//
+// QUIZ
+//
 
 const quizRows = document.querySelectorAll(".question-row");
 const quizSummary = document.getElementById("quiz-summary");
@@ -479,21 +761,20 @@ const quizSummary = document.getElementById("quiz-summary");
 quizRows.forEach(row => {
   const btn = row.querySelector("button");
   const msg = row.querySelector(".message");
-  const textInput = row.querySelector("input[type='text']");
+  const input = row.querySelector("input[type='text']");
   const radios = row.querySelectorAll("input[type='radio']");
   const display = row.querySelector(".letter-display");
 
   btn.addEventListener("click", () => {
     let value = "";
-    const solution = row.dataset.solution;
-    
-    if (textInput) {
-      value = textInput.value.trim();
-    } 
+
+    if (input) value = input.value.trim();
     else if (radios.length) {
-      const chosen = [...radios].find(r => r.checked);
-      if (chosen) value = chosen.value;
+      const checked = [...radios].find(r => r.checked);
+      if (checked) value = checked.value;
     }
+
+    const solution = row.dataset.solution;
 
     if (value.toLowerCase() === solution.toLowerCase()) {
       msg.textContent = "Richtig!";
@@ -510,7 +791,7 @@ quizRows.forEach(row => {
 
 function checkQuizComplete() {
   const allCorrect = [...quizRows].every(
-    row => !row.querySelector(".letter-display").classList.contains("hidden")
+    r => !r.querySelector(".letter-display").classList.contains("hidden")
   );
 
   if (allCorrect) {
@@ -520,13 +801,13 @@ function checkQuizComplete() {
   }
 }
 
-
-/* ===========================================================
-   LETTER SYSTEM (Gesammelte Zeichen)
-   =========================================================== */
+//
+// BUCHSTABEN / FORTSCHRITT
+//
 
 function updateLetters(letter) {
   const slots = document.querySelectorAll("#letters-progress span");
+
   for (let i = 0; i < slots.length; i++) {
     if (slots[i].textContent === "_") {
       slots[i].textContent = letter;
@@ -534,18 +815,21 @@ function updateLetters(letter) {
       break;
     }
   }
+
   saveProgress();
 }
 
 function saveProgress() {
-  const letters = [...document.querySelectorAll("#letters-progress span")]
-    .map(s => s.textContent);
+  const letters = [...document.querySelectorAll("#letters-progress span")].map(
+    (s) => s.textContent
+  );
   localStorage.setItem("letters", JSON.stringify(letters));
 }
 
 function loadProgress() {
   const saved = JSON.parse(localStorage.getItem("letters"));
   if (!saved) return;
+
   const slots = document.querySelectorAll("#letters-progress span");
   saved.forEach((val, i) => {
     if (slots[i]) {
@@ -554,14 +838,15 @@ function loadProgress() {
     }
   });
 }
+
 loadProgress();
 
 
-/* ===========================================================
-   RÄTSEL 2–5 (Textantworten)
-   =========================================================== */
+//
+// RÄTSEL 2–5
+//
 
-document.querySelectorAll(".puzzle-card").forEach(puz => {
+document.querySelectorAll(".puzzle-card").forEach((puz, index) => {
   const btn = puz.querySelector("button");
   const input = puz.querySelector("input");
   const msg = puz.querySelector(".message");
@@ -574,17 +859,19 @@ document.querySelectorAll(".puzzle-card").forEach(puz => {
     if (val === sol) {
       msg.textContent = "Richtig!";
       msg.style.color = "var(--success)";
+      display.innerHTML = "";
 
       const letters = puz.dataset.letters.split("");
-      display.innerHTML = letters
-        .map(l => `<span class="letter-badge">${l}</span>`)
-        .join("");
+
+      letters.forEach((l) => {
+        display.innerHTML += `<span class="letter-badge">${l}</span>`;
+        updateLetters(l);
+      });
 
       display.classList.remove("hidden");
 
-      letters.forEach(updateLetters);
+      unlockPuzzle(index + 1);
 
-      unlockPuzzle(parseInt(puz.dataset.index) + 1);
       savePuzzleState();
     } else {
       msg.textContent = "Falsch!";
@@ -594,27 +881,26 @@ document.querySelectorAll(".puzzle-card").forEach(puz => {
 });
 
 
-/* ===========================================================
-   RÄTSEL 6 – Spotify
-   =========================================================== */
+//
+// SPOTIFY-RÄTSEL
+//
 
 document.getElementById("spotify-check").addEventListener("click", () => {
   const s1 = document.getElementById("sp1").value.toLowerCase();
   const s2 = document.getElementById("sp2").value.toLowerCase();
   const s3 = document.getElementById("sp3").value.toLowerCase();
 
+  const ok = s1 === "s" && s2 === "t" && s3 === "a";
+
   const msg = document.getElementById("spotify-msg");
   const box = document.getElementById("spotify-letters");
 
-  if (s1 === "s" && s2 === "t" && s3 === "a") {
+  if (ok) {
     msg.textContent = "Richtig!";
     msg.style.color = "var(--success)";
 
     box.innerHTML =
-      '<span class="letter-badge">s</span>' +
-      '<span class="letter-badge">t</span>' +
-      '<span class="letter-badge">a</span>';
-
+      '<span class="letter-badge">s</span><span class="letter-badge">t</span><span class="letter-badge">a</span>';
     box.classList.remove("hidden");
 
     updateLetters("s");
@@ -630,36 +916,39 @@ document.getElementById("spotify-check").addEventListener("click", () => {
 });
 
 
-/* ===========================================================
-   PUZZLE UNLOCK SYSTEM
-   =========================================================== */
+//
+// PUZZLE-UNLOCK SAVE/LOAD
+//
 
 function unlockPuzzle(i) {
   const next = document.querySelector(`.puzzle-card[data-index="${i}"]`);
   if (next) next.classList.remove("hidden");
+
   savePuzzleState();
 }
 
 function savePuzzleState() {
-  const arr = [...document.querySelectorAll(".puzzle-card")].map(p =>
+  const states = [...document.querySelectorAll(".puzzle-card")].map((p) =>
     p.classList.contains("hidden") ? 0 : 1
   );
-  localStorage.setItem("puzzleStates", JSON.stringify(arr));
+  localStorage.setItem("puzzleStates", JSON.stringify(states));
 }
 
 function loadPuzzleState() {
-  const arr = JSON.parse(localStorage.getItem("puzzleStates"));
-  if (!arr) return;
+  const saved = JSON.parse(localStorage.getItem("puzzleStates"));
+  if (!saved) return;
+
   document.querySelectorAll(".puzzle-card").forEach((p, i) => {
-    if (arr[i] === 1) p.classList.remove("hidden");
+    if (saved[i] === 1) p.classList.remove("hidden");
   });
 }
+
 loadPuzzleState();
 
 
-/* ===========================================================
-   FINALE
-   =========================================================== */
+//
+// FINALE
+//
 
 document.getElementById("final-button").addEventListener("click", () => {
   const val = document.getElementById("final-input").value.trim();
@@ -676,19 +965,19 @@ document.getElementById("final-button").addEventListener("click", () => {
 });
 
 
-/* ===========================================================
-   UNLOCK TIMER (Info-Karte)
-   =========================================================== */
+//
+// NÄCHSTER RÄTSEL-UNLOCK
+//
 
 const unlockText = document.getElementById("next-unlock-text");
 const unlockCountdown = document.getElementById("next-unlock-countdown");
 
 function updateUnlock() {
-  const next = new Date();
-  next.setMinutes(next.getMinutes() + 99999);
+  const nextUnlock = new Date();
+  nextUnlock.setMinutes(nextUnlock.getMinutes() + 99999);
 
   const now = Date.now();
-  const diff = next - now;
+  const diff = nextUnlock - now;
 
   if (diff <= 0) {
     unlockText.textContent = "Ein neues Rätsel ist freigeschaltet!";
@@ -707,9 +996,9 @@ setInterval(updateUnlock, 1000);
 updateUnlock();
 
 
-/* ===========================================================
-   RESET BUTTON
-   =========================================================== */
+//
+// RESET
+//
 
 document.getElementById("reset-progress").addEventListener("click", () => {
   localStorage.clear();
@@ -717,9 +1006,9 @@ document.getElementById("reset-progress").addEventListener("click", () => {
 });
 
 
-/* ===========================================================
-   ADMIN LOGIN
-   =========================================================== */
+//
+// ADMIN
+//
 
 document.getElementById("admin-btn").addEventListener("click", () => {
   const pass = document.getElementById("admin-pass").value.trim();
@@ -729,12 +1018,11 @@ document.getElementById("admin-btn").addEventListener("click", () => {
     msg.textContent = "Admin aktiviert!";
     msg.style.color = "var(--success)";
 
-    document.querySelectorAll(".puzzle-card").forEach(pc =>
+    document.querySelectorAll(".puzzle-card").forEach((pc) =>
       pc.classList.remove("hidden")
     );
 
     document.getElementById("final-card").classList.remove("hidden");
-    document.getElementById("admin-banner").style.display = "block";
   } else {
     msg.textContent = "Falsch!";
     msg.style.color = "var(--error)";
@@ -742,9 +1030,9 @@ document.getElementById("admin-btn").addEventListener("click", () => {
 });
 
 
-/* ===========================================================
-   BURGER-MENÜ + NAVIGATION
-   =========================================================== */
+//
+// NAVIGATION / BURGER MENU
+//
 
 const sideMenu = document.getElementById("side-menu");
 const burger = document.getElementById("burger");
@@ -782,6 +1070,7 @@ function buildNav() {
 }
 
 buildNav();
+
 </script>
 
 </body>
