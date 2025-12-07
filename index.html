@@ -472,9 +472,12 @@ const playError   = () => playTone(220,0.14,"square",0.12);
   </div>
 
   <!-- ===============================================
-       RÄTSEL 2 – **NEUES MINECRAFT-RÄTSEL**
+       RÄTSEL 2 – Minecraft (4 Felder + Enter + deaktiviert)
   =============================================== -->
-  <div class="card puzzle-card hidden" data-index="1" id="puzzle2" data-solution="" data-letters="">
+  <div class="card puzzle-card hidden" data-index="1" id="puzzle2"
+       data-solution="rnch"
+       data-letters="rnch">
+
     <div class="card-header">
       <span class="badge">Rätsel 2</span>
       <h2>Minecraft-Rätsel</h2>
@@ -483,47 +486,46 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <p>
       Dieses Rätsel kannst du nur lösen, wenn du in Minecraft gehst.<br>
       <strong>Rabsi, du musst dafür ins Spiel joinen und etwas herausfinden!</strong><br><br>
-      (Der genaue Auftrag wird später hinzugefügt.)
+      (Der genaue Auftrag wird später ergänzt.)
     </p>
 
-    <input type="text" placeholder="Antwort eingeben" disabled>
-    <button disabled>Prüfen</button>
+    <!-- Vier einzelne Felder -->
+    <div style="display:flex; gap:10px; margin-bottom:12px;">
+      <input id="r2-i1" maxlength="1" disabled placeholder="r" class="spotify-letter">
+      <input id="r2-i2" maxlength="1" disabled placeholder="n" class="spotify-letter">
+      <input id="r2-i3" maxlength="1" disabled placeholder="c" class="spotify-letter">
+      <input id="r2-i4" maxlength="1" disabled placeholder="h" class="spotify-letter">
+    </div>
+
+    <button id="r2-check" disabled>Prüfen</button>
 
     <div class="message"></div>
     <div class="letter-display hidden"></div>
   </div>
 
+  <script>
+  // ENTER-Support für Rätsel 2 (noch deaktiviert, aber vorbereitet)
+  ["r2-i1","r2-i2","r2-i3","r2-i4"].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.addEventListener("keyup", e=>{
+      if(e.key === "Enter"){
+        document.getElementById("r2-check").click();
+      }
+    });
+  });
+  </script>
+
 <!-- 💠 ENDE TEIL 2 💠 -->
   <!-- ===============================================
-       RÄTSEL 3–5 (Platzhalter)
+       RÄTSEL 3 – Platzhalter
   =============================================== -->
   <div class="card puzzle-card hidden" data-index="2" id="puzzle3" data-solution="R3" data-letters="k05W">
     <div class="card-header">
       <span class="badge">Rätsel 3</span>
       <h2>Platzhalter Rätsel 3</h2>
     </div>
-    <input type="text" placeholder="Antwort eingeben">
-    <button>Prüfen</button>
-    <div class="message"></div>
-    <div class="letter-display hidden"></div>
-  </div>
 
-  <div class="card puzzle-card hidden" data-index="3" id="puzzle4" data-solution="R4" data-letters="ehas">
-    <div class="card-header">
-      <span class="badge">Rätsel 4</span>
-      <h2>Platzhalter Rätsel 4</h2>
-    </div>
-    <input type="text" placeholder="Antwort eingeben">
-    <button>Prüfen</button>
-    <div class="message"></div>
-    <div class="letter-display hidden"></div>
-  </div>
-
-  <div class="card puzzle-card hidden" data-index="4" id="puzzle5" data-solution="R5" data-letters="eiti">
-    <div class="card-header">
-      <span class="badge">Rätsel 5</span>
-      <h2>Platzhalter Rätsel 5</h2>
-    </div>
     <input type="text" placeholder="Antwort eingeben">
     <button>Prüfen</button>
     <div class="message"></div>
@@ -531,7 +533,37 @@ const playError   = () => playTone(220,0.14,"square",0.12);
   </div>
 
   <!-- ===============================================
-       RÄTSEL 6 – SPOTIFY
+       RÄTSEL 4 – Platzhalter
+  =============================================== -->
+  <div class="card puzzle-card hidden" data-index="3" id="puzzle4" data-solution="R4" data-letters="ehas">
+    <div class="card-header">
+      <span class="badge">Rätsel 4</span>
+      <h2>Platzhalter Rätsel 4</h2>
+    </div>
+
+    <input type="text" placeholder="Antwort eingeben">
+    <button>Prüfen</button>
+    <div class="message"></div>
+    <div class="letter-display hidden"></div>
+  </div>
+
+  <!-- ===============================================
+       RÄTSEL 5 – Platzhalter
+  =============================================== -->
+  <div class="card puzzle-card hidden" data-index="4" id="puzzle5" data-solution="R5" data-letters="eiti">
+    <div class="card-header">
+      <span class="badge">Rätsel 5</span>
+      <h2>Platzhalter Rätsel 5</h2>
+    </div>
+
+    <input type="text" placeholder="Antwort eingeben">
+    <button>Prüfen</button>
+    <div class="message"></div>
+    <div class="letter-display hidden"></div>
+  </div>
+
+  <!-- ===============================================
+       RÄTSEL 6 – Spotify
   =============================================== -->
   <div class="card puzzle-card hidden" data-index="5" id="puzzle6" data-solution="sta" data-letters="sta">
     <div class="card-header">
@@ -556,7 +588,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
   </div>
 
   <!-- ===============================================
-       FINALE
+       FINALE – Lösungswort
   =============================================== -->
   <div class="card hidden" id="final-card">
     <div class="card-header">
