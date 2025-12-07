@@ -197,170 +197,6 @@
       border-radius: 4px;
       transition: 0.3s;
     }
-    #burger.open div:nth-child(1) { transform: translateY(12px) rotate(45deg); }
-    #burger.open div:nth-child(2) { opacity: 0; }
-    #burger.open div:nth-child(3) { transform: translateY(-12px) rotate(-45deg); }
-
-    /* ⭐ SIDEBAR */
-    #side-menu {
-      position: fixed;
-      top: 0;
-      right: -300px;
-      width: 260px;
-      height: 100vh;
-      background: rgba(15,23,42,0.98);
-      backdrop-filter: blur(6px);
-      transition: right 0.35s ease;
-      z-index: 9998;
-      padding: 22px;
-      border-left: 1px solid rgba(148,163,184,0.35);
-      box-shadow: none !important;
-    }
-    #side-menu.open { right: 0; }
-
-    #side-menu a {
-      display: block;
-      padding: 12px 0;
-      color: #e5e7eb;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(148,163,184,0.2);
-    }
-
-    /* ⭐ Unlock-Timer NICHT pulsierend */
-    #next-unlock-countdown {
-      margin-top: 8px;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--accent);
-      text-shadow: 0 0 10px rgba(56,189,248,0.7);
-    }
-
-    #admin-banner {
-      padding: 10px 14px;
-      margin-bottom: 16px;
-      border-radius: 12px;
-      background: linear-gradient(90deg, #b91c1c, #f97316);
-      font-weight: 700;
-      text-align: center;
-      display: none;
-    }
-
-  </style>
-</head>
-<body>
-
-<!-- BURGER ICON -->
-<div id="burger">
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
-
-<!-- SIDE MENU -->
-<nav id="side-menu">
-  <h3>🔎 Navigation</h3>
-  <div id="side-menu-links"></div>
-</nav>
-
-<!-- ❄ SCHNEE SCRIPT -->
-<script>
-function createSnowflake() {
-  const s = document.createElement("div");
-  s.className = "snowflake";
-  s.textContent = "❄";
-  s.style.left = Math.random() * 100 + "vw";
-  s.style.fontSize = 10 + Math.random() * 18 + "px";
-  s.style.animationDuration = 4 + Math.random() * 6 + "s";
-  s.style.opacity = 0.4 + Math.random() * 0.4;
-  document.body.appendChild(s);
-  setTimeout(() => s.remove(), 11000);
-}
-setInterval(createSnowflake, 200);
-</script>
-
-<!-- AUDIO -->
-<script>
-let audioCtx = null;
-function getAudioCtx() {
-  if (!audioCtx) {
-    const C = window.AudioContext || window.webkitAudioContext;
-    if (C) audioCtx = new C();
-  }
-  return audioCtx;
-}
-function playTone(freq, dur, type="sine", vol=0.12) {
-  const ctx = getAudioCtx();
-  if (!ctx) return;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = type;
-  osc.frequency.value = freq;
-  gain.gain.value = vol;
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  const now = ctx.currentTime;
-  osc.start(now);
-  osc.stop(now + dur);
-  gain.gain.linearRampToValueAtTime(0, now + dur);
-}
-const playClick   = () => playTone(650, 0.07, "triangle", 0.10);
-const playSuccess = () => { playTone(880,0.1); setTimeout(()=>playTone(1040,0.1),90); };
-const playError   = () => playTone(220,0.14,"square",0.12);
-</script>
-
-<div class="container">
-
-  <!-- TITLE -->
-  <div class="title">
-    <h1>🎄 3eryk? Weihnachtsrätsel – 2025 Edition 🎄</h1>
-    <div id="countdown">Lade Countdown...</div>
-  </div>
-
-  <!-- ADMIN BANNER -->
-  <div id="admin-banner">⚠️ ADMIN-MODUS AKTIV – alle Rätsel sichtbar</div>
-
-  <!-- ADMIN LOGIN -->
-  <div class="card" id="admin-login">
-    <div class="card-header">
-      <span class="badge">Admin</span>
-      <h2>Admin Login</h2>
-    </div>
-    <p>Passwort eingeben, um alles freizuschalten:</p>
-    <input id="admin-pass" type="password" placeholder="Passwort">
-    <button id="admin-btn">Login</button>
-    <div id="admin-msg" class="message"></div>
-  </div>
-
-  <!-- INTRO CARD -->
-  <div class="card">
-    <div class="card-header">
-      <span class="badge">Intro</span>
-      <h2>Willkommen!</h2>
-    </div>
-    <iframe
-      src="https://www.youtube.com/embed/TGvnbko2Jio"
-      allowfullscreen>
-    </iframe>
-  </div>
-
-  <!-- FORTSCHRITT -->
-  <div class="card">
-    <div class="card-header">
-      <span class="badge">Fortschritt</span>
-      <h2>Gesammelte Zeichen</h2>
-    </div>
-
-    <div class="letters-progress" id="letters-progress">
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span><span>_</span>
-      <span>_</span><span>_</span><span>_</span>
-    </div>
-  </div>
-
   <!-- ======================================================
        RÄTSEL 1 – QUIZ
   ======================================================= -->
@@ -465,25 +301,35 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <p>Findet die restlichen Teile des QR-Codes mithilfe von Firo...</p>
 
     <img
-      src="data:image/png;base64,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"
+      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAYAAAB..."
       alt="QR Code Teil"
       style="width:260px; max-width:100%; display:block; margin:12px auto; border-radius:12px;">
   </div>
 
   <!-- ===============================================
-       RÄTSEL 2–5 (Platzhalter)
-  ================================================= -->
-  <div class="card puzzle-card hidden" data-index="1" id="puzzle2" data-solution="R2" data-letters="rnch">
+       RÄTSEL 2 – NEUES MINECRAFT-RÄTSEL
+  =============================================== -->
+  <div class="card puzzle-card hidden" data-index="1" id="puzzle2" data-solution="" data-letters="">
     <div class="card-header">
       <span class="badge">Rätsel 2</span>
-      <h2>Platzhalter Rätsel 2</h2>
+      <h2>Minecraft-Rätsel</h2>
     </div>
-    <input type="text" placeholder="Antwort eingeben">
-    <button>Prüfen</button>
+
+    <p>
+      Dieses Rätsel kannst du nur lösen, wenn du in Minecraft gehst.<br>
+      <strong>Rabsi, du musst dafür ins Spiel joinen und etwas herausfinden!</strong><br><br>
+      (Der genaue Auftrag wird später hinzugefügt.)
+    </p>
+
+    <input type="text" placeholder="Antwort eingeben" disabled>
+    <button disabled>Prüfen</button>
+
     <div class="message"></div>
     <div class="letter-display hidden"></div>
   </div>
-
+  <!-- ===============================================
+       RÄTSEL 3–5 (Platzhalter)
+  =============================================== -->
   <div class="card puzzle-card hidden" data-index="2" id="puzzle3" data-solution="R3" data-letters="k05W">
     <div class="card-header">
       <span class="badge">Rätsel 3</span>
@@ -519,7 +365,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
 
   <!-- ===============================================
        RÄTSEL 6 – SPOTIFY
-  ================================================= -->
+  =============================================== -->
   <div class="card puzzle-card hidden" data-index="5" id="puzzle6" data-solution="sta" data-letters="sta">
     <div class="card-header">
       <span class="badge">Rätsel 6</span>
@@ -544,7 +390,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
 
   <!-- ===============================================
        FINALE
-  ================================================= -->
+  =============================================== -->
   <div class="card hidden" id="final-card">
     <div class="card-header">
       <span class="badge">Finale</span>
@@ -565,7 +411,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
 
   <!-- ===============================================
        NÄCHSTES RÄTSEL
-  ================================================= -->
+  =============================================== -->
   <div class="card" id="next-unlock-card">
     <div class="card-header">
       <span class="badge">Info</span>
@@ -726,7 +572,7 @@ quizRows.forEach(row=>{
 });
 
 /* -----------------------------------------------------
-    RÄTSEL 2–5 (Platzhalter)
+    RÄTSEL 2–5 LOGIK (Platzhalter)
 ----------------------------------------------------- */
 const puzzleCards = document.querySelectorAll(".puzzle-card");
 
@@ -1188,4 +1034,3 @@ if(burger && side){
 
 </body>
 </html>
-
