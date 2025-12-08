@@ -38,7 +38,10 @@
       z-index: 5;
       animation: fall linear infinite;
     }
-    @keyframes fall { to { transform: translateY(110vh); } }
+
+    @keyframes fall { 
+      to { transform: translateY(110vh); } 
+    }
 
     .container {
       max-width: 900px;
@@ -56,7 +59,7 @@
       font-size: clamp(1.8rem, 3vw, 2.4rem);
     }
 
-    /* ⭐ GROßER COUNTDOWN (pulsierend) */
+    /* ⭐ GROßER COUNTDOWN */
     #countdown {
       margin-top: 16px;
       font-size: 2.2rem;
@@ -108,7 +111,7 @@
       background: #020617;
     }
 
-    /* ⭐ Eingabefelder */
+    /* Eingabefelder */
     input[type="text"],
     input[type="password"],
     .spotify-letter {
@@ -151,12 +154,13 @@
       transition: 0.2s;
       font-size: 0.95rem;
     }
+
     button:hover { transform: scale(1.04); }
     button:disabled { opacity: 0.6; cursor: not-allowed; }
 
     .hidden { display: none !important; }
 
-    /* ⭐ GESAMMELTE ZEICHEN */
+    /* Letters Fortschritt */
     .letters-progress {
       display: flex;
       flex-wrap: wrap;
@@ -177,7 +181,7 @@
       border-color: var(--accent);
     }
 
-    /* ⭐ BURGER */
+    /* Burger */
     #burger {
       position: fixed;
       top: 18px;
@@ -190,6 +194,7 @@
       flex-direction: column;
       justify-content: space-between;
     }
+
     #burger div {
       width: 100%;
       height: 4px;
@@ -197,11 +202,12 @@
       border-radius: 4px;
       transition: 0.3s;
     }
+
     #burger.open div:nth-child(1) { transform: translateY(12px) rotate(45deg); }
     #burger.open div:nth-child(2) { opacity: 0; }
     #burger.open div:nth-child(3) { transform: translateY(-12px) rotate(-45deg); }
 
-    /* ⭐ SIDEBAR */
+    /* Sidebar */
     #side-menu {
       position: fixed;
       top: 0;
@@ -214,8 +220,8 @@
       z-index: 9998;
       padding: 22px;
       border-left: 1px solid rgba(148,163,184,0.35);
-      box-shadow: none !important;
     }
+
     #side-menu.open { right: 0; }
 
     #side-menu a {
@@ -226,7 +232,7 @@
       border-bottom: 1px solid rgba(148,163,184,0.2);
     }
 
-    /* ⭐ Unlock-Timer */
+    /* Unlock Timer */
     #next-unlock-countdown {
       margin-top: 8px;
       font-size: 1.4rem;
@@ -247,6 +253,7 @@
 
   </style>
 </head>
+
 <body>
 
 <!-- BURGER ICON -->
@@ -262,7 +269,7 @@
   <div id="side-menu-links"></div>
 </nav>
 
-<!-- ❄ SCHNEE SCRIPT -->
+<!-- SCHNEE SCRIPT -->
 <script>
 function createSnowflake() {
   const s = document.createElement("div");
@@ -278,7 +285,7 @@ function createSnowflake() {
 setInterval(createSnowflake, 200);
 </script>
 
-<!-- AUDIO -->
+<!-- AUDIO SETUP -->
 <script>
 let audioCtx = null;
 function getAudioCtx() {
@@ -288,21 +295,27 @@ function getAudioCtx() {
   }
   return audioCtx;
 }
+
 function playTone(freq, dur, type="sine", vol=0.12) {
   const ctx = getAudioCtx();
   if (!ctx) return;
+
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
+
   osc.type = type;
   osc.frequency.value = freq;
   gain.gain.value = vol;
+
   osc.connect(gain);
   gain.connect(ctx.destination);
+
   const now = ctx.currentTime;
   osc.start(now);
   osc.stop(now + dur);
   gain.gain.linearRampToValueAtTime(0, now + dur);
 }
+
 const playClick   = () => playTone(650, 0.07, "triangle", 0.10);
 const playSuccess = () => { playTone(880,0.1); setTimeout(()=>playTone(1040,0.1),90); };
 const playError   = () => playTone(220,0.14,"square",0.12);
@@ -330,7 +343,6 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <button id="admin-btn">Login</button>
     <div id="admin-msg" class="message"></div>
   </div>
-
   <!-- INTRO CARD -->
   <div class="card">
     <div class="card-header">
@@ -361,7 +373,6 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     </div>
   </div>
 
-<!-- 💠 ENDE TEIL 1 💠 -->
   <!-- ======================================================
        RÄTSEL 1 – QUIZ
   ======================================================= -->
@@ -454,9 +465,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <div id="quiz-summary" class="message"></div>
   </div>
 
-  <!-- ===============================================
-       QR-CODE BEREICH
-  =============================================== -->
+  <!-- QR-CODE BEREICH -->
   <div class="card" id="qr-section">
     <div class="card-header">
       <span class="badge">QR-Code</span>
@@ -471,9 +480,9 @@ const playError   = () => playTone(220,0.14,"square",0.12);
       style="width:260px; max-width:100%; display:block; margin:12px auto; border-radius:12px;">
   </div>
 
-  <!-- ===============================================
-       RÄTSEL 2 – Minecraft (4 Felder + Enter + deaktiviert)
-  =============================================== -->
+  <!-- ======================================================
+       RÄTSEL 2 — MINECRAFT
+  ======================================================= -->
   <div class="card puzzle-card hidden" data-index="1" id="puzzle2"
        data-solution="rnch"
        data-letters="rnch">
@@ -489,7 +498,6 @@ const playError   = () => playTone(220,0.14,"square",0.12);
       (Der genaue Auftrag wird später ergänzt.)
     </p>
 
-    <!-- Vier einzelne Felder -->
     <div style="display:flex; gap:10px; margin-bottom:12px;">
       <input id="r2-i1" maxlength="1" disabled placeholder="r" class="spotify-letter">
       <input id="r2-i2" maxlength="1" disabled placeholder="n" class="spotify-letter">
@@ -503,23 +511,19 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <div class="letter-display hidden"></div>
   </div>
 
-  <script>
-  // ENTER-Support für Rätsel 2 (noch deaktiviert, aber vorbereitet)
-  ["r2-i1","r2-i2","r2-i3","r2-i4"].forEach(id=>{
-    const el = document.getElementById(id);
-    if(!el) return;
-    el.addEventListener("keyup", e=>{
-      if(e.key === "Enter"){
-        document.getElementById("r2-check").click();
-      }
-    });
+<script>
+["r2-i1","r2-i2","r2-i3","r2-i4"].forEach(id=>{
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.addEventListener("keyup", e=>{
+    if(e.key === "Enter"){
+      document.getElementById("r2-check").click();
+    }
   });
-  </script>
+});
+</script>
 
-<!-- 💠 ENDE TEIL 2 💠 -->
-  <!-- ===============================================
-       RÄTSEL 3 – Platzhalter
-  =============================================== -->
+  <!-- RÄTSEL 3 -->
   <div class="card puzzle-card hidden" data-index="2" id="puzzle3" data-solution="R3" data-letters="k05W">
     <div class="card-header">
       <span class="badge">Rätsel 3</span>
@@ -532,9 +536,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <div class="letter-display hidden"></div>
   </div>
 
-  <!-- ===============================================
-       RÄTSEL 4 – Platzhalter
-  =============================================== -->
+  <!-- RÄTSEL 4 -->
   <div class="card puzzle-card hidden" data-index="3" id="puzzle4" data-solution="R4" data-letters="ehas">
     <div class="card-header">
       <span class="badge">Rätsel 4</span>
@@ -547,9 +549,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <div class="letter-display hidden"></div>
   </div>
 
-  <!-- ===============================================
-       RÄTSEL 5 – Platzhalter
-  =============================================== -->
+  <!-- RÄTSEL 5 -->
   <div class="card puzzle-card hidden" data-index="4" id="puzzle5" data-solution="R5" data-letters="eiti">
     <div class="card-header">
       <span class="badge">Rätsel 5</span>
@@ -562,9 +562,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <div class="letter-display hidden"></div>
   </div>
 
-  <!-- ===============================================
-       RÄTSEL 6 – Spotify
-  =============================================== -->
+  <!-- RÄTSEL 6 – Spotify -->
   <div class="card puzzle-card hidden" data-index="5" id="puzzle6" data-solution="sta" data-letters="sta">
     <div class="card-header">
       <span class="badge">Rätsel 6</span>
@@ -587,9 +585,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     <div id="spotify-letters" class="letter-display hidden"></div>
   </div>
 
-  <!-- ===============================================
-       FINALE – Lösungswort
-  =============================================== -->
+  <!-- FINALE -->
   <div class="card hidden" id="final-card">
     <div class="card-header">
       <span class="badge">Finale</span>
@@ -608,10 +604,7 @@ const playError   = () => playTone(220,0.14,"square",0.12);
     </div>
   </div>
 
-<!-- 💠 ENDE TEIL 3 💠 -->
-  <!-- ===============================================
-       NÄCHSTES RÄTSEL
-  =============================================== -->
+  <!-- NÄCHSTES RÄTSEL -->
   <div class="card" id="next-unlock-card">
     <div class="card-header">
       <span class="badge">Info</span>
@@ -656,7 +649,7 @@ updateCountdown();
 ----------------------------------------------------- */
 const unlockSchedule = {
   0: new Date("December 1, 2025 18:00:00").getTime(),
-  1: new Date("December 8, 2025 21:00:00").getTime(), // << geändert!
+  1: new Date("December 8, 2025 21:00:00").getTime(), // <<< geändert!
   2: new Date("December 10, 2025 18:00:00").getTime(),
   3: new Date("December 16, 2025 18:00:00").getTime(),
   4: new Date("December 22, 2025 18:00:00").getTime(),
@@ -772,7 +765,7 @@ quizRows.forEach(row=>{
 });
 
 /* -----------------------------------------------------
-    RÄTSEL 2–5 LOGIK
+    RÄTSEL 2–5
 ----------------------------------------------------- */
 const puzzleCards = document.querySelectorAll(".puzzle-card");
 
@@ -844,7 +837,7 @@ for(let i=1;i<=4;i++){
 }
 
 /* -----------------------------------------------------
-    SPOTIFY-RÄTSEL
+    SPOTIFY RÄTSEL
 ----------------------------------------------------- */
 const sp1 = document.getElementById("sp1");
 const sp2 = document.getElementById("sp2");
@@ -899,8 +892,9 @@ document.getElementById("spotify-check").addEventListener("click", ()=>{
   }
 });
 
+
 /* -----------------------------------------------------
-    FINALES LÖSUNGSWORT
+    FINALE
 ----------------------------------------------------- */
 const SECRET_FINAL_WORD = "3eryk?2025Weihnachtsedition";
 
@@ -935,6 +929,7 @@ finalButton.addEventListener("click", ()=>{
   }
 });
 
+
 /* -----------------------------------------------------
     ADMIN LOGIN
 ----------------------------------------------------- */
@@ -968,7 +963,7 @@ document.getElementById("reset-progress").addEventListener("click", ()=>{
 });
 
 /* -----------------------------------------------------
-    NAVIGATION (Burger)
+    NAVIGATION
 ----------------------------------------------------- */
 function updateNavMenu(){
   const container = document.getElementById("side-menu-links");
@@ -995,7 +990,7 @@ function updateNavMenu(){
 }
 
 /* -----------------------------------------------------
-    SICHTBARKEIT
+    SICHTBARKEIT (Admin-Fix enthalten!)
 ----------------------------------------------------- */
 function updateVisibility(){
   const cards = document.querySelectorAll(".puzzle-card");
@@ -1010,8 +1005,14 @@ function updateVisibility(){
   }
 
   if(ADMIN_MODE){
+
+    /* ⭐ ADMIN FIX: Alle Eingaben im Minecraft Rätsel aktivieren */
+    document.querySelectorAll("#puzzle2 input, #puzzle2 button")
+      .forEach(el => el.disabled = false);
+
     cards.forEach(c=>c.classList.remove("hidden"));
     if(finalCard) finalCard.classList.remove("hidden");
+
     updateNextUnlockInfo();
     updateNavMenu();
     return;
@@ -1038,7 +1039,7 @@ function updateVisibility(){
 }
 
 /* -----------------------------------------------------
-    NÄCHSTES RÄTSEL – TIMER
+    FREISCHALT TIMER
 ----------------------------------------------------- */
 let nextUnlockTimer = null;
 
