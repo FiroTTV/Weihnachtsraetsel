@@ -494,20 +494,29 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
     </div>
 
     <!-- Frage 5 -->
-    <div class="question-row" data-solution="kerzen">
-      <p><strong>Frage 5:</strong> Was brennt auf dem Adventskranz?</p>
-      <input type="text" placeholder="Antwort...">
-      <button>Prüfen</button>
-      <div class="message"></div>
-    </div>
+<div class="question-row" data-solution="kerzen">
+  <p><strong>Frage 5:</strong> Was brennt auf dem Adventskranz?</p>
 
-    <!-- Frage 6 -->
-    <div class="question-row" data-solution="engeln">
-      <p><strong>Frage 6:</strong> Himmlische Figuren mit Flügeln, oft als Deko im Advent?</p>
-      <input type="text" placeholder="Antwort...">
-      <button>Prüfen</button>
-      <div class="message"></div>
-    </div>
+  <label><input type="radio" name="p3q5" value="lichterkette"> Lichterkette</label><br>
+  <label><input type="radio" name="p3q5" value="kerzen"> Kerzen</label><br>
+  <label><input type="radio" name="p3q5" value="lampe"> Eine Lampe</label><br>
+
+  <button>Prüfen</button>
+  <div class="message"></div>
+</div>
+
+
+<!-- Frage 6 -->
+<div class="question-row" data-solution="engeln">
+  <p><strong>Frage 6:</strong> Welche Figuren sieht man oft zur Weihnachtszeit als Deko?</p>
+
+  <label><input type="radio" name="p3q6" value="piraten"> Piraten</label><br>
+  <label><input type="radio" name="p3q6" value="engeln"> Engel</label><br>
+  <label><input type="radio" name="p3q6" value="rennfahrer"> Rennfahrer</label><br>
+
+  <button>Prüfen</button>
+  <div class="message"></div>
+</div>
 
     <!-- Frage 7 -->
     <div class="question-row" data-solution="zucker">
@@ -533,13 +542,17 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
       <div class="message"></div>
     </div>
 
-    <!-- Frage 10 -->
-    <div class="question-row" data-solution="gluehwein">
-      <p><strong>Frage 10:</strong> Warmes Getränk, das man auf Weihnachtsmärkten trinkt?</p>
-      <input type="text" placeholder="Antwort...">
-      <button>Prüfen</button>
-      <div class="message"></div>
-    </div>
+   <!-- Frage 10 -->
+<div class="question-row" data-solution="gluehwein">
+  <p><strong>Frage 10:</strong> Welches warme Getränk trinkt man typischerweise auf dem Weihnachtsmarkt?</p>
+
+  <label><input type="radio" name="p3q10" value="eistee"> Eistee</label><br>
+  <label><input type="radio" name="p3q10" value="cola"> Cola</label><br>
+  <label><input type="radio" name="p3q10" value="gluehwein"> Glühwein</label><br>
+
+  <button>Prüfen</button>
+  <div class="message"></div>
+</div>
 
   </div>
 
@@ -1443,5 +1456,6 @@ if(burger && side){
 
 </body>
 </html>
+
 
 
