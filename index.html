@@ -508,18 +508,16 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
 
 
 <!-- Frage 6 -->
-<div class="question-row" data-solution="klavier,drums,cello">
-  <p><strong>Frage 6:</strong> Firo ist ein Musiker aus dem Herzen. Doch welche Instrumente beherrscht er? Wählt alle zutreffenden:</p>
+<div class="question-row" data-solution="klavier, drums, cello">
+  <p><strong>Frage 6:</strong> Firo ist ein Musiker aus dem Herzen. Doch welche Instrumente beherrscht er? Wählt alle zutreffenden </p>
 
-  <label><input type="checkbox" name="p3q6" value="klavier"> Klavier</label><br>
-  <label><input type="checkbox" name="p3q6" value="drums"> Drums</label><br>
-  <label><input type="checkbox" name="p3q6" value="cello"> Cello</label><br>
-  <label><input type="checkbox" name="p3q6" value="violine"> Violine</label><br>
-
+  <label><input type="radio" name="p3q6" value="klavier"> Klavier</label><br>
+  <label><input type="radio" name="p3q6" value="drums"> Drums</label><br>
+  <label><input type="radio" name="p3q6" value="cello"> Cello</label><br>
+  <label><input type="radio" name="p3q6" value="violine"> Violine</label><br>
+  
   <button>Prüfen</button>
   <div class="message"></div>
-</div>
-
 </div>
 
     <!-- Frage 7 -->
@@ -547,18 +545,17 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
     </div>
 
    <!-- Frage 10 -->
-<div class="question-row" data-solution="brief,süßigkeiten,lichterketten">
-  <p><strong>Frage 10:</strong> Was hat Firo Manuel & Rabsi 2024 zu Weihnachten geschenkt? Wählt alle zutreffenden:</p>
+<div class="question-row" data-solution="gluehwein">
+  <p><strong>Frage 10:</strong> Was hat Firo Manuel & Rabsi 2024 zu Weihnachten geschenkt? Wählt alles aus, was zutrifft. </p>
 
-  <label><input type="checkbox" name="p3q10" value="brief"> Brief</label><br>
-  <label><input type="checkbox" name="p3q10" value="lichterketten"> Lichterketten</label><br>
-  <label><input type="checkbox" name="p3q10" value="süßigkeiten"> Süßigkeiten</label><br>
-  <label><input type="checkbox" name="p3q10" value="kugel"> Kugel</label><br>
-
+  <label><input type="radio" name="p3q10" value="brief"> Brief</label><br>
+  <label><input type="radio" name="p3q10" value="lichterketten"> Lichterketten</label><br>
+  <label><input type="radio" name="p3q10" value="süßigkeiten"> Süßigkeiten</label><br>
+  <label><input type="radio" name="p3q10" value="kugel"> Kugel</label><br>
+  
   <button>Prüfen</button>
   <div class="message"></div>
 </div>
-
 
   </div>
 
@@ -826,139 +823,52 @@ if(p2 && p2Btn){
   const p2Solution = p2.dataset.solution.toLowerCase();
   const p2Letters  = p2.dataset.letters.split("");
 
-btn.addEventListener("click", () => {
+  p2Btn.addEventListener("click", ()=>{
 
-  let solutionList = sol.split(",").map(s => s.trim());
-  let selected = [];
+    const val = p2Inputs.map(el=>el.value.trim().toLowerCase()).join("");
 
-  const checkboxes = q.querySelectorAll("input[type='checkbox']");
-  const radios = q.querySelectorAll("input[type='radio']");
-  const input = q.querySelector("input[type='text']");
-
-  /* MULTIPLE CHOICE (Checkboxen) */
-  if (checkboxes.length > 0) {
-    checkboxes.forEach(cb => {
-      if (cb.checked) selected.push(cb.value.toLowerCase());
-    });
-
-    if (selected.length === 0) {
-      msg.textContent = "Bitte mindestens eine Option wählen.";
-      msg.className = "message error";
+    if(val.length !== p2Solution.length){
+      p2Msg.textContent = "Bitte alle 4 Zeichen eingeben.";
+      p2Msg.className = "message error";
       return;
     }
 
-    // Sortierung egal
-    const sortedSel = [...selected].sort();
-    const sortedSol = [...solutionList].sort();
+    if(val === p2Solution){
 
-    const correct =
-      sortedSel.length === sortedSol.length &&
-      sortedSel.every((v, i) => v === sortedSol[i]);
+      if(p2.dataset.solved === "true"){
+        p2Msg.textContent = "Schon gelöst.";
+        p2Msg.className = "message success";
+        return;
+      }
 
-    if (!correct) {
-      msg.textContent = "Nicht ganz richtig! Prüft eure Auswahl.";
-      msg.className = "message error";
-      return;
+      p2.dataset.solved = "true";
+      p2Inputs.forEach(el=>el.disabled=true);
+      p2Btn.disabled = true;
+
+      p2Msg.textContent = "Korrekt!";
+      p2Msg.className = "message success";
+
+      let html = "Zeichen: ";
+      p2Letters.forEach(z=>{
+        html += `<span class="letter-badge">${z}</span> `;
+        addLetter(z);
+        progress.letters.push(z);
+      });
+
+      p2Disp.innerHTML = html;
+      p2Disp.classList.remove("hidden");
+
+      progress.solvedPuzzles ||= {};
+      progress.solvedPuzzles[1] = true;
+      saveProgress();
+
+      showNextPuzzle(1);
     }
-
-    // KORREKT
-    if (q.dataset.solved === "true") {
-      msg.textContent = "Schon richtig.";
-      msg.className = "message success";
-      return;
+    else {
+      p2Msg.textContent = "Falsch!";
+      p2Msg.className = "message error";
     }
-
-    q.dataset.solved = "true";
-    checkboxes.forEach(cb => cb.disabled = true);
-    btn.disabled = true;
-
-    msg.textContent = "Korrekt!";
-    msg.className = "message success";
-    p3SolvedCount++;
-  }
-
-  /* RADIO-FRAGEN (wie vorher) */
-  else if (radios.length > 0) {
-    const r = [...radios].find(r => r.checked);
-    if (!r) {
-      msg.textContent = "Bitte eine Antwort auswählen.";
-      msg.className = "message error";
-      return;
-    }
-
-    if (r.value.toLowerCase() !== sol) {
-      msg.textContent = "Falsch!";
-      msg.className = "message error";
-      return;
-    }
-
-    if (q.dataset.solved === "true") {
-      msg.textContent = "Schon richtig.";
-      msg.className = "message success";
-      return;
-    }
-
-    q.dataset.solved = "true";
-    radios.forEach(r => r.disabled = true);
-    btn.disabled = true;
-
-    msg.textContent = "Korrekt!";
-    msg.className = "message success";
-    p3SolvedCount++;
-  }
-
-  /* TEXT-FRAGEN (wie vorher) */
-  else if (input) {
-    let v = input.value.trim().toLowerCase();
-    if (!v) {
-      msg.textContent = "Bitte etwas eingeben.";
-      msg.className = "message error";
-      return;
-    }
-
-    if (v !== sol) {
-      msg.textContent = "Falsch!";
-      msg.className = "message error";
-      return;
-    }
-
-    if (q.dataset.solved === "true") {
-      msg.textContent = "Schon richtig.";
-      msg.className = "message success";
-      return;
-    }
-
-    q.dataset.solved = "true";
-    input.disabled = true;
-    btn.disabled = true;
-
-    msg.textContent = "Korrekt!";
-    msg.className = "message success";
-    p3SolvedCount++;
-  }
-
-  p3Summary.textContent = `${p3SolvedCount}/10 gelöst`;
-
-  if (p3SolvedCount === 10) {
-    p3Summary.textContent = "Alle 10 Fragen gelöst! 🎉";
-    p3Summary.className = "message success";
-
-    p3Letters.classList.remove("hidden");
-
-    let letters = ["k", "0", "5", "W"];
-    letters.forEach(z => {
-      addLetter(z);
-      progress.letters.push(z);
-    });
-
-    progress.solvedPuzzles ||= {};
-    progress.solvedPuzzles[2] = true;
-    saveProgress();
-    showNextPuzzle(2);
-  }
-
-});
-
+  });
 }
 
 /* ============================================================
@@ -1549,8 +1459,6 @@ if(burger && side){
 
 </body>
 </html>
-
-
 
 
 
