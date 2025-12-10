@@ -871,9 +871,9 @@ if(p2 && p2Btn){
   });
 }
 
-/* ============================================================
-   🎄 NEUES RÄTSEL 3 – 10-FRAGEN-QUIZ LOGIK
-============================================================ */
+// ======================================================
+//   RÄTSEL 3 — Checkbox + Radio + Text voll unterstützt
+// ======================================================
 
 const p3 = document.getElementById("puzzle3");
 const p3Questions = p3.querySelectorAll(".question-row");
@@ -882,66 +882,132 @@ const p3Letters = document.getElementById("p3-letters");
 
 let p3SolvedCount = 0;
 
-p3Questions.forEach(q=>{
-  const inp = q.querySelector("input");
+p3Questions.forEach(q => {
   const btn = q.querySelector("button");
   const msg = q.querySelector(".message");
   const sol = q.dataset.solution.toLowerCase();
 
-  btn.addEventListener("click", ()=>{
+  btn.addEventListener("click", () => {
+    const input = q.querySelector("input[type='text']");
+    const radios = q.querySelectorAll("input[type='radio']");
+    const checks = q.querySelectorAll("input[type='checkbox']");
 
-    let v = inp.value.trim().toLowerCase();
-    if(!v){
-      msg.textContent = "Bitte etwas eingeben.";
-      msg.className = "message error";
-      return;
-    }
+    const solutions = sol.split(",").map(s => s.trim());
 
-    if(v === sol){
+    let userAnswer = [];
 
-      if(q.dataset.solved === "true"){
-        msg.textContent = "Schon richtig.";
-        msg.className = "message success";
+    // ---------------------------
+    // 1. CHECKBOX-FRAGEN
+    // ---------------------------
+    if (checks.length > 0) {
+      checks.forEach(cb => {
+        if (cb.checked) userAnswer.push(cb.value.toLowerCase());
+      });
+
+      if (userAnswer.length === 0) {
+        msg.textContent = "Bitte mindestens eine Antwort auswählen.";
+        msg.className = "message error";
         return;
       }
 
-      q.dataset.solved = "true";
-      inp.disabled = true;
+      const sortedA = [...userAnswer].sort();
+      const sortedS = [...solutions].sort();
+
+      const correct =
+        sortedA.length === sortedS.length &&
+        sortedA.every((v, i) => v === sortedS[i]);
+
+      if (!correct) {
+        msg.textContent = "Nicht ganz richtig!";
+        msg.className = "message error";
+        return;
+      }
+
+      checks.forEach(c => c.disabled = true);
       btn.disabled = true;
 
       msg.textContent = "Korrekt!";
       msg.className = "message success";
-
       p3SolvedCount++;
+    }
 
-      p3Summary.textContent = `${p3SolvedCount}/10 gelöst`;
+    // ---------------------------
+    // 2. RADIO-FRAGEN
+    // ---------------------------
+    else if (radios.length > 0) {
+      const sel = [...radios].find(r => r.checked);
 
-      if(p3SolvedCount === 10){
-        p3Summary.textContent = "Alle 10 Fragen gelöst! 🎉";
-        p3Summary.className = "message success";
-
-        p3Letters.classList.remove("hidden");
-
-        let letters = ["k","0","5","W"];
-        letters.forEach(z=>{
-          addLetter(z);
-          progress.letters.push(z);
-        });
-
-        progress.solvedPuzzles ||= {};
-        progress.solvedPuzzles[2] = true;
-        saveProgress();
-
-        showNextPuzzle(2);
+      if (!sel) {
+        msg.textContent = "Bitte eine Antwort auswählen.";
+        msg.className = "message error";
+        return;
       }
-    }
-    else {
-      msg.textContent = "Falsch!";
-      msg.className = "message error";
+
+      if (sel.value.toLowerCase() !== sol) {
+        msg.textContent = "Falsch!";
+        msg.className = "message error";
+        return;
+      }
+
+      radios.forEach(r => r.disabled = true);
+      btn.disabled = true;
+
+      msg.textContent = "Korrekt!";
+      msg.className = "message success";
+      p3SolvedCount++;
     }
 
+    // ---------------------------
+    // 3. TEXT-FRAGEN
+    // ---------------------------
+    else if (input) {
+      const v = input.value.trim().toLowerCase();
+
+      if (!v) {
+        msg.textContent = "Bitte etwas eingeben.";
+        msg.className = "message error";
+        return;
+      }
+
+      if (v !== sol) {
+        msg.textContent = "Falsch!";
+        msg.className = "message error";
+        return;
+      }
+
+      input.disabled = true;
+      btn.disabled = true;
+
+      msg.textContent = "Korrekt!";
+      msg.className = "message success";
+      p3SolvedCount++;
+    }
+
+    // ---------------------------
+    // Fortschritt aktualisieren
+    // ---------------------------
+    p3Summary.textContent = `${p3SolvedCount}/10 gelöst`;
+
+    if (p3SolvedCount === 10) {
+      p3Summary.textContent = "Alle 10 Fragen gelöst! 🎉";
+      p3Summary.className = "message success";
+
+      p3Letters.classList.remove("hidden");
+
+      ["k", "0", "5", "W"].forEach(z => {
+        addLetter(z);
+        progress.letters.push(z);
+      });
+
+      progress.solvedPuzzles ||= {};
+      progress.solvedPuzzles[2] = true;
+      saveProgress();
+
+      showNextPuzzle(2);
+    }
   });
 });
+
 
 /* ============================================================
    RÄTSEL 4–5 LOGIK (unverändert)
@@ -1459,4 +1525,5 @@ if(burger && side){
 
 </body>
 </html>
+
 
