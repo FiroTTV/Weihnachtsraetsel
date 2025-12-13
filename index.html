@@ -594,7 +594,7 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
 
 
 <!-- RÄTSEL 4 – SCHNIPSEL -->
-<div class="card puzzle-card hidden" data-index="3" id="puzzle4">
+<div class="card puzzle-card hidden" data-index="3" id="puzzle4" data-letters="ehas">
   <div class="card-header">
     <span class="badge">Rätsel 4</span>
     <h2>Schnipselrätsel</h2>
@@ -1393,7 +1393,7 @@ function updateNextUnlockInfo(){
   nextUnlockTimer = setInterval(tick,1000);
 }
 
- const puzzleCards = document.querySelectorAll(".puzzle-card");
+const puzzleCards = document.querySelectorAll(".puzzle-card");
 
 /* ============================================================
    RESTORE PROGRESS
@@ -1498,7 +1498,7 @@ function restoreProgress(){
       const btn  =card.querySelector("button");
       const msg  =card.querySelector(".message");
       const disp =card.querySelector(".letter-display");
-      const letters=card.dataset.letters.split("");
+      const letters=(card.dataset.letters || "").split("");
 
       input.disabled=true;
       btn.disabled=true;
@@ -1567,7 +1567,6 @@ if(burger && side){
 
 </body>
 </html>
-
 
 
 
