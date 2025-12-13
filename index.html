@@ -1562,11 +1562,35 @@ if(burger && side){
     }
   });
 }
+/* ============================================================
+   ❄️ SCHNEE-EFFEKT
+============================================================ */
+
+function createSnowflake() {
+  const snow = document.createElement("div");
+  snow.className = "snowflake";
+  snow.textContent = "❄";
+
+  const size = Math.random() * 10 + 10; // 10–20px
+  snow.style.fontSize = size + "px";
+
+  snow.style.left = Math.random() * 100 + "vw";
+  snow.style.animationDuration = (Math.random() * 5 + 6) + "s"; // 6–11s
+  snow.style.opacity = Math.random() * 0.5 + 0.3;
+
+  document.body.appendChild(snow);
+
+  setTimeout(() => snow.remove(), 12000);
+}
+
+// Schneeflocken regelmäßig erzeugen
+setInterval(createSnowflake, 250);
 
 </script>
 
 </body>
 </html>
+
 
 
 
