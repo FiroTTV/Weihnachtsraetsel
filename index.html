@@ -593,36 +593,107 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
 </div>
 
 
-  <!-- ======================================================
-     🎄 RÄTSEL 4 – SCHNIPSEL-RÄTSEL
-====================================================== -->
+  // ======================================================
+// RÄTSEL 4 – SCHNIPSEL-RÄTSEL (FIXED VERSION)
+// ======================================================
 
-<div class="card puzzle-card hidden" data-index="3" id="puzzle4">
-  <div class="card-header">
-    <span class="badge">Rätsel 4</span>
-    <h2>Schnipsel-Rätsel</h2>
-  </div>
+const p4 = document.getElementById("puzzle4");
+const p4Input = document.getElementById("p4-input");
+const p4Btn = document.getElementById("p4-check");
+const p4Msg = document.getElementById("p4-msg");
+const p4Progress = document.getElementById("p4-progress");
 
-  <p>
-    Findet alle <strong>8 Schnipsel</strong> und gebt sie hier ein.<br>
-    <strong>Je 2 richtige Schnipsel</strong> schalten ein Zeichen frei.
-  </p>
+const p4Letters = [
+  document.getElementById("p4-l1"),
+  document.getElementById("p4-l2"),
+  document.getElementById("p4-l3"),
+  document.getElementById("p4-l4")
+];
 
-  <input type="text" id="p4-input" placeholder="Schnipsel eingeben">
-  <button id="p4-check">Prüfen</button>
+// 👉 DIE 4 ZEICHEN VON RÄTSEL 4 (REIHENFOLGE WICHTIG)
+const P4_LETTERS = ["B", "4", "T", "3"];
 
-  <div id="p4-msg" class="message"></div>
+// 👉 DIE 8 SCHNIPSEL (kannst du jederzeit ändern)
+const P4_SNIPPETS = [
+  "stern",
+  "licht",
+  "winter",
+  "kerze",
+  "tanne",
+  "plätzchen",
+  "geschenk",
+  "schnee"
+];
 
-  <p><strong>Fortschritt:</strong> <span id="p4-progress">0 / 8</span></p>
+// bereits gefundene Schnipsel laden
+let p4Found = JSON.parse(localStorage.getItem("P4_FOUND") || "[]");
 
-  <div id="p4-letters" class="letter-display hidden">
-    Zeichen:
-    <span class="letter-badge hidden" id="p4-l1">B</span>
-    <span class="letter-badge hidden" id="p4-l2">4</span>
-    <span class="letter-badge hidden" id="p4-l3">T</span>
-    <span class="letter-badge hidden" id="p4-l4">3</span>
-  </div>
-</div>
+// ------------------------------------------------------
+// UI & FORTSCHRITT AKTUALISIEREN
+// ------------------------------------------------------
+function updateP4UI() {
+  p4Progress.textContent = `${p4Found.length} / 8`;
+
+  const lettersUnlocked = Math.floor(p4Found.length / 2);
+
+  for (let i = 0; i < lettersUnlocked; i++) {
+
+    // lokal im Rätsel anzeigen
+    p4Letters[i].classList.remove("hidden");
+
+    // globalen Fortschritt aktualisieren (nur einmal!)
+    if (!progress.letters.includes(P4_LETTERS[i])) {
+      addLetter(P4_LETTERS[i]);
+      progress.letters.push(P4_LETTERS[i]);
+    }
+  }
+
+  // Rätsel 4 komplett gelöst
+  if (p4Found.length === 8) {
+    progress.solvedPuzzles ||= {};
+    progress.solvedPuzzles[3] = true;
+    saveProgress();
+    showNextPuzzle(3);
+  }
+}
+
+// Initiales UI-Update (für Reload)
+updateP4UI();
+
+// ------------------------------------------------------
+// SCHNIPSEL PRÜFEN
+// ------------------------------------------------------
+p4Btn.addEventListener("click", () => {
+  const val = p4Input.value.trim().toLowerCase();
+
+  if (!val) {
+    p4Msg.textContent = "Bitte ein Schnipsel eingeben.";
+    p4Msg.className = "message error";
+    return;
+  }
+
+  if (!P4_SNIPPETS.includes(val)) {
+    p4Msg.textContent = "Dieser Schnipsel ist falsch.";
+    p4Msg.className = "message error";
+    return;
+  }
+
+  if (p4Found.includes(val)) {
+    p4Msg.textContent = "Diesen Schnipsel habt ihr schon.";
+    p4Msg.className = "message error";
+    return;
+  }
+
+  // ✔ RICHTIGER SCHNIPSEL
+  p4Found.push(val);
+  localStorage.setItem("P4_FOUND", JSON.stringify(p4Found));
+
+  p4Msg.textContent = "Richtig! 🎉";
+  p4Msg.className = "message success";
+  p4Input.value = "";
+
+  updateP4UI();
+});
 
 
   <!-- RÄTSEL 5 -->
@@ -1588,6 +1659,7 @@ if(burger && side){
 
 </body>
 </html>
+
 
 
 
