@@ -593,18 +593,37 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
 </div>
 
 
-  <!-- RÄTSEL 4 -->
-  <div class="card puzzle-card hidden" data-index="3" id="puzzle4" data-solution="R4" data-letters="ehas">
-    <div class="card-header">
-      <span class="badge">Rätsel 4</span>
-      <h2>Platzhalter Rätsel 4</h2>
-    </div>
+  <!-- ======================================================
+     🎄 RÄTSEL 4 – SCHNIPSEL-RÄTSEL
+====================================================== -->
 
-    <input type="text" placeholder="Antwort eingeben">
-    <button>Prüfen</button>
-    <div class="message"></div>
-    <div class="letter-display hidden"></div>
+<div class="card puzzle-card hidden" data-index="3" id="puzzle4">
+  <div class="card-header">
+    <span class="badge">Rätsel 4</span>
+    <h2>Schnipsel-Rätsel</h2>
   </div>
+
+  <p>
+    Findet alle <strong>8 Schnipsel</strong> und gebt sie hier ein.<br>
+    <strong>Je 2 richtige Schnipsel</strong> schalten ein Zeichen frei.
+  </p>
+
+  <input type="text" id="p4-input" placeholder="Schnipsel eingeben">
+  <button id="p4-check">Prüfen</button>
+
+  <div id="p4-msg" class="message"></div>
+
+  <p><strong>Fortschritt:</strong> <span id="p4-progress">0 / 8</span></p>
+
+  <div id="p4-letters" class="letter-display hidden">
+    Zeichen:
+    <span class="letter-badge hidden" id="p4-l1">B</span>
+    <span class="letter-badge hidden" id="p4-l2">4</span>
+    <span class="letter-badge hidden" id="p4-l3">T</span>
+    <span class="letter-badge hidden" id="p4-l4">3</span>
+  </div>
+</div>
+
 
   <!-- RÄTSEL 5 -->
   <div class="card puzzle-card hidden" data-index="4" id="puzzle5" data-solution="R5" data-letters="eiti">
@@ -1034,69 +1053,88 @@ p3Questions.forEach(q => {
 });
 
 
-/* ============================================================
-   RÄTSEL 4–5 LOGIK (unverändert)
-============================================================ */
+// ======================================================
+// RÄTSEL 4 – SCHNIPSEL-RÄTSEL
+// ======================================================
 
-const puzzleCards = document.querySelectorAll(".puzzle-card");
+const p4 = document.getElementById("puzzle4");
+const p4Input = document.getElementById("p4-input");
+const p4Btn = document.getElementById("p4-check");
+const p4Msg = document.getElementById("p4-msg");
+const p4Progress = document.getElementById("p4-progress");
 
-for(let i=3;i<=4;i++){
-  const card = puzzleCards[i];
-  const input = card.querySelector("input");
-  const btn   = card.querySelector("button");
-  const msg   = card.querySelector(".message");
-  const disp  = card.querySelector(".letter-display");
+const p4Letters = [
+  document.getElementById("p4-l1"),
+  document.getElementById("p4-l2"),
+  document.getElementById("p4-l3"),
+  document.getElementById("p4-l4")
+];
 
-  const solution = card.dataset.solution?.toLowerCase();
-  const letters  = card.dataset.letters?.split("");
+// 🔧 HIER DEINE 8 SCHNIPSEL (kannst du später ändern)
+const P4_SNIPPETS = [
+  "stern",
+  "licht",
+  "winter",
+  "kerze",
+  "tanne",
+  "plätzchen",
+  "geschenk",
+  "schnee"
+];
 
-  btn.addEventListener("click", ()=>{
+let p4Found = JSON.parse(localStorage.getItem("P4_FOUND") || "[]");
 
-    const v = input.value.trim().toLowerCase();
+function updateP4UI() {
+  p4Progress.textContent = `${p4Found.length} / 8`;
 
-    if(!v){
-      msg.textContent = "Bitte etwas eingeben.";
-      msg.className = "message error";
-      return;
-    }
+  const lettersUnlocked = Math.floor(p4Found.length / 2);
 
-    if(v === solution){
+  for (let i = 0; i < lettersUnlocked; i++) {
+    p4Letters[i].classList.remove("hidden");
+  }
 
-      if(card.dataset.solved === "true"){
-        msg.textContent = "Schon gelöst.";
-        msg.className = "message success";
-        return;
-      }
-
-      card.dataset.solved = "true";
-      input.disabled = true;
-      btn.disabled = true;
-
-      msg.textContent = "Korrekt!";
-      msg.className = "message success";
-
-      let html = "Zeichen: ";
-      letters.forEach(z=>{
-        html += `<span class='letter-badge'>${z}</span> `;
-        addLetter(z);
-        progress.letters.push(z);
-      });
-      disp.innerHTML = html;
-
-      disp.classList.remove("hidden");
-
-      progress.solvedPuzzles ||= {};
-      progress.solvedPuzzles[i] = true;
-      saveProgress();
-
-      showNextPuzzle(i);
-    }
-    else {
-      msg.textContent = "Falsch!";
-      msg.className = "message error";
-    }
-  });
+  if (p4Found.length === 8) {
+    progress.solvedPuzzles ||= {};
+    progress.solvedPuzzles[3] = true;
+    saveProgress();
+    showNextPuzzle(3);
+  }
 }
+
+updateP4UI();
+
+p4Btn.addEventListener("click", () => {
+  const val = p4Input.value.trim().toLowerCase();
+
+  if (!val) {
+    p4Msg.textContent = "Bitte ein Schnipsel eingeben.";
+    p4Msg.className = "message error";
+    return;
+  }
+
+  if (!P4_SNIPPETS.includes(val)) {
+    p4Msg.textContent = "Dieser Schnipsel ist falsch.";
+    p4Msg.className = "message error";
+    return;
+  }
+
+  if (p4Found.includes(val)) {
+    p4Msg.textContent = "Diesen Schnipsel habt ihr schon.";
+    p4Msg.className = "message error";
+    return;
+  }
+
+  // ✔ richtig
+  p4Found.push(val);
+  localStorage.setItem("P4_FOUND", JSON.stringify(p4Found));
+
+  p4Msg.textContent = "Richtig! 🎉";
+  p4Msg.className = "message success";
+  p4Input.value = "";
+
+  updateP4UI();
+});
+
 
 /* ============================================================
    SPOTIFY-RÄTSEL LOGIK (unverändert)
@@ -1550,6 +1588,7 @@ if(burger && side){
 
 </body>
 </html>
+
 
 
 
