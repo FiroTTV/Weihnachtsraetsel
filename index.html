@@ -826,7 +826,7 @@ quizRows.forEach(row=>{
         progress.solvedPuzzles[0] = true;
         saveProgress();
 
-        showNextPuzzle(0);
+        updateVisibility();
       }
     }
     else {
@@ -899,7 +899,7 @@ if(p2 && p2Btn){
       progress.solvedPuzzles[1] = true;
       saveProgress();
 
-      showNextPuzzle(1);
+      updateVisibility();
     }
     else {
       p2Msg.textContent = "Falsch!";
@@ -1040,7 +1040,7 @@ p3Questions.forEach(q => {
       progress.solvedPuzzles[2] = true;
       saveProgress();
 
-      showNextPuzzle(2);
+      updateVisibility();
     }
   });
 });
@@ -1109,7 +1109,7 @@ p4Btn.addEventListener("click", () => {
     progress.solvedPuzzles[3] = true;
     saveProgress();
 
-    showNextPuzzle(3);
+    updateVisibility();
   }
 });
 
@@ -1155,7 +1155,7 @@ document.getElementById("spotify-check").addEventListener("click", ()=>{
 
     addLetter("s"); addLetter("t"); addLetter("a");
 
-    showNextPuzzle(5);
+    updateVisibility();
   }
   else {
     msg.textContent = "Falsch!";
@@ -1565,6 +1565,7 @@ if(burger && side){
 
 </body>
 </html>
+
 
 
 
