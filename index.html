@@ -1603,7 +1603,11 @@ function getAudioCtx(){
   return audioCtx;
 }
 function playTone(f,d,t="sine",v=0.12){
-  const c=getAudioCtx(); if(!c) return;
+  const c=getAudioCtx(); 
+  if(!c) return;
+
+  if(c.state === "suspended") c.resume(); // 🔊 DAS FEHLTE
+
   const o=c.createOscillator(), g=c.createGain();
   o.type=t; o.frequency.value=f; g.gain.value=v;
   o.connect(g); g.connect(c.destination);
@@ -1612,6 +1616,7 @@ function playTone(f,d,t="sine",v=0.12){
   g.gain.setValueAtTime(v,n);
   g.gain.linearRampToValueAtTime(0,n+d);
 }
+
 const playClick=()=>playTone(650,0.07,"triangle",0.1);
 const playSuccess=()=>{ playTone(880,0.1); setTimeout(()=>playTone(1040,0.1),90); }
 const playError=()=>playTone(220,0.14,"square",0.12);
@@ -1625,7 +1630,7 @@ function unlockAudioOnce(){
 }
 
 // Schon kleinste Interaktion reicht
-["click","keydown","mousemove","touchstart"].forEach(evt=>{
+["click","keydown","touchstart","pointerdown"].forEach(evt=>{
   window.addEventListener(evt, unlockAudioOnce, { once:true });
 });
 
@@ -1635,6 +1640,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
