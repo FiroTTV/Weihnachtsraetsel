@@ -1587,7 +1587,11 @@ function createSnowflake() {
 // Schneeflocken regelmäßig erzeugen
 setInterval(createSnowflake, 250);
 
+
+  
 </script>
+
+  
 <!-- Sounds -->
 <script>
 let audioCtx=null;
@@ -1611,11 +1615,27 @@ function playTone(f,d,t="sine",v=0.12){
 const playClick=()=>playTone(650,0.07,"triangle",0.1);
 const playSuccess=()=>{ playTone(880,0.1); setTimeout(()=>playTone(1040,0.1),90); }
 const playError=()=>playTone(220,0.14,"square",0.12);
+
+// 🔊 Audio automatisch freischalten (erste User-Interaktion reicht)
+function unlockAudioOnce(){
+  const c = getAudioCtx();
+  if(c && c.state === "suspended"){
+    c.resume();
+  }
+}
+
+// Schon kleinste Interaktion reicht
+["click","keydown","mousemove","touchstart"].forEach(evt=>{
+  window.addEventListener(evt, unlockAudioOnce, { once:true });
+});
+
+
 </script>
 
   
 </body>
 </html>
+
 
 
 
