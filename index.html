@@ -578,7 +578,7 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
     <h2>Kurze Pause 🎬</h2>
   </div>
 
-  <p>Hier ein kleines Video zur Entspannung, bevor ihr mit Rätsel 4 weitermacht:</p>
+  <p>Hier ein kleines Video zur Entspannung, bevor ihr mit  weitermacht:</p>
 
   <iframe 
     width="560" 
@@ -593,7 +593,7 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
 </div>
 
 
-  // ======================================================
+ // ======================================================
 // RÄTSEL 4 – SCHNIPSEL-RÄTSEL (FIXED VERSION)
 // ======================================================
 
@@ -610,10 +610,10 @@ const p4Letters = [
   document.getElementById("p4-l4")
 ];
 
-// 👉 DIE 4 ZEICHEN VON RÄTSEL 4 (REIHENFOLGE WICHTIG)
+// 🔤 DIE 4 ZEICHEN VON RÄTSEL 4 (Reihenfolge wichtig!)
 const P4_LETTERS = ["B", "4", "T", "3"];
 
-// 👉 DIE 8 SCHNIPSEL (kannst du jederzeit ändern)
+// 🧩 DIE 8 SCHNIPSEL
 const P4_SNIPPETS = [
   "stern",
   "licht",
@@ -629,7 +629,7 @@ const P4_SNIPPETS = [
 let p4Found = JSON.parse(localStorage.getItem("P4_FOUND") || "[]");
 
 // ------------------------------------------------------
-// UI & FORTSCHRITT AKTUALISIEREN
+// UI & Fortschritt aktualisieren
 // ------------------------------------------------------
 function updateP4UI() {
   p4Progress.textContent = `${p4Found.length} / 8`;
@@ -637,11 +637,10 @@ function updateP4UI() {
   const lettersUnlocked = Math.floor(p4Found.length / 2);
 
   for (let i = 0; i < lettersUnlocked; i++) {
-
-    // lokal im Rätsel anzeigen
+    // lokal anzeigen
     p4Letters[i].classList.remove("hidden");
 
-    // globalen Fortschritt aktualisieren (nur einmal!)
+    // globalen Fortschritt nur einmal setzen
     if (!progress.letters.includes(P4_LETTERS[i])) {
       addLetter(P4_LETTERS[i]);
       progress.letters.push(P4_LETTERS[i]);
@@ -657,11 +656,11 @@ function updateP4UI() {
   }
 }
 
-// Initiales UI-Update (für Reload)
+// initiales UI-Update (wichtig für Reload)
 updateP4UI();
 
 // ------------------------------------------------------
-// SCHNIPSEL PRÜFEN
+// Schnipsel prüfen
 // ------------------------------------------------------
 p4Btn.addEventListener("click", () => {
   const val = p4Input.value.trim().toLowerCase();
@@ -684,7 +683,7 @@ p4Btn.addEventListener("click", () => {
     return;
   }
 
-  // ✔ RICHTIGER SCHNIPSEL
+  // ✔ richtiger Schnipsel
   p4Found.push(val);
   localStorage.setItem("P4_FOUND", JSON.stringify(p4Found));
 
@@ -694,6 +693,7 @@ p4Btn.addEventListener("click", () => {
 
   updateP4UI();
 });
+
 
 
   <!-- RÄTSEL 5 -->
@@ -1659,6 +1659,7 @@ if(burger && side){
 
 </body>
 </html>
+
 
 
 
