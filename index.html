@@ -1058,8 +1058,14 @@ const p4Count = document.getElementById("p4-count");
 const p4LettersBox = document.getElementById("p4-letters");
 
 const P4_SNIPPETS = [
-  "alles passiert aus einem Grund", "ist", "meine", "lieblings",
-  "zahl", "im", "ganzen", "alphabet"
+  "alles passiert aus einem grund",
+  "ist",
+  "meine",
+  "lieblings",
+  "zahl",
+  "im",
+  "ganzen",
+  "alphabet"
 ];
 
 const P4_LETTERS = ["e", "h", "a", "s"];
@@ -1067,7 +1073,11 @@ const P4_LETTERS = ["e", "h", "a", "s"];
 let p4Index = 0;
 
 p4Btn.addEventListener("click", () => {
-  const val = p4Input.value.trim().toLowerCase();
+  const val = p4Input.value
+  .trim()
+  .toLowerCase()
+  .replace(/\s+/g, " ");
+
 
   if (!val) {
     p4Msg.textContent = "Bitte einen Schnipsel eingeben.";
@@ -1640,6 +1650,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
