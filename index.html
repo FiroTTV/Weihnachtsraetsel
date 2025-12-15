@@ -681,7 +681,7 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
       <h2>Nächstes Rätsel</h2>
     </div>
     <p id="next-unlock-text">Lade…</p>
-    <div id="next-unlock-countdown"></div>
+    <div id="next--countdown"></div>
   </div>
 
   <button id="reset-progress">🔄 Fortschritt zurücksetzen</button>
@@ -1401,8 +1401,8 @@ function updateNextUnlockInfo(){
     }
 
     const totalSeconds = Math.floor(diff / 1000);
-const minutes = Math.floor(totalSeconds / 60);
-const seconds = totalSeconds % 60;
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
 
 let parts = [];
 
@@ -1664,6 +1664,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
