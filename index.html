@@ -716,7 +716,15 @@ function updateCountdown(){
   const m = Math.floor((diff%3600000)/60000);
   const s = Math.floor((diff%60000)/1000);
 
-  el.textContent = `${d}T ${h}h ${m}m ${s}s`;
+  let parts = [];
+
+if(d > 0) parts.push(`${d}T`);
+if(h > 0) parts.push(`${h}h`);
+if(m > 0) parts.push(`${m}m`);
+if(s > 0 || parts.length === 0) parts.push(`${s}s`);
+
+el.textContent = parts.join(" ");
+
 }
 setInterval(updateCountdown,1000);
 updateCountdown();
@@ -1651,6 +1659,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
