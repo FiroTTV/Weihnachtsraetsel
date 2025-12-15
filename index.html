@@ -1400,12 +1400,17 @@ function updateNextUnlockInfo(){
       return;
     }
 
-    const d = Math.floor(diff/86400000);
-    const h = Math.floor((diff%86400000)/3600000);
-    const m = Math.floor((diff%3600000)/60000);
-    const s = Math.floor((diff%60000)/1000);
+    const totalSeconds = Math.floor(diff / 1000);
+const minutes = Math.floor(totalSeconds / 60);
+const seconds = totalSeconds % 60;
 
-    cd.textContent = `${d}T ${h}h ${m}m ${s}s`;
+let parts = [];
+
+if(minutes > 0) parts.push(`${minutes}m`);
+if(seconds > 0 || parts.length === 0) parts.push(`${seconds}s`);
+
+box.textContent = parts.join(" ");
+
   }
 
   if(nextUnlockTimer) clearInterval(nextUnlockTimer);
@@ -1659,6 +1664,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
