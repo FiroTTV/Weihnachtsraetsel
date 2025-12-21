@@ -1177,52 +1177,57 @@ p4Btn.addEventListener("click", () => {
    RÄTSEL 5 – TEIL 1 (KLICK)
 ========================== */
 
-const P5_CORRECT = [
-  "erkennen",
-  "interpretieren",
-  "teilen",
-  "integrieren"
-];
+document.addEventListener("DOMContentLoaded", () => {
 
-let p5Selected = new Set();
+  const P5_CORRECT = [
+    "erkennen",
+    "interpretieren",
+    "teilen",
+    "integrieren"
+  ];
 
-document.querySelectorAll(".p5-option").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    const val = btn.dataset.value;
+  let p5Selected = new Set();
 
-    if(p5Selected.has(val)){
-      p5Selected.delete(val);
-      btn.classList.remove("active");
-    } else {
-      if(p5Selected.size >= 4) return;
-      p5Selected.add(val);
-      btn.classList.add("active");
+  document.querySelectorAll(".p5-option").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const val = btn.dataset.value;
+
+      if(p5Selected.has(val)){
+        p5Selected.delete(val);
+        btn.classList.remove("active");
+      } else {
+        if(p5Selected.size >= 4) return;
+        p5Selected.add(val);
+        btn.classList.add("active");
+      }
+
+      playClick();
+    });
+  });
+
+  document.getElementById("p5-check-1").addEventListener("click", ()=>{
+    const msg = document.getElementById("p5-msg-1");
+
+    const ok =
+      p5Selected.size === 4 &&
+      P5_CORRECT.every(v => p5Selected.has(v));
+
+    if(!ok){
+      msg.textContent = "Das passt noch nicht.";
+      msg.className = "message error";
+      playError();
+      return;
     }
 
-    playClick();
+    msg.textContent = "Richtig. Denk jetzt genauer hin.";
+    msg.className = "message success";
+    playSuccess();
+
+    document.getElementById("p5-part2").classList.remove("hidden");
   });
+
 });
 
-document.getElementById("p5-check-1").addEventListener("click", ()=>{
-  const msg = document.getElementById("p5-msg-1");
-
-  const ok =
-    p5Selected.size === 4 &&
-    P5_CORRECT.every(v => p5Selected.has(v));
-
-  if(!ok){
-    msg.textContent = "Das passt noch nicht.";
-    msg.className = "message error";
-    playError();
-    return;
-  }
-
-  msg.textContent = "Richtig. Denk jetzt genauer hin.";
-  msg.className = "message success";
-  playSuccess();
-
-  document.getElementById("p5-part2").classList.remove("hidden");
-});
 
   
 /* ============================================================
@@ -1752,6 +1757,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
