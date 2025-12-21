@@ -268,6 +268,18 @@
   font-weight: 800;
 }
 
+    .p5-statement{
+  text-align:left;
+  border:2px solid rgba(148,163,184,0.4);
+  background:rgba(56,189,248,0.12);
+  transition: background 0.15s ease;
+}
+
+.p5-statement.active{
+  background:rgba(74,222,128,0.25);
+  border-color:rgba(74,222,128,0.7);
+}
+
   </style>
 </head>
 
@@ -734,6 +746,41 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
   </div>
 </div>
 
+<!-- TEIL 3 -->
+<div id="p5-part3" class="hidden" style="margin-top:18px;">
+  <p class="p5-hint">
+    👉 Welche Aussagen passen zu <strong>allen</strong> bisherigen Rätseln?
+  </p>
+
+  <div id="p5-statements" style="display:flex;flex-direction:column;gap:8px;">
+
+    <button class="p5-statement" data-value="aufmerksamkeit">
+      Man musste aufmerksam sein
+    </button>
+
+    <button class="p5-statement" data-value="zufall">
+      Alles war Zufall
+    </button>
+
+    <button class="p5-statement" data-value="kombinieren">
+      Teile ergaben erst zusammen Sinn
+    </button>
+
+    <button class="p5-statement" data-value="raten">
+      Man konnte einfach raten
+    </button>
+
+    <button class="p5-statement" data-value="geduld">
+      Geduld war notwendig
+    </button>
+
+  </div>
+
+  <button id="p5-check-3" style="margin-top:12px;">Prüfen</button>
+  <div id="p5-msg-3" class="message"></div>
+</div>
+
+  
   <!-- RÄTSEL 6 -->
   <div class="card puzzle-card hidden" data-index="5" id="puzzle6" data-solution="sta" data-letters="sta">
     <div class="card-header">
@@ -1307,6 +1354,55 @@ document.getElementById("p5-check-2").addEventListener("click",()=>{
   playSuccess();
 });
 
+/* ===== RÄTSEL 5 – TEIL 3 ===== */
+
+// richtige Aussagen
+const P5_PART3_CORRECT = [
+  "aufmerksamkeit",
+  "kombinieren",
+  "geduld"
+];
+
+let p5Part3Selected = new Set();
+
+// Anklicken
+document.querySelectorAll(".p5-statement").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const v = btn.dataset.value;
+
+    if(p5Part3Selected.has(v)){
+      p5Part3Selected.delete(v);
+      btn.classList.remove("active");
+    } else {
+      p5Part3Selected.add(v);
+      btn.classList.add("active");
+    }
+
+    playClick();
+  });
+});
+
+// Prüfen
+document.getElementById("p5-check-3").addEventListener("click", ()=>{
+  const msg = document.getElementById("p5-msg-3");
+
+  const ok =
+    p5Part3Selected.size === P5_PART3_CORRECT.length &&
+    P5_PART3_CORRECT.every(v => p5Part3Selected.has(v));
+
+  if(!ok){
+    msg.textContent = "Das passt noch nicht ganz.";
+    msg.className = "message error";
+    playError();
+    return;
+  }
+
+  msg.textContent = "Sehr gut. Ihr habt verstanden, worum es ging.";
+  msg.className = "message success";
+  playSuccess();
+
+  // 👉 Hier kommt danach Teil 4 (e i t i)
+});
 
 
   
@@ -1837,6 +1933,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
