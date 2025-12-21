@@ -620,17 +620,59 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
 
 
   <!-- RÄTSEL 5 -->
-  <div class="card puzzle-card hidden" data-index="4" id="puzzle5" data-solution="R5" data-letters="eiti">
-    <div class="card-header">
-      <span class="badge">Rätsel 5</span>
-      <h2>Platzhalter Rätsel 5</h2>
+  <div class="card puzzle-card hidden" id="puzzle5" data-index="4">
+  <div class="card-header">
+    <span class="badge">Rätsel 5</span>
+    <h2>Rätsel 5 – Rückblick</h2>
+  </div>
+
+  <!-- TEIL 1 -->
+  <div id="p5-part1">
+    <p>
+      Die bisherigen Rätsel waren sehr unterschiedlich.<br>
+      Trotzdem folgten sie immer denselben <strong>Prinzipien</strong>.
+    </p>
+
+    <p>
+      👉 Welche <strong>vier Begriffe</strong> beschreiben am besten,
+      wie ihr die Rätsel bisher gelöst habt?
+    </p>
+
+    <p style="opacity:.8">
+      (Mehrere Wörter, durch Leerzeichen getrennt)
+    </p>
+
+    <div style="margin:10px 0;">
+      <code>erkennen · interpretieren · teilen · integrieren · raten · tempo · zufall</code>
     </div>
 
-    <input type="text" placeholder="Antwort eingeben">
-    <button>Prüfen</button>
-    <div class="message"></div>
-    <div class="letter-display hidden"></div>
+    <input type="text" id="p5-input-1" placeholder="Vier Begriffe eingeben" />
+    <button id="p5-check-1">Prüfen</button>
+
+    <div id="p5-msg-1" class="message"></div>
   </div>
+
+  <!-- TEIL 2 -->
+  <div id="p5-part2" class="hidden" style="margin-top:16px;">
+    <p>
+      Diese Prinzipien tauchten nicht zufällig auf.
+    </p>
+
+    <p>
+      👉 Ordne jedem Rätsel das wichtigste Prinzip zu
+      (in der Reihenfolge Rätsel 1–4).
+    </p>
+
+    <p style="opacity:.8">
+      Beispiel: <code>erkennen suchen kombinieren geduld</code>
+    </p>
+
+    <input type="text" id="p5-input-2" placeholder="Zuordnung eingeben" />
+    <button id="p5-check-2">Prüfen</button>
+
+    <div id="p5-msg-2" class="message"></div>
+  </div>
+</div>
 
   <!-- RÄTSEL 6 -->
   <div class="card puzzle-card hidden" data-index="5" id="puzzle6" data-solution="sta" data-letters="sta">
@@ -1132,6 +1174,86 @@ p4Btn.addEventListener("click", () => {
   }
 });
 
+/* ==========================
+   RÄTSEL 5 – TEIL 1 & 2
+========================== */
+
+// Erwartete Begriffe für Teil 1 (Reihenfolge egal)
+const P5_PART1_SET = [
+  "erkennen",
+  "interpretieren",
+  "teilen",
+  "integrieren"
+];
+
+// Erwartete Reihenfolge für Teil 2 (fest)
+const P5_PART2_ORDER = [
+  "erkennen",
+  "interpretieren",
+  "teilen",
+  "integrieren"
+];
+
+// Hilfsfunktion: Eingabe normalisieren
+function normalizeWords(str){
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g," ")
+    .split(" ");
+}
+
+/* -------- TEIL 1 -------- */
+document.getElementById("p5-check-1").addEventListener("click", ()=>{
+  const input = document.getElementById("p5-input-1");
+  const msg = document.getElementById("p5-msg-1");
+
+  const words = normalizeWords(input.value);
+
+  const ok =
+    words.length === 4 &&
+    P5_PART1_SET.every(w => words.includes(w));
+
+  if(!ok){
+    msg.textContent = "Das passt noch nicht ganz.";
+    msg.className = "message error";
+    playError();
+    return;
+  }
+
+  msg.textContent = "Richtig. Denk jetzt genauer hin.";
+  msg.className = "message success";
+  playSuccess();
+
+  document.getElementById("p5-part2").classList.remove("hidden");
+});
+
+/* -------- TEIL 2 -------- */
+document.getElementById("p5-check-2").addEventListener("click", ()=>{
+  const input = document.getElementById("p5-input-2");
+  const msg = document.getElementById("p5-msg-2");
+
+  const words = normalizeWords(input.value);
+
+  const ok =
+    words.length === 4 &&
+    words.every((w,i)=> w === P5_PART2_ORDER[i]);
+
+  if(!ok){
+    msg.textContent = "Die Reihenfolge stimmt noch nicht.";
+    msg.className = "message error";
+    playError();
+    return;
+  }
+
+  msg.textContent = "Sehr gut. Ihr habt das Prinzip verstanden.";
+  msg.className = "message success";
+  playSuccess();
+
+  // 👉 HIER kommt später TEIL 3 (e i t i)
+});
+
+  
 /* ============================================================
    SPOTIFY-RÄTSEL LOGIK (unverändert)
 ============================================================ */
@@ -1659,6 +1781,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
