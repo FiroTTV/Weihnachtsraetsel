@@ -280,6 +280,64 @@
   border-color:rgba(74,222,128,0.7);
 }
 
+  /* ===== Finale ===== */
+
+.final-header{
+  margin-bottom: 16px;
+}
+
+.final-sub{
+  opacity: 0.85;
+  margin-top: 6px;
+}
+
+.final-input-wrap{
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.final-input-wrap input{
+  flex: 1;
+  padding: 12px 14px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 2px solid rgba(148,163,184,0.35);
+  background: rgba(2,6,23,0.6);
+  color: #e5e7eb;
+}
+
+.final-input-wrap input::placeholder{
+  color: rgba(226,232,240,0.5);
+}
+
+.final-input-wrap input:focus{
+  outline: none;
+  border-color: rgba(168,85,247,0.8);
+}
+
+.final-input-wrap button{
+  padding: 12px 18px;
+  font-size: 16px;
+  border-radius: 12px;
+  background: linear-gradient(135deg,#8b5cf6,#6366f1);
+  border: none;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.final-input-wrap button:hover{
+  filter: brightness(1.05);
+}
+
+#final-video{
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  border: none;
+}
+
   </style>
 </head>
 
@@ -806,24 +864,71 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
     <div id="spotify-letters" class="letter-display hidden"></div>
   </div>
 
-  <!-- FINALE -->
-  <div class="card hidden" id="final-card">
-    <div class="card-header">
-      <span class="badge">Finale</span>
-      <h2>Lösungswort</h2>
-    </div>
+<!-- FINALE -->
+<div class="card puzzle-card hidden" id="final-card">
 
-    <input id="final-input" placeholder="3eryk?2025Weihnachtsedition">
-    <button id="final-button">Prüfen</button>
-    <div id="final-message" class="message"></div>
-
-    <div id="final-video-wrapper" class="hidden" style="margin-top:16px;">
-      <p>Glückwunsch 🎉</p>
-      <iframe id="final-video"
-        src="https://www.youtube.com/embed/TGvnbko2Jio"
-        allowfullscreen></iframe>
-    </div>
+  <div class="final-header">
+    <span class="badge">Finale</span>
+    <h2>Lösungswort</h2>
+    <p class="final-sub">
+      Alles, was ihr bisher gelöst habt, führt genau hierhin.
+    </p>
   </div>
+
+  <div class="final-input-wrap">
+    <input
+      id="final-input"
+      placeholder="Lösungswort eingeben"
+      autocomplete="off"
+    >
+    <button id="final-button">Prüfen</button>
+  </div>
+
+  <div id="final-message" class="message"></div>
+
+  <div id="final-video-wrapper" class="hidden" style="margin-top:18px;">
+    <p>🎉 Glückwunsch 🎉</p>
+    <iframe
+      id="final-video"
+      src="https://www.youtube.com/embed/TGvnbko2Jio"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+</div>
+<!-- FINALE -->
+<div class="card puzzle-card hidden" id="final-card">
+
+  <div class="final-header">
+    <span class="badge">Finale</span>
+    <h2>Lösungswort</h2>
+    <p class="final-sub">
+      Alles, was ihr bisher gelöst habt, führt genau hierhin.
+    </p>
+  </div>
+
+  <div class="final-input-wrap">
+    <input
+      id="final-input"
+      placeholder="Lösungswort eingeben"
+      autocomplete="off"
+    >
+    <button id="final-button">Prüfen</button>
+  </div>
+
+  <div id="final-message" class="message"></div>
+
+  <div id="final-video-wrapper" class="hidden" style="margin-top:18px;">
+    <p>🎉 Glückwunsch 🎉</p>
+    <iframe
+      id="final-video"
+      src="https://www.youtube.com/embed/TGvnbko2Jio"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+</div>
+
 
   <!-- UNLOCK-CARD -->
   <div class="card" id="next-unlock-card">
@@ -1937,6 +2042,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
