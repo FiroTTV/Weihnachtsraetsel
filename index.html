@@ -246,7 +246,20 @@
       text-align: center;
       display: none;
     }
+/* ====== RÄTSEL 5 – TEIL 2 ====== */
+.p5-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-top: 10px;
+}
 
+.p5-map-option.active {
+  background: rgba(56, 189, 248, 0.35);
+  border-color: rgba(56, 189, 248, 0.7);
+  font-weight: 800;
+}
   </style>
 </head>
 
@@ -650,27 +663,115 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
   <div id="p5-msg-1" class="message"></div>
 </div>
 
+// Richtige Zuordnung für Teil 2 (Reihenfolge Rätsel 1–4)
+const P5_PART2_CORRECT = [
+  "erkennen",
+  "interpretieren",
+  "teilen",
+  "integrieren"
+];
+
+let p5MapSelection = ["", "", "", ""];
+
+// Klick-Logik
+document.querySelectorAll(".p5-row").forEach(row=>{
+  const idx = Number(row.dataset.index);
+
+  row.querySelectorAll(".p5-map-option").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      // alte Auswahl entfernen
+      row.querySelectorAll(".p5-map-option").forEach(b=>{
+        b.classList.remove("active");
+      });
+
+      // neue setzen
+      btn.classList.add("active");
+      p5MapSelection[idx] = btn.dataset.value;
+
+      playClick();
+    });
+  });
+});
+
+// Prüfen
+document.getElementById("p5-check-2").addEventListener("click", ()=>{
+  const msg = document.getElementById("p5-msg-2");
+
+  const allSet = p5MapSelection.every(v => v !== "");
+  if(!allSet){
+    msg.textContent = "Bitte ordne jedem Rätsel ein Prinzip zu.";
+    msg.className = "message error";
+    playError();
+    return;
+  }
+
+  const ok = p5MapSelection.every(
+    (val, i) => val === P5_PART2_CORRECT[i]
+  );
+
+  if(!ok){
+    msg.textContent = "Die Zuordnung stimmt noch nicht.";
+    msg.className = "message error";
+    playError();
+    return;
+  }
+
+  msg.textContent = "Sehr gut. Ihr habt das Prinzip verstanden.";
+  msg.className = "message success";
+  playSuccess();
+
+  // 👉 Hier kommt später TEIL 3 (e i t i)
+});
+
 
   <!-- TEIL 2 -->
-  <div id="p5-part2" class="hidden" style="margin-top:16px;">
-    <p>
-      Diese Prinzipien tauchten nicht zufällig auf.
-    </p>
+<div id="p5-part2" class="hidden" style="margin-top:16px;">
+  <p>
+    Diese Prinzipien tauchten nicht zufällig auf.
+  </p>
 
-    <p>
-      👉 Ordne jedem Rätsel das wichtigste Prinzip zu
-      (in der Reihenfolge Rätsel 1–4).
-    </p>
+  <p>
+    👉 Ordne jedem Rätsel das wichtigste Prinzip zu.
+  </p>
 
-    <p style="opacity:.8">
-      Beispiel: <code>erkennen suchen kombinieren geduld</code>
-    </p>
+  <div class="p5-map">
 
-    <input type="text" id="p5-input-2" placeholder="Zuordnung eingeben" />
-    <button id="p5-check-2">Prüfen</button>
+    <div class="p5-row" data-index="0">
+      <strong>Rätsel 1</strong>
+      <button class="p5-map-option" data-value="erkennen">erkennen</button>
+      <button class="p5-map-option" data-value="interpretieren">interpretieren</button>
+      <button class="p5-map-option" data-value="teilen">teilen</button>
+      <button class="p5-map-option" data-value="integrieren">integrieren</button>
+    </div>
 
-    <div id="p5-msg-2" class="message"></div>
+    <div class="p5-row" data-index="1">
+      <strong>Rätsel 2</strong>
+      <button class="p5-map-option" data-value="erkennen">erkennen</button>
+      <button class="p5-map-option" data-value="interpretieren">interpretieren</button>
+      <button class="p5-map-option" data-value="teilen">teilen</button>
+      <button class="p5-map-option" data-value="integrieren">integrieren</button>
+    </div>
+
+    <div class="p5-row" data-index="2">
+      <strong>Rätsel 3</strong>
+      <button class="p5-map-option" data-value="erkennen">erkennen</button>
+      <button class="p5-map-option" data-value="interpretieren">interpretieren</button>
+      <button class="p5-map-option" data-value="teilen">teilen</button>
+      <button class="p5-map-option" data-value="integrieren">integrieren</button>
+    </div>
+
+    <div class="p5-row" data-index="3">
+      <strong>Rätsel 4</strong>
+      <button class="p5-map-option" data-value="erkennen">erkennen</button>
+      <button class="p5-map-option" data-value="interpretieren">interpretieren</button>
+      <button class="p5-map-option" data-value="teilen">teilen</button>
+      <button class="p5-map-option" data-value="integrieren">integrieren</button>
+    </div>
+
   </div>
+
+  <button id="p5-check-2" style="margin-top:12px;">Prüfen</button>
+  <div id="p5-msg-2" class="message"></div>
 </div>
 
   <!-- RÄTSEL 6 -->
@@ -1757,6 +1858,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
