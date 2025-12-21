@@ -627,30 +627,29 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
   </div>
 
   <!-- TEIL 1 -->
-  <div id="p5-part1">
-    <p>
-      Die bisherigen Rätsel waren sehr unterschiedlich.<br>
-      Trotzdem folgten sie immer denselben <strong>Prinzipien</strong>.
-    </p>
+ <div id="p5-part1">
+  <p>
+    Die bisherigen Rätsel waren sehr unterschiedlich.<br>
+    Trotzdem folgten sie denselben <strong>Prinzipien</strong>.
+  </p>
 
-    <p>
-      👉 Welche <strong>vier Begriffe</strong> beschreiben am besten,
-      wie ihr die Rätsel bisher gelöst habt?
-    </p>
+  <p>👉 Klickt <strong>genau vier</strong> passende Begriffe an.</p>
 
-    <p style="opacity:.8">
-      (Mehrere Wörter, durch Leerzeichen getrennt)
-    </p>
+  <div id="p5-options" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;">
+    <button class="p5-option" data-value="erkennen">erkennen</button>
+    <button class="p5-option" data-value="interpretieren">interpretieren</button>
+    <button class="p5-option" data-value="teilen">teilen</button>
+    <button class="p5-option" data-value="integrieren">integrieren</button>
 
-    <div style="margin:10px 0;">
-      <code>erkennen · interpretieren · teilen · integrieren · raten · tempo · zufall</code>
-    </div>
-
-    <input type="text" id="p5-input-1" placeholder="Vier Begriffe eingeben" />
-    <button id="p5-check-1">Prüfen</button>
-
-    <div id="p5-msg-1" class="message"></div>
+    <button class="p5-option" data-value="raten">raten</button>
+    <button class="p5-option" data-value="tempo">tempo</button>
+    <button class="p5-option" data-value="zufall">zufall</button>
   </div>
+
+  <button id="p5-check-1" style="margin-top:12px;">Prüfen</button>
+  <div id="p5-msg-1" class="message"></div>
+</div>
+
 
   <!-- TEIL 2 -->
   <div id="p5-part2" class="hidden" style="margin-top:16px;">
@@ -1175,47 +1174,44 @@ p4Btn.addEventListener("click", () => {
 });
 
 /* ==========================
-   RÄTSEL 5 – TEIL 1 & 2
+   RÄTSEL 5 – TEIL 1 (KLICK)
 ========================== */
 
-// Erwartete Begriffe für Teil 1 (Reihenfolge egal)
-const P5_PART1_SET = [
+const P5_CORRECT = [
   "erkennen",
   "interpretieren",
   "teilen",
   "integrieren"
 ];
 
-// Erwartete Reihenfolge für Teil 2 (fest)
-const P5_PART2_ORDER = [
-  "erkennen",
-  "interpretieren",
-  "teilen",
-  "integrieren"
-];
+let p5Selected = new Set();
 
-// Hilfsfunktion: Eingabe normalisieren
-function normalizeWords(str){
-  return str
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g," ")
-    .split(" ");
-}
+document.querySelectorAll(".p5-option").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    const val = btn.dataset.value;
 
-/* -------- TEIL 1 -------- */
+    if(p5Selected.has(val)){
+      p5Selected.delete(val);
+      btn.classList.remove("active");
+    } else {
+      if(p5Selected.size >= 4) return;
+      p5Selected.add(val);
+      btn.classList.add("active");
+    }
+
+    playClick();
+  });
+});
+
 document.getElementById("p5-check-1").addEventListener("click", ()=>{
-  const input = document.getElementById("p5-input-1");
   const msg = document.getElementById("p5-msg-1");
 
-  const words = normalizeWords(input.value);
-
   const ok =
-    words.length === 4 &&
-    P5_PART1_SET.every(w => words.includes(w));
+    p5Selected.size === 4 &&
+    P5_CORRECT.every(v => p5Selected.has(v));
 
   if(!ok){
-    msg.textContent = "Das passt noch nicht ganz.";
+    msg.textContent = "Das passt noch nicht.";
     msg.className = "message error";
     playError();
     return;
@@ -1226,31 +1222,6 @@ document.getElementById("p5-check-1").addEventListener("click", ()=>{
   playSuccess();
 
   document.getElementById("p5-part2").classList.remove("hidden");
-});
-
-/* -------- TEIL 2 -------- */
-document.getElementById("p5-check-2").addEventListener("click", ()=>{
-  const input = document.getElementById("p5-input-2");
-  const msg = document.getElementById("p5-msg-2");
-
-  const words = normalizeWords(input.value);
-
-  const ok =
-    words.length === 4 &&
-    words.every((w,i)=> w === P5_PART2_ORDER[i]);
-
-  if(!ok){
-    msg.textContent = "Die Reihenfolge stimmt noch nicht.";
-    msg.className = "message error";
-    playError();
-    return;
-  }
-
-  msg.textContent = "Sehr gut. Ihr habt das Prinzip verstanden.";
-  msg.className = "message success";
-  playSuccess();
-
-  // 👉 HIER kommt später TEIL 3 (e i t i)
 });
 
   
@@ -1781,6 +1752,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
