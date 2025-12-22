@@ -1723,36 +1723,45 @@ document.getElementById("spotify-check").addEventListener("click", ()=>{
 });
 
 /* ============================================================
-   FINALE LOGIK
+   FINALE LOGIK (FIXED)
 ============================================================ */
 
 const SECRET_FINAL_WORD = "3eryk?2025Weihnachtsedition";
 
-document.getElementById("final-button").addEventListener("click", ()=>{
+const finalInput = document.getElementById("final-input");
+const finalButton = document.getElementById("final-button");
+const finalMessage = document.getElementById("final-message");
+const finalVideoWrapper = document.getElementById("final-video-wrapper");
 
-  const v = finalInput.value.trim();
+if(finalButton){
+  finalButton.addEventListener("click", ()=>{
 
-  if(!v){
-    finalMessage.textContent = "Bitte etwas eingeben.";
-    finalMessage.className = "message error";
-    return;
-  }
+    const v = finalInput.value.trim();
 
-  if(v.toLowerCase() === SECRET_FINAL_WORD.toLowerCase()){
+    if(!v){
+      finalMessage.textContent = "Bitte etwas eingeben.";
+      finalMessage.className = "message error";
+      playError();
+      return;
+    }
 
-    finalMessage.textContent = "Richtig! 🎉";
-    finalMessage.className = "message success";
+    if(v === SECRET_FINAL_WORD){
+      finalMessage.textContent = "Richtig! 🎉";
+      finalMessage.className = "message success";
+      playSuccess();
 
-    finalVideoWrapper.classList.remove("hidden");
+      finalVideoWrapper.classList.remove("hidden");
 
-    progress.final = true;
-    saveProgress();
-  }
-  else {
-    finalMessage.textContent = "Falsch.";
-    finalMessage.className = "message error";
-  }
-});
+      progress.final = true;
+      saveProgress();
+    }
+    else {
+      finalMessage.textContent = "Falsch.";
+      finalMessage.className = "message error";
+      playError();
+    }
+  });
+}
 
 /* ============================================================
    ADMIN LOGIN
@@ -2199,6 +2208,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
