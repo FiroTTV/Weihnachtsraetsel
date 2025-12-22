@@ -352,6 +352,33 @@
   margin-bottom: 12px;
 }
 
+/* ===== Rätsel 5 – Der Weg ===== */
+
+#p5-order{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.p5-step{
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(56,189,248,0.12);
+  border: 2px solid rgba(148,163,184,0.4);
+  cursor: pointer;
+  user-select: none;
+}
+
+.p5-step.selected{
+  background: rgba(74,222,128,0.25);
+  border-color: rgba(74,222,128,0.7);
+}
+
+.p5-step.correct{
+  background: rgba(34,197,94,0.35);
+  border-color: rgba(34,197,94,0.8);
+}
+
     
   </style>
 </head>
@@ -879,6 +906,40 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
     Weiter
   </button>
 
+</div>
+
+    <!-- RÄTSEL 5 – TEIL 5 (DER WEG) -->
+<div id="p5-part5" class="hidden" style="margin-top:20px;">
+
+  <p class="p5-hint">
+    👉 Bringt den Weg in die richtige Reihenfolge.
+  </p>
+
+  <div id="p5-order">
+
+    <div class="p5-step" data-id="teile">
+      Teile lagen getrennt vor
+    </div>
+
+    <div class="p5-step" data-id="verbindungen">
+      Verbindungen wurden erkannt
+    </div>
+
+    <div class="p5-step" data-id="geduld">
+      Geduld war nötig
+    </div>
+
+    <div class="p5-step" data-id="bedeutung">
+      Bedeutung entstand
+    </div>
+
+  </div>
+
+  <button id="p5-check-5" style="margin-top:14px;">
+    Reihenfolge prüfen
+  </button>
+
+  <div id="p5-msg-5" class="message"></div>
 </div>
 
     
@@ -1528,6 +1589,8 @@ document.getElementById("p5-check-3").addEventListener("click", ()=>{
   document.getElementById("p5-story").classList.remove("hidden");
 
 document.getElementById("p5-story-next").addEventListener("click", ()=>{
+document.getElementById("p5-part5").classList.remove("hidden");
+
   playClick();
 
   // HIER geht es weiter:
@@ -2066,6 +2129,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
