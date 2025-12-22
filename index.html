@@ -940,6 +940,11 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
   </button>
 
   <div id="p5-msg-5" class="message"></div>
+  <button id="p5-check-5">Reihenfolge prüfen</button>
+
+<div id="p5-msg-5" class="message"></div>
+<div id="p5-letters" class="letter-display hidden"></div>
+
 </div>
 
     
@@ -1643,11 +1648,17 @@ document.getElementById("p5-check-5").addEventListener("click", ()=>{
   msg.className = "message success";
   playSuccess();
 
-  // 🔓 4 Zeichen von Rätsel 5
-  ["e","i","t","i"].forEach(z=>{
-    addLetter(z);
-    progress.letters.push(z);
-  });
+// 🔓 Zeichen von Rätsel 5 sichtbar & global freischalten
+const p5LettersBox = document.getElementById("p5-letters");
+p5LettersBox.classList.remove("hidden");
+p5LettersBox.innerHTML = "Zeichen: ";
+
+["e","i","t","i"].forEach(z=>{
+  p5LettersBox.innerHTML += `<span class="letter-badge">${z}</span> `;
+  addLetter(z);
+  progress.letters.push(z);
+});
+
 
   progress.solvedPuzzles ||= {};
   progress.solvedPuzzles[4] = true;
@@ -2188,6 +2199,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
