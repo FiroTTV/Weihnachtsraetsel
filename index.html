@@ -338,6 +338,21 @@
   border: none;
 }
 
+/* ===== Rätsel 5 – Story ===== */
+.p5-story-box{
+  background: rgba(2,6,23,0.6);
+  border: 1px solid rgba(148,163,184,0.25);
+  border-radius: 16px;
+  padding: 18px;
+  line-height: 1.6;
+  opacity: 0.95;
+}
+
+.p5-story-box p{
+  margin-bottom: 12px;
+}
+
+    
   </style>
 </head>
 
@@ -835,7 +850,38 @@ Erst die Vollendung aller Antworten entfesselt die vier Zeichen von Rätsel 3.</
   <button id="p5-check-3" style="margin-top:12px;">Prüfen</button>
   <div id="p5-msg-3" class="message"></div>
 </div>
-  
+
+<!-- STORY-TEIL -->
+<div id="p5-story" class="hidden" style="margin-top:20px;">
+
+  <div class="p5-story-box">
+    <p>Diese Rätsel waren nie dazu da,<br>euch zu testen.</p>
+
+    <p>Sie sollten euch auf etwas vorbereiten.</p>
+
+    <p>
+      Nicht alles liegt offen da.<br>
+      Manche Dinge erkennt man erst,<br>
+      wenn man sich <strong>Zeit nimmt</strong>,<br>
+      <strong>Teile zusammensetzt</strong><br>
+      und <strong>nicht aufgibt</strong>.
+    </p>
+
+    <p>
+      Was ihr hier gemacht habt,<br>
+      war kein Zufall.
+    </p>
+
+    <p><strong>Es war ein Weg.</strong></p>
+  </div>
+
+  <button id="p5-story-next" style="margin-top:16px;">
+    Weiter
+  </button>
+
+</div>
+
+    
   </div>
 
 
@@ -1479,6 +1525,15 @@ document.getElementById("p5-check-3").addEventListener("click", ()=>{
   msg.className = "message success";
   playSuccess();
 
+  document.getElementById("p5-story").classList.remove("hidden");
+
+document.getElementById("p5-story-next").addEventListener("click", ()=>{
+  playClick();
+
+  // HIER geht es weiter:
+  // z.B. Lockdown oder Finale freischalten
+});
+
   // 👉 Hier kommt danach Teil 4 (e i t i)
 });
 
@@ -2011,6 +2066,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
