@@ -1597,6 +1597,65 @@ document.getElementById("p5-part5").classList.remove("hidden");
   // z.B. Lockdown oder Finale freischalten
 });
 
+/* ===== RÄTSEL 5 – TEIL 5 (DER WEG) ===== */
+
+const P5_ORDER_CORRECT = ["teile","verbindungen","geduld","bedeutung"];
+let p5OrderSelected = [];
+
+document.querySelectorAll(".p5-step").forEach(step=>{
+  step.addEventListener("click", ()=>{
+    const id = step.dataset.id;
+    if(p5OrderSelected.includes(id)) return;
+
+    p5OrderSelected.push(id);
+    step.classList.add("selected");
+    playClick();
+  });
+});
+
+document.getElementById("p5-check-5").addEventListener("click", ()=>{
+  const msg = document.getElementById("p5-msg-5");
+
+  if(p5OrderSelected.length !== 4){
+    msg.textContent = "Bitte alle Schritte anklicken.";
+    msg.className = "message error";
+    playError();
+    return;
+  }
+
+  let correct = true;
+
+  p5OrderSelected.forEach((id,i)=>{
+    if(id !== P5_ORDER_CORRECT[i]) correct = false;
+    else document
+      .querySelector(`.p5-step[data-id="${id}"]`)
+      .classList.add("correct");
+  });
+
+  if(!correct){
+    msg.textContent = "Die Reihenfolge stimmt noch nicht.";
+    msg.className = "message error";
+    playError();
+    return;
+  }
+
+  msg.textContent = "Der Weg stimmt. Rätsel 5 abgeschlossen.";
+  msg.className = "message success";
+  playSuccess();
+
+  // 🔓 4 Zeichen von Rätsel 5
+  ["e","i","t","i"].forEach(z=>{
+    addLetter(z);
+    progress.letters.push(z);
+  });
+
+  progress.solvedPuzzles ||= {};
+  progress.solvedPuzzles[4] = true;
+  saveProgress();
+
+  updateVisibility();
+});
+
   // 👉 Hier kommt danach Teil 4 (e i t i)
 });
 
@@ -2129,6 +2188,7 @@ function unlockAudioOnce(){
   
 </body>
 </html>
+
 
 
 
