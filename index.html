@@ -10,7 +10,7 @@ html,body{
   margin:0;
   padding:0;
   height:100%;
-  background:#020617; /* dunkler Hintergrund wie Original */
+  background:#020617; /* Original dunkler Hintergrund */
   font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   overflow:hidden;
 }
@@ -19,17 +19,30 @@ html,body{
 .wrapper{
   height:100%;
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
+  gap:24px;
   position:relative;
   z-index:2;
+}
+
+/* TITEL */
+#title{
+  font-size:clamp(22px,4vw,40px);
+  font-weight:600;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:#e5e7eb;
+  opacity:0.85;
+  text-align:center;
 }
 
 /* GROSSER BLAUER COUNTDOWN */
 #countdown{
   font-size:clamp(72px,18vw,220px);
   font-weight:800;
-  color:#38bdf8;          /* ORIGINAL-BLAU */
+  color:#38bdf8;          /* Original-Blau */
   letter-spacing:0.08em;
   text-align:center;
   user-select:none;
@@ -59,6 +72,7 @@ html,body{
 <body>
 
 <div class="wrapper">
+  <div id="title"> 🎄3eryk? Weihnachtsedition 🎄</div>
   <div id="countdown">--:--:--</div>
 </div>
 
