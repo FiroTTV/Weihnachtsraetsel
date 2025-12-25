@@ -6,65 +6,107 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-  html,body{
-    margin:0;
-    padding:0;
-    height:100%;
-    background:radial-gradient(1200px 600px at top,#0f172a,#020617);
-    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-    color:#e5e7eb;
-    overflow:hidden;
-  }
+/* =====================
+   GRUNDLAYOUT
+===================== */
+html,body{
+  margin:0;
+  padding:0;
+  height:100%;
+  background:radial-gradient(1200px 600px at top,#0f172a,#020617);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:#e5e7eb;
+  overflow:hidden;
+}
 
-  .center{
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    gap:18px;
-    z-index:2;
-    position:relative;
-  }
+.center{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:22px;
+  position:relative;
+  z-index:2;
+}
 
-  h1{
-    font-size:clamp(28px,6vw,48px);
-    font-weight:700;
-    letter-spacing:0.04em;
-    opacity:0.9;
-  }
+/* =====================
+   TITEL
+===================== */
+h1{
+  font-size:clamp(28px,6vw,48px);
+  font-weight:700;
+  letter-spacing:0.05em;
+  opacity:0.9;
+}
 
-  .countdown{
-    font-size:clamp(42px,9vw,96px);
-    font-weight:800;
-    letter-spacing:0.08em;
-  }
+/* =====================
+   COUNTDOWN CARD
+===================== */
+.countdown-card{
+  display:flex;
+  gap:14px;
+  padding:22px 26px;
+  border-radius:20px;
+  background:rgba(2,6,23,0.65);
+  border:1px solid rgba(148,163,184,0.25);
+  backdrop-filter: blur(8px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.35);
+}
 
-  .label{
-    opacity:0.7;
-    letter-spacing:0.2em;
-    font-size:14px;
-    text-transform:uppercase;
-  }
+.time-box{
+  min-width:90px;
+  padding:16px 14px;
+  border-radius:14px;
+  background:rgba(15,23,42,0.85);
+  border:1px solid rgba(148,163,184,0.2);
+  text-align:center;
+}
 
-  /* ❄️ Schnee */
-  .snowflake{
-    position:fixed;
-    top:-10px;
-    color:white;
-    user-select:none;
-    pointer-events:none;
-    opacity:0.8;
-    animation:fall linear forwards;
-  }
+.time-box span{
+  display:block;
+  font-size:clamp(36px,6vw,64px);
+  font-weight:800;
+  letter-spacing:0.08em;
+}
 
-  @keyframes fall{
-    to{
-      transform:translateY(110vh);
-      opacity:0;
-    }
+.time-box small{
+  margin-top:6px;
+  display:block;
+  font-size:12px;
+  opacity:0.65;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+}
+
+.label{
+  opacity:0.7;
+  letter-spacing:0.2em;
+  font-size:14px;
+  text-transform:uppercase;
+}
+
+/* =====================
+   SCHNEE
+===================== */
+.snowflake{
+  position:fixed;
+  top:-10px;
+  color:white;
+  user-select:none;
+  pointer-events:none;
+  opacity:0.8;
+  animation:fall linear forwards;
+  z-index:1;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh);
+    opacity:0;
   }
+}
 </style>
 </head>
 
@@ -72,42 +114,68 @@
 
 <div class="center">
   <h1>🎄 3eryk? Weihnachtsedition 🎄</h1>
-  <div class="countdown" id="countdown">--:--:--</div>
+
+  <div class="countdown-card">
+    <div class="time-box">
+      <span id="cd-days">0</span>
+      <small>Tage</small>
+    </div>
+    <div class="time-box">
+      <span id="cd-hours">00</span>
+      <small>Stunden</small>
+    </div>
+    <div class="time-box">
+      <span id="cd-mins">00</span>
+      <small>Minuten</small>
+    </div>
+    <div class="time-box">
+      <span id="cd-secs">00</span>
+      <small>Sekunden</small>
+    </div>
+  </div>
+
   <div class="label">Zeit bis zum Moment</div>
 </div>
 
 <script>
-/* =======================
-   COUNTDOWN
-======================= */
+/* =====================
+   COUNTDOWN LOGIK
+===================== */
 
-// 🔧 ZIELDATUM HIER ANPASSEN
+// 🔧 Zieldatum hier anpassen
 const targetDate = new Date("2025-12-28T18:00:00").getTime();
 
 function updateCountdown(){
   const now = Date.now();
-  const diff = targetDate - now;
+  let diff = targetDate - now;
 
   if(diff <= 0){
-    document.getElementById("countdown").textContent = "JETZT";
+    document.getElementById("cd-days").textContent = "0";
+    document.getElementById("cd-hours").textContent = "00";
+    document.getElementById("cd-mins").textContent = "00";
+    document.getElementById("cd-secs").textContent = "00";
     return;
   }
 
-  const d = Math.floor(diff / (1000*60*60*24));
-  const h = Math.floor((diff / (1000*60*60)) % 24);
-  const m = Math.floor((diff / (1000*60)) % 60);
-  const s = Math.floor((diff / 1000) % 60);
+  const days = Math.floor(diff / (1000*60*60*24));
+  diff %= 1000*60*60*24;
+  const hours = Math.floor(diff / (1000*60*60));
+  diff %= 1000*60*60;
+  const mins = Math.floor(diff / (1000*60));
+  const secs = Math.floor((diff / 1000) % 60);
 
-  document.getElementById("countdown").textContent =
-    `${d}T ${h.toString().padStart(2,"0")}:${m.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
+  document.getElementById("cd-days").textContent = days;
+  document.getElementById("cd-hours").textContent = String(hours).padStart(2,"0");
+  document.getElementById("cd-mins").textContent = String(mins).padStart(2,"0");
+  document.getElementById("cd-secs").textContent = String(secs).padStart(2,"0");
 }
 
 setInterval(updateCountdown,1000);
 updateCountdown();
 
-/* =======================
-   SCHNEE
-======================= */
+/* =====================
+   SCHNEE LOGIK
+===================== */
 
 function createSnowflake(){
   const s = document.createElement("div");
@@ -117,7 +185,6 @@ function createSnowflake(){
   s.style.fontSize = (Math.random()*10 + 10) + "px";
   s.style.animationDuration = (Math.random()*5 + 6) + "s";
   document.body.appendChild(s);
-
   setTimeout(()=>s.remove(),11000);
 }
 
